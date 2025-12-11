@@ -14,10 +14,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <!-- Toggle button to spawn and despawn overlay window -->
+        <!-- Toggle button to create and destroy overlay window -->
         <ToggleButton Name="tlgBtnOverlaySwitch" Content="Spawn Overlay" Height="55" Width="120" 
                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" 
-                      Checked="tlgBtnOverlaySwitch_Checked" Unchecked="tlgBtnOverlaySwitch_Uchecked"/>
+                      Checked="CreateOverlayWindow" Unchecked="DestroyOverlayWindow"/>
 
         <!-- Toggle button to lock and unlock overlay window -->
         <ToggleButton Name="tlgBtnOverlayLock" Content="Lock Overlay" Height="55" Width="120" 

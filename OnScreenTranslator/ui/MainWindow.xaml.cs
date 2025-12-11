@@ -22,7 +22,7 @@ namespace OnScreenTranslator.ui
         }
 
         // Create overlay window if it not exist, add listener
-        private void tlgBtnOverlaySwitch_Checked(object sender, RoutedEventArgs e)
+        private void CreateOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (overlayWindow != null)
                 return;
@@ -35,7 +35,7 @@ namespace OnScreenTranslator.ui
         }
 
         // Destroy overlay window
-        private void tlgBtnOverlaySwitch_Uchecked(object sender, RoutedEventArgs e)
+        private void DestroyOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (overlayWindow != null)
             {
@@ -50,16 +50,12 @@ namespace OnScreenTranslator.ui
 
         private void tlgBtnOverlayLock_Checked(object sender, RoutedEventArgs e)
         {
-            overlayWindow?.WindowStyle = WindowStyle.None;
-            overlayWindow?.ResizeMode = ResizeMode.NoResize;
-            //overlayWindow?.AllowsTransparency = true;
+            overlayWindow?.EnableLockMode();
         }
 
         private void tlgBtnOverlayLock_Unchecked(object sender, RoutedEventArgs e)
         {
-            //overlayWindow?.AllowsTransparency = false;
-            overlayWindow?.WindowStyle = WindowStyle.SingleBorderWindow;
-            overlayWindow?.ResizeMode = ResizeMode.CanResize;
+            overlayWindow?.DisableLockMode();
         }
 
 
@@ -86,7 +82,8 @@ namespace OnScreenTranslator.ui
     // Fix OverlayWindow transparency, add textblock or text field to provide text on, add clicking through window
     // Think about binding and how it can be used in this project
     // Think about different hot keys
-    // Think about guide stuff (we have alt + left mouse button to drag overlay window)
     // mb animations
-    // 
+    // download tesseract
+    // mb rename all methods with more appropriate
+    // mb add button restore to defaults 
 }

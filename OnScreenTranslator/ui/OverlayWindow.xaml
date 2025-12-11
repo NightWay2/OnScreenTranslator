@@ -5,13 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnScreenTranslator.ui"
         mc:Ignorable="d"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
         Topmost="True"
         ShowInTaskbar="False"
-        AllowsTransparency="False"
-        ResizeMode="CanResize"
-        Title="OverlayWindow" Height="450" Width="800" MinHeight="450" MinWidth="800">
-    <Grid>
-        
+        ResizeMode="CanResizeWithGrip"
+        Width="600" Height="300" MinWidth="200" MinHeight="100">
+    <Grid x:Name="RootGrid">
+        <Border x:Name="MainBorder"
+                Background="#AA000000"
+                CornerRadius="8"
+                Padding="12">
+            <TextBlock x:Name="TxtOverlay" Text=""
+                       Foreground="White" FontSize="22" TextWrapping="Wrap"/>
+        </Border>
     </Grid>
 </Window>
