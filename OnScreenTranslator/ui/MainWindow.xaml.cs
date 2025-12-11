@@ -11,14 +11,82 @@ using System.Windows.Shapes;
 
 namespace OnScreenTranslator.ui
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private OverlayWindow? overlayWindow;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Closed += MainWindow_Closed;
+        }
+
+        // Create overlay window if it not exist, add listener
+        private void tlgBtnOverlaySwitch_Checked(object sender, RoutedEventArgs e)
+        {
+            if (overlayWindow != null)
+                return;
+
+            overlayWindow = new OverlayWindow();
+            overlayWindow.Closed += OverlayWindow_Closed;
+            overlayWindow.Show();
+
+            tlgBtnOverlayLock.IsEnabled = true;
+        }
+
+        // Destroy overlay window
+        private void tlgBtnOverlaySwitch_Uchecked(object sender, RoutedEventArgs e)
+        {
+            if (overlayWindow != null)
+            {
+                overlayWindow.Closed -= OverlayWindow_Closed;
+                overlayWindow.Close();
+                overlayWindow = null;
+            }
+
+            tlgBtnOverlayLock.IsEnabled = false;
+            tlgBtnOverlayLock.IsChecked = false;
+        }
+
+        private void tlgBtnOverlayLock_Checked(object sender, RoutedEventArgs e)
+        {
+            overlayWindow?.WindowStyle = WindowStyle.None;
+            overlayWindow?.ResizeMode = ResizeMode.NoResize;
+            //overlayWindow?.AllowsTransparency = true;
+        }
+
+        private void tlgBtnOverlayLock_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //overlayWindow?.AllowsTransparency = false;
+            overlayWindow?.WindowStyle = WindowStyle.SingleBorderWindow;
+            overlayWindow?.ResizeMode = ResizeMode.CanResize;
+        }
+
+
+        private void OverlayWindow_Closed(object? sender, EventArgs e)
+        {
+            overlayWindow = null;
+
+            tlgBtnOverlaySwitch.IsChecked = false;
+
+            tlgBtnOverlayLock.IsEnabled = false;
+            tlgBtnOverlayLock.IsChecked = false;
+        }
+
+         /// <summary>
+         /// Close overlay window if Main window is closed
+         /// </summary>
+        private void MainWindow_Closed(object? sender, EventArgs e)
+        {
+            overlayWindow?.Close();
         }
     }
+
+    // Add settings logic with all necessary checks
+    // Fix OverlayWindow transparency, add textblock or text field to provide text on, add clicking through window
+    // Think about binding and how it can be used in this project
+    // Think about different hot keys
+    // Think about guide stuff (we have alt + left mouse button to drag overlay window)
+    // mb animations
+    // 
 }

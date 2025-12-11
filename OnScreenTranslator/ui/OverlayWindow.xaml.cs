@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,14 +13,21 @@ using System.Windows.Shapes;
 
 namespace OnScreenTranslator.ui
 {
-    /// <summary>
-    /// Interaction logic for OverlayWindow.xaml
-    /// </summary>
     public partial class OverlayWindow : Window
     {
         public OverlayWindow()
         {
             InitializeComponent();
+
+            MouseLeftButtonDown += OverlayWindow_MouseLeftButtonDown;
+        }
+
+        private void OverlayWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+            {
+                DragMove();
+            }
         }
     }
 }

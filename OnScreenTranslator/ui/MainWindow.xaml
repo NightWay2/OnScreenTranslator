@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:OnScreenTranslator.ui"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ThemeMode="Dark" MinHeight="450" MinWidth="800">
-    
+
     <Grid>
         <!-- Left menu for overlay stuff -->
         <Grid.ColumnDefinitions>
@@ -15,25 +15,27 @@
         </Grid.ColumnDefinitions>
 
         <!-- Toggle button to spawn and despawn overlay window -->
-        <ToggleButton Grid.Column="0" Name="tlgBtnOverlaySwitch" Content="Spawn Overlay" Height="55" Width="120" 
-                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 25, 0, 0" />
+        <ToggleButton Name="tlgBtnOverlaySwitch" Content="Spawn Overlay" Height="55" Width="120" 
+                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" 
+                      Checked="tlgBtnOverlaySwitch_Checked" Unchecked="tlgBtnOverlaySwitch_Uchecked"/>
 
         <!-- Toggle button to lock and unlock overlay window -->
-        <ToggleButton Grid.Column="0" Name="tlgBtnOverlayLock" Content="Lock Overlay" Height="55" Width="120" 
-                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 105, 0, 0" IsEnabled="False" />
+        <ToggleButton Name="tlgBtnOverlayLock" Content="Lock Overlay" Height="55" Width="120" 
+                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,105,0,0" IsEnabled="False" 
+                      Checked="tlgBtnOverlayLock_Checked" Unchecked="tlgBtnOverlayLock_Unchecked"/>
 
         <!-- Button for selecting area to translate from -->
-        <Button Grid.Column="0" Name="btnAreaSelection" Height="55" Width="120" 
-                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 185, 0, 0" >
+        <Button Name="btnAreaSelection" Height="55" Width="120" 
+                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,185,0,0" >
             <TextBlock Text="Select Area To Translate From" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
         <!-- Button to open settings -->
-        <Button Grid.Column="0" Name="btnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
-          HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 30" />
+        <Button Name="btnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
+          HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" />
 
         <!-- Right part of grid -->
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
                 <RowDefinition/>
