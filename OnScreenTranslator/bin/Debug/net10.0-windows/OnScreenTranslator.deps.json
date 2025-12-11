@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "OnScreenTranslator/1.0.0": {
+        "runtime": {
+          "OnScreenTranslator.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OnScreenTranslator/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
