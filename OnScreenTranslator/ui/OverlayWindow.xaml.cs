@@ -30,12 +30,13 @@ namespace OnScreenTranslator.ui
             InitializeComponent();
 
             Loaded += OverlayWindow_Loaded;
+            MouseLeftButtonDown += (s, e) => DragMove();
         }
 
         private void OverlayWindow_Loaded(object sender, RoutedEventArgs e)
         {
             hwnd = new WindowInteropHelper(this).Handle;
-            
+
             SetUnlockedVisuals();
         }
 
@@ -49,7 +50,7 @@ namespace OnScreenTranslator.ui
 
             RootGrid.IsHitTestVisible = false;
 
-            MainBorder.Background = new SolidColorBrush(Color.FromArgb(80, 0, 0, 0)); // ~31% black
+            MainBorder.Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0));
             ResizeMode = ResizeMode.NoResize;
 
             isLocked = true;
@@ -65,7 +66,7 @@ namespace OnScreenTranslator.ui
 
             RootGrid.IsHitTestVisible = true;
 
-            MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0)); // ~66% black
+            MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0));
             ResizeMode = ResizeMode.CanResizeWithGrip;
 
             isLocked = false;
@@ -75,7 +76,7 @@ namespace OnScreenTranslator.ui
         {
             RootGrid.IsHitTestVisible = true;
             MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0));
-            
+
             long ex = GetWindowLongPtr(hwnd).ToInt64();
             ex &= ~WS_EX_TRANSPARENT;
             SetWindowLongPtr(hwnd, new IntPtr(ex));

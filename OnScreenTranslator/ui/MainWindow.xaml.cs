@@ -21,7 +21,9 @@ namespace OnScreenTranslator.ui
             this.Closed += MainWindow_Closed;
         }
 
-        // Create overlay window if it not exist, add listener
+        /// <summary>
+        /// Create overlay window if it not exist, add listener to overlay window
+        /// </summary>
         private void CreateOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (overlayWindow != null)
@@ -34,7 +36,9 @@ namespace OnScreenTranslator.ui
             tlgBtnOverlayLock.IsEnabled = true;
         }
 
-        // Destroy overlay window
+        /// <summary>
+        /// Destroy overlay window if toggle button is disable
+        /// </summary>
         private void DestroyOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (overlayWindow != null)
@@ -48,17 +52,19 @@ namespace OnScreenTranslator.ui
             tlgBtnOverlayLock.IsChecked = false;
         }
 
-        private void tlgBtnOverlayLock_Checked(object sender, RoutedEventArgs e)
+        private void TlgBtnOverlayLock_Checked(object sender, RoutedEventArgs e)
         {
             overlayWindow?.EnableLockMode();
         }
 
-        private void tlgBtnOverlayLock_Unchecked(object sender, RoutedEventArgs e)
+        private void TlgBtnOverlayLock_Unchecked(object sender, RoutedEventArgs e)
         {
             overlayWindow?.DisableLockMode();
         }
 
-
+        /// <summary>
+        /// Disable buttons on MainWindow if overlay window is closed
+        /// </summary>
         private void OverlayWindow_Closed(object? sender, EventArgs e)
         {
             overlayWindow = null;
