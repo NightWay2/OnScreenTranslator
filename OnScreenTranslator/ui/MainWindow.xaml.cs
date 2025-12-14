@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using OnScreenTranslator.services;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Documents.DocumentStructures;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,6 +16,7 @@ namespace OnScreenTranslator.ui
     public partial class MainWindow : Window
     {
         private OverlayWindow? overlayWindow;
+        private Rect? selectedScreenArea;
 
         public MainWindow()
         {
@@ -52,12 +55,12 @@ namespace OnScreenTranslator.ui
             tlgBtnOverlayLock.IsChecked = false;
         }
 
-        private void TlgBtnOverlayLock_Checked(object sender, RoutedEventArgs e)
+        private void LockOverlayWindow(object sender, RoutedEventArgs e)
         {
             overlayWindow?.EnableLockMode();
         }
 
-        private void TlgBtnOverlayLock_Unchecked(object sender, RoutedEventArgs e)
+        private void UnlockOverlayWindow(object sender, RoutedEventArgs e)
         {
             overlayWindow?.DisableLockMode();
         }
@@ -82,7 +85,24 @@ namespace OnScreenTranslator.ui
         {
             overlayWindow?.Close();
         }
+
+        private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
+        {
+            AreaSelectionWindow selector = new AreaSelectionWindow();
+            if (selector.ShowDialog() == true)
+            {
+                selectedScreenArea = selector.SelectedArea;
+                
+                // todo del
+                if (selectedScreenArea.HasValue)
+                    ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                // todo: save to settings
+            }
+        }
     }
+
+    // mb hide overlay window while doing screenshot & delete screenshot?
+    // add setting of selecting monitor
 
     // Add settings logic with all necessary checks
     // Fix OverlayWindow transparency, add textblock or text field to provide text on, add clicking through window

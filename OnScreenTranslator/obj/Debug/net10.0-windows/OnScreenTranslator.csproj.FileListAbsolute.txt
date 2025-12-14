@@ -21,3 +21,5 @@ C:\Users\night\source\diplom\OnScreenTranslator\OnScreenTranslator\obj\Debug\net
 C:\Users\night\source\diplom\OnScreenTranslator\OnScreenTranslator\obj\Debug\net10.0-windows\OnScreenTranslator.genruntimeconfig.cache
 C:\Users\night\source\diplom\OnScreenTranslator\OnScreenTranslator\obj\Debug\net10.0-windows\ref\OnScreenTranslator.dll
 C:\Users\night\source\diplom\OnScreenTranslator\OnScreenTranslator\obj\Debug\net10.0-windows\OnScreenTranslator.sourcelink.json
+C:\Users\night\source\diplom\OnScreenTranslator\OnScreenTranslator\obj\Debug\net10.0-windows\ui\AreaSelectionWindow.g.cs
+C:\Users\night\source\diplom\OnScreenTranslator\OnScreenTranslator\obj\Debug\net10.0-windows\ui\AreaSelectionWindow.baml

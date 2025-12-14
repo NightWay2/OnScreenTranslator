@@ -22,11 +22,11 @@
         <!-- Toggle button to lock and unlock overlay window -->
         <ToggleButton Name="tlgBtnOverlayLock" Content="Lock Overlay" Height="55" Width="120" 
                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,105,0,0" IsEnabled="False" 
-                      Checked="TlgBtnOverlayLock_Checked" Unchecked="TlgBtnOverlayLock_Unchecked"/>
+                      Checked="LockOverlayWindow" Unchecked="UnlockOverlayWindow"/>
 
         <!-- Button for selecting area to translate from -->
-        <Button Name="btnAreaSelection" Height="55" Width="120" 
-                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,185,0,0" >
+        <Button Name="btnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0,185,0,0" Click="SelectAreaOnScreen" >
             <TextBlock Text="Select Area To Translate From" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
