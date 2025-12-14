@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace OnScreenTranslator.ui
 {
@@ -64,12 +56,18 @@ namespace OnScreenTranslator.ui
 
             double x = Canvas.GetLeft(SelectionRect);
             double y = Canvas.GetTop(SelectionRect);
+            double w = SelectionRect.Width;
+            double h = SelectionRect.Height;
+
+            var source = PresentationSource.FromVisual(this);
+            double dpiX = source.CompositionTarget.TransformToDevice.M11;
+            double dpiY = source.CompositionTarget.TransformToDevice.M22;
 
             SelectedArea = new Rect(
-                x,
-                y,
-                SelectionRect.Width,
-                SelectionRect.Height
+                x * dpiX,
+                y * dpiY,
+                w * dpiX,
+                h * dpiY
             );
 
             DialogResult = true;

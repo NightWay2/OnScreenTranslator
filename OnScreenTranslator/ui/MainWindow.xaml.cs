@@ -1,15 +1,6 @@
 ﻿using OnScreenTranslator.services;
-using System.Text;
+using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Documents.DocumentStructures;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace OnScreenTranslator.ui
 {
@@ -92,17 +83,27 @@ namespace OnScreenTranslator.ui
             if (selector.ShowDialog() == true)
             {
                 selectedScreenArea = selector.SelectedArea;
-                
+
+                // del
+                MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
+                    $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
+                    $"h={selectedScreenArea.Value.Height}");
+
                 // todo del
                 if (selectedScreenArea.HasValue)
-                    ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                {
+                    Bitmap bitmap = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                    bitmap.Save("test.png");
+                }
                 // todo: save to settings
             }
         }
     }
 
+    // think about multithreading
+
     // mb hide overlay window while doing screenshot & delete screenshot?
-    // add setting of selecting monitor
+    // add setting of selecting monitor ?
 
     // Add settings logic with all necessary checks
     // Fix OverlayWindow transparency, add textblock or text field to provide text on, add clicking through window
