@@ -41,6 +41,10 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="btnStartTranslation" Content="sa" Height="45" Width="100"
+                          HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0" 
+                          Checked="StartTranslation" />
+
             <!-- Settings background -->
             <Border Grid.Column="1" Grid.Row="1" Background="DarkGray" CornerRadius="7, 0, 0, 0" />
         </Grid>

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Drawing;
 
 namespace OnScreenTranslator.adapters.ocrs
 {
     internal interface IOcr
     {
+        String GetTextFromImage(Bitmap bitmap);
     }
 }

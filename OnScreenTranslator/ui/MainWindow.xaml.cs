@@ -1,4 +1,5 @@
-﻿using OnScreenTranslator.services;
+﻿using OnScreenTranslator.adapters.ocrs;
+using OnScreenTranslator.services;
 using System.Drawing;
 using System.Windows;
 
@@ -8,6 +9,7 @@ namespace OnScreenTranslator.ui
     {
         private OverlayWindow? overlayWindow;
         private Rect? selectedScreenArea;
+        private IOcr? ocrService;
 
         public MainWindow()
         {
@@ -84,18 +86,33 @@ namespace OnScreenTranslator.ui
             {
                 selectedScreenArea = selector.SelectedArea;
 
-                // del
-                MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
+                // Debug code ToDo clear
+                /*MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
                     $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
-                    $"h={selectedScreenArea.Value.Height}");
-
-                // todo del
-                if (selectedScreenArea.HasValue)
-                {
-                    Bitmap bitmap = ScreenCaptureService.GetImage(selectedScreenArea.Value);
-                    bitmap.Save("test.png");
-                }
+                    $"h={selectedScreenArea.Value.Height}");*/
                 // todo: save to settings
+            }
+        }
+
+        private void StartTranslation(object sender, RoutedEventArgs e)
+        {
+            // change as need
+            // hide overlay while doing screenshot
+            if (selectedScreenArea.HasValue)
+            {
+                // maybe something different, not hiding and showing
+                overlayWindow?.Hide();
+                Bitmap bitmap = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                overlayWindow?.Show();
+                
+                // Create new Ocr with settings and not here
+                ocrService = new TesseractOcrAdapter();
+                MessageBox.Show(ocrService.GetTextFromImage(bitmap));
+            }
+            else
+            {
+                // think about something better
+                MessageBox.Show("Area on screen isn`t selected.");
             }
         }
     }
