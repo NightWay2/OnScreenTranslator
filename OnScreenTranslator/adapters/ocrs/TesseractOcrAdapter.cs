@@ -5,8 +5,15 @@ namespace OnScreenTranslator.adapters.ocrs
 {
     internal class TesseractOcrAdapter : IOcr
     {
-        private TesseractEngine? engine;
+        // add dispose !!!
+        // if (IOcr ocrService != null) {
+        //    ocrService.dispose()
+        //    create new()
+        // }
+        // else create new()
+        private TesseractEngine engine;
 
+        // mb params
         public TesseractOcrAdapter()
         {
             // mb different data for engine
@@ -19,6 +26,11 @@ namespace OnScreenTranslator.adapters.ocrs
             {
                 return page.GetText();
             }
+        }
+
+        public void DisposeEngine()
+        {
+            engine.Dispose();
         }
     }
 }
