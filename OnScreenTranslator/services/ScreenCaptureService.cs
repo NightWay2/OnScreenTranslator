@@ -8,6 +8,8 @@ namespace OnScreenTranslator.services
     {
         private ScreenCaptureService() { }
 
+
+        // mb add some optimization, like gray filter, scaling and etc
         public static Bitmap GetImage(Rect area)
         {
             Bitmap bitmap = new Bitmap(

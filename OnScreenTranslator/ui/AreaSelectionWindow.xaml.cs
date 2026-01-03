@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using OnScreenTranslator.win32;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -13,6 +14,13 @@ namespace OnScreenTranslator.ui
         public AreaSelectionWindow()
         {
             InitializeComponent();
+
+            Rect screen = NativeMethods.GetCurrentMonitorBounds();
+
+            Left = screen.Left;
+            Top = screen.Top;
+            Width = screen.Width; 
+            Height = screen.Height;
 
             MouseLeftButtonDown += OnMouseDown;
             MouseMove += OnMouseMove;

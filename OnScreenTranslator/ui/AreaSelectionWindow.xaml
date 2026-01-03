@@ -11,12 +11,7 @@
         Background="#80000000"
         Topmost="True"
         ShowInTaskbar="False"
-        WindowState="Maximized"
-        Cursor="Cross"
-        Left="{x:Static SystemParameters.VirtualScreenLeft}"
-        Top="{x:Static SystemParameters.VirtualScreenTop}"
-        Width="{x:Static SystemParameters.VirtualScreenWidth}"
-        Height="{x:Static SystemParameters.VirtualScreenHeight}">
+        Cursor="Cross">
 
     <Canvas x:Name="RootCanvas">
         <!-- Rectangle of selection -->

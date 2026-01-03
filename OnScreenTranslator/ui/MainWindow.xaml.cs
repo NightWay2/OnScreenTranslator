@@ -87,9 +87,14 @@ namespace OnScreenTranslator.ui
                 selectedScreenArea = selector.SelectedArea;
 
                 // Debug code :: ToDo clear
+                var source = PresentationSource.FromVisual(this);
+                double dpiX = source.CompositionTarget.TransformToDevice.M11;
+                double dpiY = source.CompositionTarget.TransformToDevice.M22;
+
                 MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
                     $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
-                    $"h={selectedScreenArea.Value.Height}");
+                    $"h={selectedScreenArea.Value.Height}" + 
+                    $"x={dpiX}, y={dpiY}");
 
                 // todo: save to settings
             }
