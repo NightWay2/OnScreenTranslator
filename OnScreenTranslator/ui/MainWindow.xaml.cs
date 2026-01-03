@@ -86,10 +86,11 @@ namespace OnScreenTranslator.ui
             {
                 selectedScreenArea = selector.SelectedArea;
 
-                // Debug code ToDo clear
-                /*MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
+                // Debug code :: ToDo clear
+                MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
                     $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
-                    $"h={selectedScreenArea.Value.Height}");*/
+                    $"h={selectedScreenArea.Value.Height}");
+
                 // todo: save to settings
             }
         }

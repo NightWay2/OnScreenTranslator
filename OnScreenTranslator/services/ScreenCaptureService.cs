@@ -10,23 +10,19 @@ namespace OnScreenTranslator.services
 
         public static Bitmap GetImage(Rect area)
         {
-            int X = (int) area.X;
-            int Y = (int) area.Y;
-            int width = (int) area.Width;
-            int height = (int) area.Height;
-
             Bitmap bitmap = new Bitmap(
-                width, 
-                height,
+                (int) area.Width, 
+                (int) area.Height,
                 PixelFormat.Format32bppArgb
             );
 
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 g.CopyFromScreen(
-                    X, Y, 
+                    (int) area.X, 
+                    (int) area.Y, 
                     0, 0,
-                    new System.Drawing.Size(width, height),
+                    new System.Drawing.Size((int) area.Width, (int) area.Height),
                     CopyPixelOperation.SourceCopy
                 );
             }

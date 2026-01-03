@@ -17,7 +17,8 @@ namespace OnScreenTranslator.adapters.ocrs
         public TesseractOcrAdapter()
         {
             // mb different data for engine
-            engine = new TesseractEngine(@"./tessdata", "eng");
+            //engine = new TesseractEngine(@"./tessdata_fast", "eng");
+            engine = new TesseractEngine(@"./tessdata_best", "eng");
         }
 
         public String GetTextFromImage(Bitmap bitmap)

@@ -54,21 +54,15 @@ namespace OnScreenTranslator.ui
         {
             isSelecting = false;
 
-            double x = Canvas.GetLeft(SelectionRect);
-            double y = Canvas.GetTop(SelectionRect);
-            double w = SelectionRect.Width;
-            double h = SelectionRect.Height;
+            Point p1 = PointToScreen(startPoint);
+            Point p2 = PointToScreen(e.GetPosition(this));
 
-            var source = PresentationSource.FromVisual(this);
-            double dpiX = source.CompositionTarget.TransformToDevice.M11;
-            double dpiY = source.CompositionTarget.TransformToDevice.M22;
+            double x = Math.Min(p1.X, p2.X);
+            double y = Math.Min(p1.Y, p2.Y);
+            double w = Math.Abs(p1.X - p2.X);
+            double h = Math.Abs(p1.Y - p2.Y);
 
-            SelectedArea = new Rect(
-                x * dpiX,
-                y * dpiY,
-                w * dpiX,
-                h * dpiY
-            );
+            SelectedArea = new Rect(x, y, w, h);
 
             DialogResult = true;
             Close();
