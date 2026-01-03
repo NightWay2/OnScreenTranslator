@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+﻿using OnScreenTranslator.win32;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -74,32 +74,20 @@ namespace OnScreenTranslator.ui
             isLocked = false;
         }
 
-        [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
-        private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll", EntryPoint = "GetWindowLongW")]
-        private static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
-
         private static IntPtr GetWindowLongPtr(IntPtr hWnd)
         {
             if (IntPtr.Size == 8)
-                return GetWindowLongPtr64(hWnd, GWL_EXSTYLE);
+                return NativeMethods.GetWindowLongPtr64(hWnd, GWL_EXSTYLE);
             else
-                return new IntPtr(GetWindowLong32(hWnd, GWL_EXSTYLE));
+                return new IntPtr(NativeMethods.GetWindowLong32(hWnd, GWL_EXSTYLE));
         }
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
-        private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongW")]
-        private static extern int SetWindowLong32(IntPtr hWnd, int nIndex, int dwNewLong);
 
         private static IntPtr SetWindowLongPtr(IntPtr hWnd, IntPtr dwNewLong)
         {
             if (IntPtr.Size == 8)
-                return SetWindowLongPtr64(hWnd, GWL_EXSTYLE, dwNewLong);
+                return NativeMethods.SetWindowLongPtr64(hWnd, GWL_EXSTYLE, dwNewLong);
             else
-                return new IntPtr(SetWindowLong32(hWnd, GWL_EXSTYLE, dwNewLong.ToInt32()));
+                return new IntPtr(NativeMethods.SetWindowLong32(hWnd, GWL_EXSTYLE, dwNewLong.ToInt32()));
         }
     }
 }

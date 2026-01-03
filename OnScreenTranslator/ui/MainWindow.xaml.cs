@@ -1,7 +1,10 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
 using OnScreenTranslator.services;
+using OnScreenTranslator.win32;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace OnScreenTranslator.ui
 {
@@ -11,9 +14,13 @@ namespace OnScreenTranslator.ui
         private Rect? selectedScreenArea;
         private IOcr? ocrService;
 
+        private const int HOTKEY_ID = 1;
+        private bool isSelectingArea = false;
+
         public MainWindow()
         {
             InitializeComponent();
+
             this.Closed += MainWindow_Closed;
         }
 
@@ -58,45 +65,34 @@ namespace OnScreenTranslator.ui
             overlayWindow?.DisableLockMode();
         }
 
-        /// <summary>
-        /// Disable buttons on MainWindow if overlay window is closed
-        /// </summary>
-        private void OverlayWindow_Closed(object? sender, EventArgs e)
-        {
-            overlayWindow = null;
-
-            tlgBtnOverlaySwitch.IsChecked = false;
-
-            tlgBtnOverlayLock.IsEnabled = false;
-            tlgBtnOverlayLock.IsChecked = false;
-        }
-
-         /// <summary>
-         /// Close overlay window if Main window is closed
-         /// </summary>
-        private void MainWindow_Closed(object? sender, EventArgs e)
-        {
-            overlayWindow?.Close();
-        }
-
+        // think about hotkey for area selection
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
-            AreaSelectionWindow selector = new AreaSelectionWindow();
-            if (selector.ShowDialog() == true)
+            isSelectingArea = true;
+
+            try
             {
-                selectedScreenArea = selector.SelectedArea;
+                AreaSelectionWindow selector = new AreaSelectionWindow();
+                if (selector.ShowDialog() == true)
+                {
+                    selectedScreenArea = selector.SelectedArea;
 
-                // Debug code :: ToDo clear
-                var source = PresentationSource.FromVisual(this);
-                double dpiX = source.CompositionTarget.TransformToDevice.M11;
-                double dpiY = source.CompositionTarget.TransformToDevice.M22;
+                    // Debug code :: ToDo clear
+                    var source = PresentationSource.FromVisual(this);
+                    double dpiX = source.CompositionTarget.TransformToDevice.M11;
+                    double dpiY = source.CompositionTarget.TransformToDevice.M22;
 
-                MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
-                    $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
-                    $"h={selectedScreenArea.Value.Height}" + 
-                    $"x={dpiX}, y={dpiY}");
+                    MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
+                        $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
+                        $"h={selectedScreenArea.Value.Height}" +
+                        $"x={dpiX}, y={dpiY}");
 
-                // todo: save to settings
+                    // todo: save to settings
+                }
+            }
+            finally
+            {
+                isSelectingArea = false;
             }
         }
 
@@ -121,6 +117,58 @@ namespace OnScreenTranslator.ui
                 MessageBox.Show("Area on screen isn`t selected.");
             }
         }
+
+        //
+        // 
+        //
+        private void OverlayWindow_Closed(object? sender, EventArgs e)
+        {
+            overlayWindow = null;
+
+            tlgBtnOverlaySwitch.IsChecked = false;
+
+            tlgBtnOverlayLock.IsEnabled = false;
+            tlgBtnOverlayLock.IsChecked = false;
+        }
+
+        private void MainWindow_Closed(object? sender, EventArgs e)
+        {
+            overlayWindow?.Close();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            var hwnd = new WindowInteropHelper(this).Handle;
+
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, NativeMethods.MOD_CONTROL,
+                (uint)KeyInterop.VirtualKeyFromKey(Key.Oem5));
+
+            HwndSource.FromHwnd(hwnd).AddHook(WndProc);
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == NativeMethods.WM_HOTKEY && wParam.ToInt32() == HOTKEY_ID)
+            {
+                if (!isSelectingArea)
+                {
+                    SelectAreaOnScreen(this, null);
+                }
+                
+                handled = true;
+            }
+
+            return IntPtr.Zero;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID);
+            base.OnClosed(e);
+        }
     }
 
     // think about multithreading
@@ -136,4 +184,7 @@ namespace OnScreenTranslator.ui
     // download tesseract
     // mb rename all methods with more appropriate
     // mb add button restore to defaults 
+    // mb tray icon
+
+    // docker compose: add only supported languages
 }

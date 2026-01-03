@@ -8,6 +8,9 @@ namespace OnScreenTranslator.win32
 {
     internal class NativeMethods
     {
+        //
+        // AREA_SELECTION
+        //
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -67,5 +70,33 @@ namespace OnScreenTranslator.win32
                 info.rcMonitor.Bottom - info.rcMonitor.Top
             );
         }
+
+        //
+        // HOTKEY
+        //
+        public const int WM_HOTKEY = 0x0312;
+
+        public const uint MOD_CONTROL = 0x0002;
+
+        [DllImport("user32.dll")]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("user32.dll")]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        //
+        // OVERLAY
+        //
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
+        public static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongW")]
+        public static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
+        public static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongW")]
+        public static extern int SetWindowLong32(IntPtr hWnd, int nIndex, int dwNewLong);
     }
 }
