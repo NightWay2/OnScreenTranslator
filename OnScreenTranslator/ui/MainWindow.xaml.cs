@@ -86,8 +86,7 @@ namespace OnScreenTranslator.ui
                         $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
                         $"h={selectedScreenArea.Value.Height}, " +
                         $"x={dpiX}, y={dpiY}");
-
-                    // todo: save to settings
+                    // Debug code :: end
                 }
             }
             finally
@@ -104,12 +103,15 @@ namespace OnScreenTranslator.ui
             {
                 // maybe something different, not hiding and showing
                 overlayWindow?.Hide();
-                Bitmap bitmap = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                Bitmap bmp = ScreenCaptureService.GetImage(selectedScreenArea.Value);
                 overlayWindow?.Show();
                 
                 // Create new Ocr with settings and not here
-                ocrService = new TesseractOcrAdapter();
-                MessageBox.Show(ocrService.GetTextFromImage(bitmap));
+                ocrService = new TesseractOcrAdapter(); // use service, not adapter
+                //bmp = ImagePreprocessor.BasePreprocess(bmp);
+                bmp = ImagePreprocessor.Upscale(bmp);
+
+                MessageBox.Show(ocrService.GetTextFromImage(bmp));
             }
             else
             {
