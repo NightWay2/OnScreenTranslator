@@ -18,7 +18,7 @@ namespace OnScreenTranslator.adapters.ocrs
         {
             // mb different data for engine
             //engine = new TesseractEngine(@"./tessdata_fast", "eng");
-            engine = new TesseractEngine(@"./tessdata_best", "eng");
+            engine = new TesseractEngine(@"./tessdata_fast", "eng+uk");
         }
 
         public String GetTextFromImage(Bitmap bitmap)
@@ -31,7 +31,7 @@ namespace OnScreenTranslator.adapters.ocrs
 
         public void DisposeEngine()
         {
-            engine.Dispose();
+            engine?.Dispose();
         }
     }
 }

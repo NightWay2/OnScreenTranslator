@@ -12,7 +12,7 @@ namespace OnScreenTranslator.ui
     {
         private OverlayWindow? overlayWindow;
         private Rect? selectedScreenArea;
-        private IOcr? ocrService;
+        private IOcr? ocrService; // change from adapter to service
 
         private const int HOTKEY_ID = 1;
         private bool isSelectingArea = false;
@@ -21,7 +21,7 @@ namespace OnScreenTranslator.ui
         {
             InitializeComponent();
 
-            this.Closed += MainWindow_Closed;
+            Closed += MainWindow_Closed;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace OnScreenTranslator.ui
 
                     MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
                         $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
-                        $"h={selectedScreenArea.Value.Height}" +
+                        $"h={selectedScreenArea.Value.Height}, " +
                         $"x={dpiX}, y={dpiY}");
 
                     // todo: save to settings
@@ -119,7 +119,7 @@ namespace OnScreenTranslator.ui
         }
 
         //
-        // 
+        // methods that provide non-main logic, but are necessary
         //
         private void OverlayWindow_Closed(object? sender, EventArgs e)
         {
@@ -154,7 +154,10 @@ namespace OnScreenTranslator.ui
             {
                 if (!isSelectingArea)
                 {
-                    SelectAreaOnScreen(this, null);
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        SelectAreaOnScreen(this, null);
+                    }));
                 }
                 
                 handled = true;
@@ -181,10 +184,12 @@ namespace OnScreenTranslator.ui
     // Think about binding and how it can be used in this project
     // Think about different hot keys
     // mb animations
-    // download tesseract
-    // mb rename all methods with more appropriate
+    // download tesseract +
+    // mb rename all methods with more appropriate 
     // mb add button restore to defaults 
     // mb tray icon
+
+    // add user entered seconds for delay before each translation
 
     // docker compose: add only supported languages
 }
