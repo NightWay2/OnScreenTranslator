@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OnScreenTranslator.settings
+namespace OnScreenTranslator.models
 {
     [Serializable]
     internal class SettingsModel

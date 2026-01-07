@@ -1,4 +1,5 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
+using OnScreenTranslator.adapters.translators;
 using OnScreenTranslator.services;
 using OnScreenTranslator.win32;
 using System.Drawing;
@@ -12,7 +13,9 @@ namespace OnScreenTranslator.ui
     {
         private OverlayWindow? overlayWindow;
         private Rect? selectedScreenArea;
+
         private IOcr? ocrService; // change from adapter to service
+        private TranslationService? translationService;
 
         private const int HOTKEY_ID = 1;
         private bool isSelectingArea = false;
@@ -95,7 +98,7 @@ namespace OnScreenTranslator.ui
             }
         }
 
-        private void StartTranslation(object sender, RoutedEventArgs e)
+        private async void StartTranslation(object sender, RoutedEventArgs e)
         {
             // change as need
             // hide overlay while doing screenshot
@@ -111,7 +114,22 @@ namespace OnScreenTranslator.ui
 
                 // bmp = ImagePreprocessor.Upscale(bmp); // mb useless
 
-                overlayWindow?.TxtOverlay.Text = ocrService.GetTextFromImage(bmp);
+                translationService = new TranslationService(TranslatorFactory
+                    .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
+
+                string textToTranslate = ocrService.GetTextFromImage(bmp);
+
+                string translatedText = await translationService.TranslateAsync(
+                    textToTranslate,
+                    "en",
+                    "uk",
+                    ""
+                );
+
+                overlayWindow?.TxtOverlay.Text = translatedText;
+
+                //overlayWindow?.TxtOverlay.Text = ocrService.GetTextFromImage(bmp);
+
                 //MessageBox.Show(ocrService.GetTextFromImage(bmp));
             }
             else
