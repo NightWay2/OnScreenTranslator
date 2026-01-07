@@ -78,14 +78,14 @@ namespace OnScreenTranslator.ui
                     selectedScreenArea = selector.SelectedArea;
 
                     // Debug code :: ToDo clear
-                    var source = PresentationSource.FromVisual(this);
+                    /*var source = PresentationSource.FromVisual(this);
                     double dpiX = source.CompositionTarget.TransformToDevice.M11;
                     double dpiY = source.CompositionTarget.TransformToDevice.M22;
 
                     MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
                         $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
                         $"h={selectedScreenArea.Value.Height}, " +
-                        $"x={dpiX}, y={dpiY}");
+                        $"x={dpiX}, y={dpiY}");*/
                     // Debug code :: end
                 }
             }
@@ -108,10 +108,11 @@ namespace OnScreenTranslator.ui
                 
                 // Create new Ocr with settings and not here
                 ocrService = new TesseractOcrAdapter(); // use service, not adapter
-                //bmp = ImagePreprocessor.BasePreprocess(bmp);
-                bmp = ImagePreprocessor.Upscale(bmp);
 
-                MessageBox.Show(ocrService.GetTextFromImage(bmp));
+                // bmp = ImagePreprocessor.Upscale(bmp); // mb useless
+
+                overlayWindow?.TxtOverlay.Text = ocrService.GetTextFromImage(bmp);
+                //MessageBox.Show(ocrService.GetTextFromImage(bmp));
             }
             else
             {
@@ -192,6 +193,7 @@ namespace OnScreenTranslator.ui
     // mb tray icon
 
     // add user entered seconds for delay before each translation
+    // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
     // docker compose: add only supported languages
 }

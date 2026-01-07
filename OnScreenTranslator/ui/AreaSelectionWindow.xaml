@@ -10,8 +10,7 @@
         AllowsTransparency="True"
         Background="#80000000"
         Topmost="True"
-        ShowInTaskbar="False"
-        Cursor="Cross">
+        ShowInTaskbar="False">
 
     <Canvas x:Name="RootCanvas">
         <!-- Rectangle of selection -->

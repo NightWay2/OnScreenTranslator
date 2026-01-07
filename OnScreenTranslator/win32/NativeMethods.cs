@@ -90,13 +90,7 @@ namespace OnScreenTranslator.win32
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
         public static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
 
-        [DllImport("user32.dll", EntryPoint = "GetWindowLongW")]
-        public static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
-
         [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
         public static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongW")]
-        public static extern int SetWindowLong32(IntPtr hWnd, int nIndex, int dwNewLong);
     }
 }

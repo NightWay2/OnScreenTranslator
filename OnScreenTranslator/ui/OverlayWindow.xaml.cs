@@ -14,7 +14,9 @@ namespace OnScreenTranslator.ui
         private const long WS_EX_TOOLWINDOW = 0x00000080L;
 
         private IntPtr hwnd;
+
         private bool isLocked = false;
+        private int textSize = 12;
 
         public OverlayWindow()
         {
@@ -22,6 +24,8 @@ namespace OnScreenTranslator.ui
 
             Loaded += OverlayWindow_Loaded;
             MouseLeftButtonDown += (s, e) => DragMove();
+
+            TxtOverlay.FontSize = textSize;
         }
 
         private void OverlayWindow_Loaded(object sender, RoutedEventArgs e)
@@ -35,9 +39,9 @@ namespace OnScreenTranslator.ui
         {
             if (isLocked) return;
 
-            long ex = GetWindowLongPtr(hwnd).ToInt64();
+            long ex = NativeMethods.GetWindowLongPtr64(hwnd, GWL_EXSTYLE).ToInt64();
             ex |= WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW;
-            SetWindowLongPtr(hwnd, new IntPtr(ex));
+            NativeMethods.SetWindowLongPtr64(hwnd, GWL_EXSTYLE, new IntPtr(ex));
 
             RootGrid.IsHitTestVisible = false;
 
@@ -51,9 +55,9 @@ namespace OnScreenTranslator.ui
         {
             if (!isLocked) return;
 
-            long ex = GetWindowLongPtr(hwnd).ToInt64();
+            long ex = NativeMethods.GetWindowLongPtr64(hwnd, GWL_EXSTYLE).ToInt64();
             ex &= ~WS_EX_TRANSPARENT;
-            SetWindowLongPtr(hwnd, new IntPtr(ex));
+            NativeMethods.SetWindowLongPtr64(hwnd, GWL_EXSTYLE, new IntPtr(ex));
 
             RootGrid.IsHitTestVisible = true;
 
@@ -68,26 +72,10 @@ namespace OnScreenTranslator.ui
             RootGrid.IsHitTestVisible = true;
             MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0));
 
-            long ex = GetWindowLongPtr(hwnd).ToInt64();
+            long ex = NativeMethods.GetWindowLongPtr64(hwnd, GWL_EXSTYLE).ToInt64();
             ex &= ~WS_EX_TRANSPARENT;
-            SetWindowLongPtr(hwnd, new IntPtr(ex));
+            NativeMethods.SetWindowLongPtr64(hwnd, GWL_EXSTYLE, new IntPtr(ex));
             isLocked = false;
-        }
-
-        private static IntPtr GetWindowLongPtr(IntPtr hWnd)
-        {
-            if (IntPtr.Size == 8)
-                return NativeMethods.GetWindowLongPtr64(hWnd, GWL_EXSTYLE);
-            else
-                return new IntPtr(NativeMethods.GetWindowLong32(hWnd, GWL_EXSTYLE));
-        }
-
-        private static IntPtr SetWindowLongPtr(IntPtr hWnd, IntPtr dwNewLong)
-        {
-            if (IntPtr.Size == 8)
-                return NativeMethods.SetWindowLongPtr64(hWnd, GWL_EXSTYLE, dwNewLong);
-            else
-                return new IntPtr(NativeMethods.SetWindowLong32(hWnd, GWL_EXSTYLE, dwNewLong.ToInt32()));
         }
     }
 }

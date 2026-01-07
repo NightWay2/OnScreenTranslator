@@ -17,7 +17,7 @@
                 Background="#AA000000"
                 CornerRadius="8"
                 Padding="12">
-            <TextBlock x:Name="TxtOverlay" Text="Test text"
+            <TextBlock x:Name="TxtOverlay" Text=""
                        Foreground="White" FontSize="22" TextWrapping="Wrap"/>
         </Border>
     </Grid>

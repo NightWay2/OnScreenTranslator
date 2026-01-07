@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Drawing.Drawing2D;
 using Tesseract;
 
 namespace OnScreenTranslator.adapters.ocrs
@@ -18,7 +17,7 @@ namespace OnScreenTranslator.adapters.ocrs
         public TesseractOcrAdapter()
         {
             // mb different data for engine
-            //engine = new TesseractEngine(@"./tessdata_fast", "eng+uk");
+            //engine = new TesseractEngine(@"./tessdata_fast", "eng+ukr");
             engine = new TesseractEngine(@"./tessdata_fast", "eng", EngineMode.Default);
 
             // engine.SetVariable("tessedit_char_whitelist", "1234"); // unique for each lang

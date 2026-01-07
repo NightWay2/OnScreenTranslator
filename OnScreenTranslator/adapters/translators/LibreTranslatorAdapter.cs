@@ -6,5 +6,6 @@ namespace OnScreenTranslator.adapters.translators
 {
     internal class LibreTranslatorAdapter
     {
+
     }
 }
