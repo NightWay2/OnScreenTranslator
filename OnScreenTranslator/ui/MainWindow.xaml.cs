@@ -1,5 +1,4 @@
-﻿using GoogleTranslateFreeApi;
-using OnScreenTranslator.adapters.ocrs;
+﻿using OnScreenTranslator.adapters.ocrs;
 using OnScreenTranslator.adapters.translators;
 using OnScreenTranslator.services;
 using OnScreenTranslator.win32;

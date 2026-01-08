@@ -2,6 +2,6 @@
 {
     internal enum Translators
     {
-        GoogleTranslator, LibreTranslator
+        GoogleTranslator, GoogleFreeTranslator, LibreTranslator
     }
 }

@@ -8,7 +8,7 @@ namespace OnScreenTranslator.adapters.translators
     {
         private HttpClient HttpClient;
 
-        public LibreTranslatorAdapter(string url = "https://libretranslate.com") // fix crash (when can`t connect to translator)
+        public LibreTranslatorAdapter(string url = "https://libretranslate.com")
         {
             HttpClient = new HttpClient()
             {

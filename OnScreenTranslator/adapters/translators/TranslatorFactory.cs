@@ -14,6 +14,7 @@
             return translator switch
             {
                 Translators.GoogleTranslator => new GoogleTranslatorAdapter(),
+                Translators.GoogleFreeTranslator => new GoogleFreeTranslatorAdapter(),
                 Translators.LibreTranslator => new LibreTranslatorAdapter(url),
                 _ => throw new NotImplementedException()
             };

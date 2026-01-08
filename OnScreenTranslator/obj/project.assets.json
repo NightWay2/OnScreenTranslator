@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net10.0-windows7.0": {
+      "GTranslate/2.3.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/GTranslate.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/GTranslate.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.4": {
         "type": "package",
         "compile": {
@@ -46,6 +59,24 @@
     }
   },
   "libraries": {
+    "GTranslate/2.3.1": {
+      "sha512": "bHT6UbYjVWCmhNyxt73NEyJtE1tDl9OMrIGIMypn3DPD7S7pjUVbS1TyZF6N8V2qtn9mSlaiu+6XbecIvjQZ8w==",
+      "type": "package",
+      "path": "gtranslate/2.3.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "gtranslate.2.3.1.nupkg.sha512",
+        "gtranslate.nuspec",
+        "lib/net8.0/GTranslate.dll",
+        "lib/net8.0/GTranslate.xml",
+        "lib/netstandard2.0/GTranslate.dll",
+        "lib/netstandard2.0/GTranslate.xml",
+        "lib/netstandard2.1/GTranslate.dll",
+        "lib/netstandard2.1/GTranslate.xml"
+      ]
+    },
     "Newtonsoft.Json/13.0.4": {
       "sha512": "pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
       "type": "package",
@@ -111,6 +142,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0-windows7.0": [
+      "GTranslate >= 2.3.1",
       "Newtonsoft.Json >= 13.0.4",
       "Tesseract >= 5.2.0",
       "Tesseract.Drawing >= 5.2.0"
@@ -166,6 +198,10 @@
       "net10.0-windows7.0": {
         "targetAlias": "net10.0-windows",
         "dependencies": {
+          "GTranslate": {
+            "target": "Package",
+            "version": "[2.3.1, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.4, )"
