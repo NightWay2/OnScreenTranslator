@@ -100,48 +100,61 @@ namespace OnScreenTranslator.ui
 
         private async void StartTranslation(object sender, RoutedEventArgs e)
         {
-            // change as need
-            // hide overlay while doing screenshot
-            if (selectedScreenArea.HasValue)
-            {
-                // maybe something different, not hiding and showing
-                overlayWindow?.Hide();
-                Bitmap bmp = ScreenCaptureService.GetImage(selectedScreenArea.Value);
-                overlayWindow?.Show();
-                
-                // Create new Ocr with settings and not here
-                ocrService = new OcrService(new TesseractOcrAdapter());
-
-                // bmp = ImagePreprocessor.Upscale(bmp); // mb useless
-
-                try
-                {
-                    translationService = new TranslationService(TranslatorFactory
-                        .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
-
-                    string textToTranslate = ocrService.GetTextFromImage(bmp);
-
-                    string translatedText = await translationService.TranslateAsync(
-                        textToTranslate,
-                        "en",
-                        "uk",
-                        ""
-                    );
-
-                    overlayWindow?.TxtOverlay.Text = translatedText;
-                }
-                catch (Exception)
-                {
-                    btnStartTranslation.IsChecked = false;
-
-                    MessageBox.Show("Program can`t connect to translator.", "Error", 
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
+            
+            if (!selectedScreenArea.HasValue)
             {
                 // think about something better
                 MessageBox.Show("Area on screen isn`t selected.");
+                return;
+            }
+
+            // change as need
+            // hide overlay while doing screenshot
+
+            // maybe something different, not hiding and showing
+            overlayWindow?.Hide();
+            Bitmap bmp = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+            overlayWindow?.Show();
+
+            // Create new Ocr with settings and not here
+            ocrService = new OcrService(new TesseractOcrAdapter());
+
+            try
+            {
+                translationService = new TranslationService(TranslatorFactory
+                    .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
+
+                // mb will be usefull with checking diff between new text and previous
+                /*string textToTranslate = ocrService.GetTextFromImage(bmp);
+
+                string translatedText = await translationService.TranslateAsync(
+                    textToTranslate,
+                    "en",
+                    "uk",
+                    ""
+                );*/
+
+                string translatedText = await Task.Run(async () =>
+                {
+                    string textToTranslate = ocrService.GetTextFromImage(bmp);
+                    return await translationService.TranslateAsync(textToTranslate, "en", "uk", "");
+                });
+
+                /*var translator = new GoogleTranslator();
+                Language en = GoogleTranslator.GetLanguageByISO("en");
+                Language ua = GoogleTranslator.GetLanguageByISO("uk");
+                TranslationResult translationResult = await translator.TranslateLiteAsync(textToTranslate,
+                    en, ua);
+                string translatedText = translationResult.MergedTranslation;*/
+
+                overlayWindow?.TxtOverlay.Text = translatedText;
+            }
+            catch (Exception ex)
+            {
+                btnStartTranslation.IsChecked = false;
+
+                MessageBox.Show("Program can`t connect to translator." + ex, "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
