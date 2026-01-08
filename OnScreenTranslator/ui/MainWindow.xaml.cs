@@ -219,5 +219,7 @@ namespace OnScreenTranslator.ui
     // add user entered seconds for delay before each translation
     // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
+    // add other free translators
+
     // docker compose: add only supported languages
 }

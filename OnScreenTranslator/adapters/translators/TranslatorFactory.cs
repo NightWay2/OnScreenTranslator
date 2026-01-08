@@ -1,4 +1,6 @@
-﻿namespace OnScreenTranslator.adapters.translators
+﻿using GTranslate.Translators;
+
+namespace OnScreenTranslator.adapters.translators
 {
     internal class TranslatorFactory
     {
@@ -14,8 +16,9 @@
             return translator switch
             {
                 Translators.GoogleTranslator => new GoogleTranslatorAdapter(),
-                Translators.GoogleFreeTranslator => new GoogleFreeTranslatorAdapter(),
                 Translators.LibreTranslator => new LibreTranslatorAdapter(url),
+                Translators.GoogleFreeTranslator => new GTranslatorsAdapter(new GoogleTranslator()),
+                // add other free translators
                 _ => throw new NotImplementedException()
             };
         }
