@@ -11,7 +11,7 @@ namespace OnScreenTranslator.services
             this.translator = translator;
         }
 
-        public async Task<string> TranslateAsync(string textToTranslate, string source, string target, string apiKey)
+        public async Task<string> TranslateAsync(string textToTranslate, string source, string target, string apiKey = "")
         {
             if (string.IsNullOrWhiteSpace(textToTranslate))
                 return string.Empty;

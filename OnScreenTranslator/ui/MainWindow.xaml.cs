@@ -1,4 +1,5 @@
-﻿using OnScreenTranslator.adapters.ocrs;
+﻿using GoogleTranslateFreeApi;
+using OnScreenTranslator.adapters.ocrs;
 using OnScreenTranslator.adapters.translators;
 using OnScreenTranslator.services;
 using OnScreenTranslator.win32;
@@ -124,28 +125,11 @@ namespace OnScreenTranslator.ui
                 translationService = new TranslationService(TranslatorFactory
                     .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
 
-                // mb will be usefull with checking diff between new text and previous
-                /*string textToTranslate = ocrService.GetTextFromImage(bmp);
-
-                string translatedText = await translationService.TranslateAsync(
-                    textToTranslate,
-                    "en",
-                    "uk",
-                    ""
-                );*/
-
                 string translatedText = await Task.Run(async () =>
                 {
                     string textToTranslate = ocrService.GetTextFromImage(bmp);
-                    return await translationService.TranslateAsync(textToTranslate, "en", "uk", "");
+                    return await translationService.TranslateAsync(textToTranslate, "en", "uk");
                 });
-
-                /*var translator = new GoogleTranslator();
-                Language en = GoogleTranslator.GetLanguageByISO("en");
-                Language ua = GoogleTranslator.GetLanguageByISO("uk");
-                TranslationResult translationResult = await translator.TranslateLiteAsync(textToTranslate,
-                    en, ua);
-                string translatedText = translationResult.MergedTranslation;*/
 
                 overlayWindow?.TxtOverlay.Text = translatedText;
             }
@@ -153,8 +137,12 @@ namespace OnScreenTranslator.ui
             {
                 btnStartTranslation.IsChecked = false;
 
-                MessageBox.Show("Program can`t connect to translator." + ex, "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                   ex.Message,
+                   "Translation error",
+                   MessageBoxButton.OK,
+                   MessageBoxImage.Error
+               );
             }
         }
 
