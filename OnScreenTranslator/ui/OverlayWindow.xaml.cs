@@ -16,7 +16,9 @@ namespace OnScreenTranslator.ui
         private IntPtr hwnd;
 
         private bool isLocked = false;
+
         private int textSize = 12;
+        private int transparencyPercentage = 20;
 
         public OverlayWindow()
         {
@@ -45,7 +47,9 @@ namespace OnScreenTranslator.ui
 
             RootGrid.IsHitTestVisible = false;
 
-            MainBorder.Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0));
+            byte transparency = (byte) (transparencyPercentage * 255 / 100);
+
+            MainBorder.Background = new SolidColorBrush(Color.FromArgb(transparency, 0, 0, 0));
             ResizeMode = ResizeMode.NoResize;
 
             isLocked = true;

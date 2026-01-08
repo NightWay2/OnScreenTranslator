@@ -8,12 +8,12 @@ namespace OnScreenTranslator.adapters.translators
     {
         private HttpClient HttpClient;
 
-        public LibreTranslatorAdapter(string url = "https://libretranslate.com")
+        public LibreTranslatorAdapter(string url = "https://libretranslate.com") // fix crash (when can`t connect to translator)
         {
             HttpClient = new HttpClient()
             {
                 BaseAddress = new Uri(url),
-                //Timeout = TimeSpan.FromSeconds(5)
+                Timeout = TimeSpan.FromSeconds(5)
             };
         }
 

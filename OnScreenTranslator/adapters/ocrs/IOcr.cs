@@ -4,6 +4,7 @@ namespace OnScreenTranslator.adapters.ocrs
 {
     internal interface IOcr
     {
-        String GetTextFromImage(Bitmap bitmap);
+        string GetTextFromImage(Bitmap bitmap);
+        void DisposeEngine();
     }
 }

@@ -23,7 +23,7 @@ namespace OnScreenTranslator.adapters.ocrs
             // engine.SetVariable("tessedit_char_whitelist", "1234"); // unique for each lang
         }
 
-        public String GetTextFromImage(Bitmap bmp)
+        public string GetTextFromImage(Bitmap bmp)
         {
             using (var page = engine.Process(bmp))
             {

@@ -14,7 +14,7 @@ namespace OnScreenTranslator.ui
         private OverlayWindow? overlayWindow;
         private Rect? selectedScreenArea;
 
-        private IOcr? ocrService; // change from adapter to service
+        private OcrService? ocrService;
         private TranslationService? translationService;
 
         private const int HOTKEY_ID = 1;
@@ -110,27 +110,33 @@ namespace OnScreenTranslator.ui
                 overlayWindow?.Show();
                 
                 // Create new Ocr with settings and not here
-                ocrService = new TesseractOcrAdapter(); // use service, not adapter
+                ocrService = new OcrService(new TesseractOcrAdapter());
 
                 // bmp = ImagePreprocessor.Upscale(bmp); // mb useless
 
-                translationService = new TranslationService(TranslatorFactory
-                    .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
+                try
+                {
+                    translationService = new TranslationService(TranslatorFactory
+                        .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
 
-                string textToTranslate = ocrService.GetTextFromImage(bmp);
+                    string textToTranslate = ocrService.GetTextFromImage(bmp);
 
-                string translatedText = await translationService.TranslateAsync(
-                    textToTranslate,
-                    "en",
-                    "uk",
-                    ""
-                );
+                    string translatedText = await translationService.TranslateAsync(
+                        textToTranslate,
+                        "en",
+                        "uk",
+                        ""
+                    );
 
-                overlayWindow?.TxtOverlay.Text = translatedText;
+                    overlayWindow?.TxtOverlay.Text = translatedText;
+                }
+                catch (Exception)
+                {
+                    btnStartTranslation.IsChecked = false;
 
-                //overlayWindow?.TxtOverlay.Text = ocrService.GetTextFromImage(bmp);
-
-                //MessageBox.Show(ocrService.GetTextFromImage(bmp));
+                    MessageBox.Show("Program can`t connect to translator.", "Error", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
