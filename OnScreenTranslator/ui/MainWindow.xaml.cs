@@ -17,14 +17,11 @@ namespace OnScreenTranslator.ui
         private OcrService? ocrService;
         private TranslationService? translationService;
 
-        private const int HOTKEY_ID = 1;
         private bool isSelectingArea = false;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            Closed += MainWindow_Closed;
         }
 
         /// <summary>
@@ -68,7 +65,6 @@ namespace OnScreenTranslator.ui
             overlayWindow?.DisableLockMode();
         }
 
-        // think about hotkey for area selection
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
             isSelectingArea = true;
@@ -122,7 +118,7 @@ namespace OnScreenTranslator.ui
             try
             {
                 translationService = new TranslationService(TranslatorFactory
-                    .GetTranslator(Translators.LibreTranslator, "http://localhost:5000"));
+                    .GetTranslator(Translators.MicrosoftFreeTranslator, "http://localhost:5000"));
 
                 string translatedText = await Task.Run(async () =>
                 {
@@ -143,11 +139,12 @@ namespace OnScreenTranslator.ui
                    MessageBoxImage.Error
                );
             }
+            finally {} // mb
         }
 
-        //
-        // methods that provide non-main logic, but are necessary
-        //
+        /*
+         * METHODS THAT PROVIDE NON-MAIN LOGIC
+         */
         private void OverlayWindow_Closed(object? sender, EventArgs e)
         {
             overlayWindow = null;
@@ -158,35 +155,46 @@ namespace OnScreenTranslator.ui
             tlgBtnOverlayLock.IsChecked = false;
         }
 
-        private void MainWindow_Closed(object? sender, EventArgs e)
-        {
-            overlayWindow?.Close();
-        }
+        
+        // Hotkey IDs
+        private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
 
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
 
+            /*
+             * Binding hotkeys
+             */
             var hwnd = new WindowInteropHelper(this).Handle;
 
-            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, NativeMethods.MOD_CONTROL,
-                (uint)KeyInterop.VirtualKeyFromKey(Key.Oem5));
+            if (!NativeMethods.RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, NativeMethods.MOD_CONTROL,
+                    (uint)KeyInterop.VirtualKeyFromKey(Key.Oem5)))
+            {
+                MessageBox.Show("Screen Capture Hotkey wasn`t registered", "Hotkey error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             HwndSource.FromHwnd(hwnd).AddHook(WndProc);
         }
 
+        /*
+         * Hotkey handler
+         */
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == NativeMethods.WM_HOTKEY && wParam.ToInt32() == HOTKEY_ID)
+            if (msg == NativeMethods.WM_HOTKEY)
             {
-                if (!isSelectingArea)
+                var hotkeyId = wParam.ToInt32();
+
+                switch (hotkeyId)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        SelectAreaOnScreen(this, null);
-                    }));
+                    case SCREEN_CAPTURE_HOTKEY_ID:
+                        if (!isSelectingArea)
+                            Dispatcher.BeginInvoke(new Action(() => SelectAreaOnScreen(this, null)));
+                        break;
                 }
-                
+
                 handled = true;
             }
 
@@ -195,11 +203,18 @@ namespace OnScreenTranslator.ui
 
         protected override void OnClosed(EventArgs e)
         {
+            overlayWindow?.Close();
+
+            /*
+             * Unbinding hotkeys
+             */
             var hwnd = new WindowInteropHelper(this).Handle;
-            NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID);
+            NativeMethods.UnregisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID);
             base.OnClosed(e);
         }
     }
+
+    // add Language class with supported langs
 
     // think about multithreading
 
@@ -220,6 +235,8 @@ namespace OnScreenTranslator.ui
     // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
     // add other free translators
+    // check if overlay lies in selected area, to not hide it
+    // add posibility to translate only one time, and repeatedly
 
     // docker compose: add only supported languages
 }

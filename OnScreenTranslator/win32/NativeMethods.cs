@@ -8,9 +8,9 @@ namespace OnScreenTranslator.win32
 {
     internal class NativeMethods
     {
-        //
-        // AREA_SELECTION
-        //
+        /*
+         * AREA_SELECTION
+         */
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -71,12 +71,15 @@ namespace OnScreenTranslator.win32
             );
         }
 
-        //
-        // HOTKEY
-        //
+        /*
+         * HOTKEY
+         */
         public const int WM_HOTKEY = 0x0312;
 
+        public const uint MOD_ALT = 0x0001;
         public const uint MOD_CONTROL = 0x0002;
+        public const uint MOD_SHIFT = 0x0004;
+        public const uint MOD_WIN = 0x0008;
 
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
@@ -84,9 +87,9 @@ namespace OnScreenTranslator.win32
         [DllImport("user32.dll")]
         public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-        //
-        // OVERLAY
-        //
+        /*
+         * OVERLAY
+         */
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
         public static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
 

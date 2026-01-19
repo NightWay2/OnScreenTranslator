@@ -7,7 +7,9 @@ namespace OnScreenTranslator.ui
 {
     public partial class OverlayWindow : Window
     {
-        // WinAPI constants
+        /*
+         * WinAPI constants
+         */
         private const int GWL_EXSTYLE = -20;
         private const long WS_EX_TRANSPARENT = 0x00000020L;
         private const long WS_EX_LAYERED = 0x00080000L;

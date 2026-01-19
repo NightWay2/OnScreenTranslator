@@ -40,7 +40,5 @@ namespace OnScreenTranslator.adapters.translators
             }
             return string.Empty;
         }
-
-        // add list of supported langs
     }
 }

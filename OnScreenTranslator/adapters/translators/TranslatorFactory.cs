@@ -6,19 +6,18 @@ namespace OnScreenTranslator.adapters.translators
     {
         private TranslatorFactory() { }
 
-        public static ITranslator GetTranslator(Translators translator)
-        {
-            return GetTranslator(translator, "https://libretranslate.com");
-        }
+        public static ITranslator GetTranslator(Translators translator) =>
+            GetTranslator(translator, "https://libretranslate.com");
+        
 
         public static ITranslator GetTranslator(Translators translator, string url)
         {
             return translator switch
             {
-                Translators.GoogleTranslator => new GoogleTranslatorAdapter(),
                 Translators.LibreTranslator => new LibreTranslatorAdapter(url),
                 Translators.GoogleFreeTranslator => new GTranslatorsAdapter(new GoogleTranslator()),
-                // add other free translators
+                Translators.MicrosoftFreeTranslator => new GTranslatorsAdapter(new MicrosoftTranslator()),
+                Translators.BingFreeTranslator => new GTranslatorsAdapter(new BingTranslator()),
                 _ => throw new NotImplementedException()
             };
         }
