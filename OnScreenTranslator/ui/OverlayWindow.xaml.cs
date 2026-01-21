@@ -83,5 +83,28 @@ namespace OnScreenTranslator.ui
             NativeMethods.SetWindowLongPtr64(hwnd, GWL_EXSTYLE, new IntPtr(ex));
             isLocked = false;
         }
+
+        public bool IntersectsScreenArea(Rect screenArea)
+        {
+            PresentationSource source = PresentationSource.FromVisual(this);
+            if (source?.CompositionTarget == null)
+                return false;
+
+            Matrix transformToDevice = source.CompositionTarget.TransformToDevice;
+
+            double dpiX = transformToDevice.M11;
+            double dpiY = transformToDevice.M22;
+
+            Rect dipRect = RestoreBounds;
+
+            Rect pixelRect = new Rect(
+                dipRect.X * dpiX,
+                dipRect.Y * dpiY,
+                dipRect.Width * dpiX,
+                dipRect.Height * dpiY
+            );
+
+            return pixelRect.IntersectsWith(screenArea);
+        }
     }
 }

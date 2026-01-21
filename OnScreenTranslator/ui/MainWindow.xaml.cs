@@ -11,6 +11,7 @@ namespace OnScreenTranslator.ui
 {
     public partial class MainWindow : Window
     {
+        // todo create this window on the same screen where cursor or main window
         private OverlayWindow? overlayWindow;
         private Rect? selectedScreenArea;
 
@@ -24,9 +25,6 @@ namespace OnScreenTranslator.ui
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Create overlay window if it not exist, add listener to overlay window
-        /// </summary>
         private void CreateOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (overlayWindow != null)
@@ -39,9 +37,6 @@ namespace OnScreenTranslator.ui
             tlgBtnOverlayLock.IsEnabled = true;
         }
 
-        /// <summary>
-        /// Destroy overlay window if toggle button is disable
-        /// </summary>
         private void DestroyOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (overlayWindow != null)
@@ -75,17 +70,6 @@ namespace OnScreenTranslator.ui
                 if (selector.ShowDialog() == true)
                 {
                     selectedScreenArea = selector.SelectedArea;
-
-                    // Debug code :: ToDo clear
-                    /*var source = PresentationSource.FromVisual(this);
-                    double dpiX = source.CompositionTarget.TransformToDevice.M11;
-                    double dpiY = source.CompositionTarget.TransformToDevice.M22;
-
-                    MessageBox.Show($"X={selectedScreenArea.Value.X}, " +
-                        $"Y={selectedScreenArea.Value.Y}, w={selectedScreenArea.Value.Width}, " +
-                        $"h={selectedScreenArea.Value.Height}, " +
-                        $"x={dpiX}, y={dpiY}");*/
-                    // Debug code :: end
                 }
             }
             finally
@@ -94,52 +78,127 @@ namespace OnScreenTranslator.ui
             }
         }
 
-        private async void StartTranslation(object sender, RoutedEventArgs e)
+        /*
+         * Translation logic
+         */
+        private CancellationTokenSource? translationCts;
+
+        private int TRANSLATION_INTERVAL_MS = 2000;
+
+        private void StartTranslation(object sender, RoutedEventArgs e)
         {
-            
+            if (btnStartTranslation.IsChecked == true)
+            {
+                StartTranslationLoop();
+            }
+            else
+            {
+                StopTranslationLoop();
+            }
+        }
+
+        // todo
+        private void StartTranslationLoop()
+        {
             if (!selectedScreenArea.HasValue)
             {
-                // think about something better
+                // mb change here
                 MessageBox.Show("Area on screen isn`t selected.");
+                btnStartTranslation.IsChecked = false;
                 return;
             }
 
-            // change as need
-            // hide overlay while doing screenshot
+            translationCts = new CancellationTokenSource();
+            var token = translationCts.Token;
 
-            // maybe something different, not hiding and showing
-            overlayWindow?.Hide();
-            Bitmap bmp = ScreenCaptureService.GetImage(selectedScreenArea.Value);
-            overlayWindow?.Show();
-
-            // Create new Ocr with settings and not here
+            // зробити метод, який буде викликатися на початку роботи програми в якому будуть
+            // ініціалізовуватися необхідні сервіси
+            // (поки ініціалізовуються тут)
             ocrService = new OcrService(new TesseractOcrAdapter());
+            translationService = new TranslationService(
+                TranslatorFactory.GetTranslator(
+                    Translators.LibreTranslator,
+                    "http://localhost:5000"
+                )
+            );
 
-            try
+            // add check difference of text or image before and now, to cancel unnecessary calls
+            Task.Run(async () =>
             {
-                translationService = new TranslationService(TranslatorFactory
-                    .GetTranslator(Translators.MicrosoftFreeTranslator, "http://localhost:5000"));
-
-                string translatedText = await Task.Run(async () =>
+                while (!token.IsCancellationRequested)
                 {
-                    string textToTranslate = ocrService.GetTextFromImage(bmp);
-                    return await translationService.TranslateAsync(textToTranslate, "en", "uk");
-                });
+                    if (overlayWindow == null) continue;
 
-                overlayWindow?.TxtOverlay.Text = translatedText;
-            }
-            catch (Exception ex)
-            {
-                btnStartTranslation.IsChecked = false;
+                    try
+                    {
+                        Bitmap image;
 
-                MessageBox.Show(
-                   ex.Message,
-                   "Translation error",
-                   MessageBoxButton.OK,
-                   MessageBoxImage.Error
-               );
-            }
-            finally {} // mb
+                        bool intersects = overlayWindow.Dispatcher.Invoke(() =>
+                            overlayWindow.IntersectsScreenArea(selectedScreenArea.Value)
+                        );
+
+                        if (intersects)
+                        {
+                            overlayWindow.Dispatcher.Invoke(() => overlayWindow.Hide());
+                            image = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                            overlayWindow.Dispatcher.Invoke(() => overlayWindow.Show());
+                        }
+                        else
+                        {
+                            image = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                        }
+
+                        // optional
+                        // image = ImagePreprocessor.Process(image);
+
+                        string text = ocrService.GetTextFromImage(image);
+
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            // change to custom langs
+                            string translated = await translationService.TranslateAsync(
+                                text, "en", "uk"
+                            );
+
+                            Dispatcher.Invoke(() => overlayWindow?.TxtOverlay.Text = translated);
+                        }
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            MessageBox.Show(
+                                ex.Message,
+                                "Translation error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error
+                            );
+                            btnStartTranslation.IsChecked = false;
+                        });
+                        break;
+                    }
+
+                    await Task.Delay(TRANSLATION_INTERVAL_MS, token);
+                }
+            }, token);
+        }
+
+        private void StopTranslationLoop()
+        {
+            translationCts?.Cancel();
+            translationCts = null;
+        }
+
+        /*
+         * Method for setting new params using settingsManager
+         */
+        private void ReloadSettings()
+        {
+
         }
 
         /*

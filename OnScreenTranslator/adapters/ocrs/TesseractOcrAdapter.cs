@@ -18,9 +18,9 @@ namespace OnScreenTranslator.adapters.ocrs
         {
             // mb different data for engine
             //engine = new TesseractEngine(@"./tessdata_fast", "eng+ukr");
-            engine = new TesseractEngine(@"./tessdata_fast", "eng", EngineMode.Default);
-
-            // engine.SetVariable("tessedit_char_whitelist", "1234"); // unique for each lang
+            engine = new TesseractEngine(@"./tessdata_fast", "eng", EngineMode.LstmOnly);
+            engine.DefaultPageSegMode = PageSegMode.SingleBlock;
+            engine.SetVariable("user_defined_dpi", "300");
         }
 
         public string GetTextFromImage(Bitmap bmp)

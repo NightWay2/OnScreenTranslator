@@ -12,6 +12,7 @@ namespace OnScreenTranslator.adapters.translators
 
         public static ITranslator GetTranslator(Translators translator, string url)
         {
+            // todo del translators
             return translator switch
             {
                 Translators.LibreTranslator => new LibreTranslatorAdapter(url),

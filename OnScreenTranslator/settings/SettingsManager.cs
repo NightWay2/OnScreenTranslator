@@ -6,5 +6,6 @@ namespace OnScreenTranslator.settings
 {
     internal class SettingsManager
     {
+        // todo
     }
 }

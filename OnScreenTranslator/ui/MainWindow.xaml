@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnScreenTranslator.ui"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="MainWindow" Height="450" Width="800" ThemeMode="Dark" MinHeight="450" MinWidth="800">
 
     <Grid>
@@ -43,7 +44,7 @@
 
             <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="btnStartTranslation" Content="Start" Height="45" Width="100"
                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0" 
-                          Checked="StartTranslation" />
+                          Checked="StartTranslation" Unchecked="StartTranslation" />
 
             <!-- Settings background -->
             <Border Grid.Column="1" Grid.Row="1" Background="DarkGray" CornerRadius="7, 0, 0, 0" />
