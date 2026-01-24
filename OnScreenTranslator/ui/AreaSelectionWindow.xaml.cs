@@ -18,6 +18,28 @@ namespace OnScreenTranslator.ui
             InitLogic();
         }
 
+        private void InitLogic()
+        {
+            Rect screen = NativeMethods.GetCurrentMonitorBounds();
+
+            Left = screen.Left;
+            Top = screen.Top;
+            Width = screen.Width;
+            Height = screen.Height;
+
+            Loaded += (_, __) =>
+            {
+                Activate();
+                Focus();
+                Keyboard.Focus(this);
+            };
+
+            MouseLeftButtonDown += OnMouseDown;
+            MouseMove += OnMouseMove;
+            MouseLeftButtonUp += OnMouseUp;
+            KeyDown += OnKeyDown;
+        }
+
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(this);
@@ -73,28 +95,6 @@ namespace OnScreenTranslator.ui
                 DialogResult = false;
                 Close();
             }
-        }
-
-        private void InitLogic()
-        {
-            Rect screen = NativeMethods.GetCurrentMonitorBounds();
-
-            Left = screen.Left;
-            Top = screen.Top;
-            Width = screen.Width;
-            Height = screen.Height;
-
-            Loaded += (_, __) =>
-            {
-                Activate();
-                Focus();
-                Keyboard.Focus(this);
-            };
-
-            MouseLeftButtonDown += OnMouseDown;
-            MouseMove += OnMouseMove;
-            MouseLeftButtonUp += OnMouseUp;
-            KeyDown += OnKeyDown;
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Windows.Interop;
 
 namespace OnScreenTranslator.ui
 {
+    // todo add possibility
     public partial class MainWindow : Window
     {
         // todo create this window on the same screen where cursor or main window
@@ -34,7 +35,7 @@ namespace OnScreenTranslator.ui
             overlayWindow.Closed += OverlayWindow_Closed;
             overlayWindow.Show();
 
-            tlgBtnOverlayLock.IsEnabled = true;
+            TlgBtnOverlayLock.IsEnabled = true;
         }
 
         private void DestroyOverlayWindow(object sender, RoutedEventArgs e)
@@ -46,8 +47,8 @@ namespace OnScreenTranslator.ui
                 overlayWindow = null;
             }
 
-            tlgBtnOverlayLock.IsEnabled = false;
-            tlgBtnOverlayLock.IsChecked = false;
+            TlgBtnOverlayLock.IsEnabled = false;
+            TlgBtnOverlayLock.IsChecked = false;
         }
 
         private void LockOverlayWindow(object sender, RoutedEventArgs e)
@@ -87,7 +88,7 @@ namespace OnScreenTranslator.ui
 
         private void StartTranslation(object sender, RoutedEventArgs e)
         {
-            if (btnStartTranslation.IsChecked == true)
+            if (BtnStartTranslation.IsChecked == true)
             {
                 StartTranslationLoop();
             }
@@ -104,7 +105,7 @@ namespace OnScreenTranslator.ui
             {
                 // mb change here
                 MessageBox.Show("Area on screen isn`t selected.");
-                btnStartTranslation.IsChecked = false;
+                BtnStartTranslation.IsChecked = false;
                 return;
             }
 
@@ -177,7 +178,7 @@ namespace OnScreenTranslator.ui
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error
                             );
-                            btnStartTranslation.IsChecked = false;
+                            BtnStartTranslation.IsChecked = false;
                         });
                         break;
                     }
@@ -208,10 +209,10 @@ namespace OnScreenTranslator.ui
         {
             overlayWindow = null;
 
-            tlgBtnOverlaySwitch.IsChecked = false;
+            TlgBtnOverlaySwitch.IsChecked = false;
 
-            tlgBtnOverlayLock.IsEnabled = false;
-            tlgBtnOverlayLock.IsChecked = false;
+            TlgBtnOverlayLock.IsEnabled = false;
+            TlgBtnOverlayLock.IsChecked = false;
         }
 
         

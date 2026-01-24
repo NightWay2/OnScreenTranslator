@@ -16,23 +16,23 @@
         </Grid.ColumnDefinitions>
 
         <!-- Toggle button to create and destroy overlay window -->
-        <ToggleButton Name="tlgBtnOverlaySwitch" Content="Spawn Overlay" Height="55" Width="120" 
+        <ToggleButton Name="TlgBtnOverlaySwitch" Content="Spawn Overlay" Height="55" Width="120" 
                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" 
                       Checked="CreateOverlayWindow" Unchecked="DestroyOverlayWindow"/>
 
         <!-- Toggle button to lock and unlock overlay window -->
-        <ToggleButton Name="tlgBtnOverlayLock" Content="Lock Overlay" Height="55" Width="120" 
+        <ToggleButton Name="TlgBtnOverlayLock" Content="Lock Overlay" Height="55" Width="120" 
                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,105,0,0" IsEnabled="False" 
                       Checked="LockOverlayWindow" Unchecked="UnlockOverlayWindow"/>
 
         <!-- Button for selecting area to translate from -->
-        <Button Name="btnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
+        <Button Name="BtnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
                 Margin="0,185,0,0" Click="SelectAreaOnScreen" >
             <TextBlock Text="Select Area To Translate From" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
         <!-- Button to open settings -->
-        <Button Name="btnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
+        <Button Name="BtnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
           HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" />
 
         <!-- Right part of grid -->
@@ -42,7 +42,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="btnStartTranslation" Content="Start" Height="45" Width="100"
+            <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="BtnStartTranslation" Content="Start" Height="45" Width="100"
                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0" 
                           Checked="StartTranslation" Unchecked="StartTranslation" />
 

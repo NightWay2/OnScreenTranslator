@@ -26,6 +26,16 @@ namespace OnScreenTranslator.ui
         {
             InitializeComponent();
 
+            InitLogic();
+        }
+
+        private void InitLogic()
+        {
+            Rect screen = NativeMethods.GetCurrentMonitorBounds();
+
+            Left = screen.Left;
+            Top = screen.Top;
+
             Loaded += OverlayWindow_Loaded;
             MouseLeftButtonDown += (s, e) => DragMove();
 
@@ -54,6 +64,8 @@ namespace OnScreenTranslator.ui
             MainBorder.Background = new SolidColorBrush(Color.FromArgb(transparency, 0, 0, 0));
             ResizeMode = ResizeMode.NoResize;
 
+            BtnOverlayClose.Visibility = Visibility.Hidden;
+
             isLocked = true;
         }
 
@@ -69,6 +81,8 @@ namespace OnScreenTranslator.ui
 
             MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0));
             ResizeMode = ResizeMode.CanResizeWithGrip;
+
+            BtnOverlayClose.Visibility = Visibility.Visible;
 
             isLocked = false;
         }
@@ -105,6 +119,11 @@ namespace OnScreenTranslator.ui
             );
 
             return pixelRect.IntersectsWith(screenArea);
+        }
+
+        private void CloseOverlay(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
