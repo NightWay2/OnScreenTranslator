@@ -9,10 +9,8 @@ using System.Windows.Interop;
 
 namespace OnScreenTranslator.ui
 {
-    // todo add possibility
     public partial class MainWindow : Window
     {
-        // todo create this window on the same screen where cursor or main window
         private OverlayWindow? overlayWindow;
         private Rect? selectedScreenArea;
 
@@ -20,6 +18,11 @@ namespace OnScreenTranslator.ui
         private TranslationService? translationService;
 
         private bool isSelectingArea = false;
+
+        private CancellationTokenSource? translationCts;
+
+        private int TRANSLATION_INTERVAL_MS = 10000;
+        private string PREVIOUS_TEXT = "";
 
         public MainWindow()
         {
@@ -82,11 +85,7 @@ namespace OnScreenTranslator.ui
         /*
          * Translation logic
          */
-        private CancellationTokenSource? translationCts;
-
-        private int TRANSLATION_INTERVAL_MS = 2000;
-
-        private void StartTranslation(object sender, RoutedEventArgs e)
+        private void StartTranslation(object sender, RoutedEventArgs e) // todo mb add timer before start
         {
             if (BtnStartTranslation.IsChecked == true)
             {
@@ -123,7 +122,6 @@ namespace OnScreenTranslator.ui
                 )
             );
 
-            // add check difference of text or image before and now, to cancel unnecessary calls
             Task.Run(async () =>
             {
                 while (!token.IsCancellationRequested)
@@ -154,8 +152,10 @@ namespace OnScreenTranslator.ui
 
                         string text = ocrService.GetTextFromImage(image);
 
-                        if (!string.IsNullOrEmpty(text))
+                        if (!string.IsNullOrEmpty(text) && !PREVIOUS_TEXT.Equals(text))
                         {
+                            PREVIOUS_TEXT = text;
+
                             // change to custom langs
                             string translated = await translationService.TranslateAsync(
                                 text, "en", "uk"
@@ -195,9 +195,9 @@ namespace OnScreenTranslator.ui
         }
 
         /*
-         * Method for setting new params using settingsManager
+         * Method for setting params using settingsManager
          */
-        private void ReloadSettings()
+        private void LoadSettings()
         {
 
         }
