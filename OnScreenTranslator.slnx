@@ -1,3 +1,9 @@
 <Solution>
-  <Project Path="OnScreenTranslator/OnScreenTranslator.csproj" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="OnScreenTranslator/OnScreenTranslator.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>

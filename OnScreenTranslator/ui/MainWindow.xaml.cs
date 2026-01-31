@@ -6,23 +6,31 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace OnScreenTranslator.ui
 {
+    // todo hide prpogram in tray
     public partial class MainWindow : Window
     {
-        private OverlayWindow? overlayWindow;
-        private Rect? selectedScreenArea;
+        private OverlayWindow? _overlayWindow;
+        private Rect? _selectedScreenArea;
 
-        private OcrService? ocrService;
-        private TranslationService? translationService;
+        private OcrService? _ocrService;
+        private TranslationService? _translationService;
 
-        private bool isSelectingArea = false;
+        private bool _isSelectingArea = false;
 
-        private CancellationTokenSource? translationCts;
+        // Translation related vars
+        private CancellationTokenSource? _translationCts;
+        private const int TRANSLATION_INTERVAL_MS = 10000;
+        private string _previousText = "";
 
-        private int TRANSLATION_INTERVAL_MS = 10000;
-        private string PREVIOUS_TEXT = "";
+        // Hotkey IDs
+        private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
+        private const int START_STOP_TRANSLATION_HOTKEY_ID = 2;
+        private const int CREATE_DESTROY_OVERLAY_HOTKEY_ID = 3;
+        private const int LOCK_UNLOCK_OVERLAY_HOTKEY_ID = 4;
 
         public MainWindow()
         {
@@ -31,54 +39,54 @@ namespace OnScreenTranslator.ui
 
         private void CreateOverlayWindow(object sender, RoutedEventArgs e)
         {
-            if (overlayWindow != null)
+            if (_overlayWindow != null)
                 return;
 
-            overlayWindow = new OverlayWindow();
-            overlayWindow.Closed += OverlayWindow_Closed;
-            overlayWindow.Show();
+            _overlayWindow = new OverlayWindow();
+            _overlayWindow.Closed += OverlayWindow_Closed;
+            _overlayWindow.Show();
 
-            TlgBtnOverlayLock.IsEnabled = true;
+            TlgBtnOverlayLockUnlock.IsEnabled = true;
         }
 
         private void DestroyOverlayWindow(object sender, RoutedEventArgs e)
         {
-            if (overlayWindow != null)
+            if (_overlayWindow != null)
             {
-                overlayWindow.Closed -= OverlayWindow_Closed;
-                overlayWindow.Close();
-                overlayWindow = null;
+                _overlayWindow.Closed -= OverlayWindow_Closed;
+                _overlayWindow.Close();
+                _overlayWindow = null;
             }
 
-            TlgBtnOverlayLock.IsEnabled = false;
-            TlgBtnOverlayLock.IsChecked = false;
+            TlgBtnOverlayLockUnlock.IsEnabled = false;
+            TlgBtnOverlayLockUnlock.IsChecked = false;
         }
 
         private void LockOverlayWindow(object sender, RoutedEventArgs e)
         {
-            overlayWindow?.EnableLockMode();
+            _overlayWindow?.EnableLockMode();
         }
 
         private void UnlockOverlayWindow(object sender, RoutedEventArgs e)
         {
-            overlayWindow?.DisableLockMode();
+            _overlayWindow?.DisableLockMode();
         }
 
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
-            isSelectingArea = true;
+            _isSelectingArea = true;
 
             try
             {
                 AreaSelectionWindow selector = new AreaSelectionWindow();
                 if (selector.ShowDialog() == true)
                 {
-                    selectedScreenArea = selector.SelectedArea;
+                    _selectedScreenArea = selector.SelectedArea;
                 }
             }
             finally
             {
-                isSelectingArea = false;
+                _isSelectingArea = false;
             }
         }
 
@@ -100,7 +108,7 @@ namespace OnScreenTranslator.ui
         // todo
         private void StartTranslationLoop()
         {
-            if (!selectedScreenArea.HasValue)
+            if (!_selectedScreenArea.HasValue)
             {
                 // mb change here
                 MessageBox.Show("Area on screen isn`t selected.");
@@ -108,14 +116,14 @@ namespace OnScreenTranslator.ui
                 return;
             }
 
-            translationCts = new CancellationTokenSource();
-            var token = translationCts.Token;
+            _translationCts = new CancellationTokenSource();
+            var token = _translationCts.Token;
 
             // зробити метод, який буде викликатися на початку роботи програми в якому будуть
             // ініціалізовуватися необхідні сервіси
             // (поки ініціалізовуються тут)
-            ocrService = new OcrService(new TesseractOcrAdapter());
-            translationService = new TranslationService(
+            _ocrService = new OcrService(new OneOcrAdapter());
+            _translationService = new TranslationService(
                 TranslatorFactory.GetTranslator(
                     Translators.LibreTranslator,
                     "http://localhost:5000"
@@ -126,42 +134,43 @@ namespace OnScreenTranslator.ui
             {
                 while (!token.IsCancellationRequested)
                 {
-                    if (overlayWindow == null) continue;
+                    if (_overlayWindow == null) continue;
 
                     try
                     {
                         Bitmap image;
 
-                        bool intersects = overlayWindow.Dispatcher.Invoke(() =>
-                            overlayWindow.IntersectsScreenArea(selectedScreenArea.Value)
+                        bool intersects = _overlayWindow.Dispatcher.Invoke(() =>
+                            _overlayWindow.IntersectsScreenArea(_selectedScreenArea.Value)
                         );
 
                         if (intersects)
                         {
-                            overlayWindow.Dispatcher.Invoke(() => overlayWindow.Hide());
-                            image = ScreenCaptureService.GetImage(selectedScreenArea.Value);
-                            overlayWindow.Dispatcher.Invoke(() => overlayWindow.Show());
+                            _overlayWindow.Dispatcher.Invoke(() => _overlayWindow.Hide());
+                            image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
+                            _overlayWindow.Dispatcher.Invoke(() => _overlayWindow.Show());
                         }
                         else
                         {
-                            image = ScreenCaptureService.GetImage(selectedScreenArea.Value);
+                            image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
                         }
 
                         // optional
                         // image = ImagePreprocessor.Process(image);
 
-                        string text = ocrService.GetTextFromImage(image);
+                        string text = _ocrService.GetTextFromImage(image);
 
-                        if (!string.IsNullOrEmpty(text) && !PREVIOUS_TEXT.Equals(text))
+                        if (!string.IsNullOrEmpty(text) && !_previousText.Equals(text))
                         {
-                            PREVIOUS_TEXT = text;
+                            _previousText = text;
 
                             // change to custom langs
-                            string translated = await translationService.TranslateAsync(
+                            /*string translated = await translationService.TranslateAsync(
                                 text, "en", "uk"
-                            );
+                            );*/
+                            string translated = text;
 
-                            Dispatcher.Invoke(() => overlayWindow?.TxtOverlay.Text = translated);
+                            Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
                         }
                     }
                     catch (OperationCanceledException)
@@ -190,8 +199,8 @@ namespace OnScreenTranslator.ui
 
         private void StopTranslationLoop()
         {
-            translationCts?.Cancel();
-            translationCts = null;
+            _translationCts?.Cancel();
+            _translationCts = null;
         }
 
         /*
@@ -207,17 +216,14 @@ namespace OnScreenTranslator.ui
          */
         private void OverlayWindow_Closed(object? sender, EventArgs e)
         {
-            overlayWindow = null;
+            _overlayWindow = null;
 
-            TlgBtnOverlaySwitch.IsChecked = false;
+            TlgBtnOverlayCreateDestroy.IsChecked = false;
 
-            TlgBtnOverlayLock.IsEnabled = false;
-            TlgBtnOverlayLock.IsChecked = false;
+            TlgBtnOverlayLockUnlock.IsEnabled = false;
+            TlgBtnOverlayLockUnlock.IsChecked = false;
         }
 
-        
-        // Hotkey IDs
-        private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -228,14 +234,24 @@ namespace OnScreenTranslator.ui
              */
             var hwnd = new WindowInteropHelper(this).Handle;
 
-            if (!NativeMethods.RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, NativeMethods.MOD_CONTROL,
-                    (uint)KeyInterop.VirtualKeyFromKey(Key.Oem5)))
-            {
-                MessageBox.Show("Screen Capture Hotkey wasn`t registered", "Hotkey error", 
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, NativeMethods.MOD_ALT, Key.Q,
+                "Screen Capture Hotkey is not registered");
+            RegisterHotKey(hwnd, START_STOP_TRANSLATION_HOTKEY_ID, NativeMethods.MOD_ALT, Key.T,
+                "Start/Stop Translation Hotkey is not registered");
+            RegisterHotKey(hwnd, CREATE_DESTROY_OVERLAY_HOTKEY_ID, NativeMethods.MOD_ALT, Key.O,
+                "Create/Destroy Overlay Hotkey is not registered");
+            RegisterHotKey(hwnd, LOCK_UNLOCK_OVERLAY_HOTKEY_ID, NativeMethods.MOD_ALT, Key.L,
+                "Lock/Unlock Hotkey is not registered");
 
             HwndSource.FromHwnd(hwnd).AddHook(WndProc);
+        }
+
+        private void RegisterHotKey(nint hwnd, int id, uint fsModifiers, Key key, string errMessage)
+        {
+            if (!NativeMethods.RegisterHotKey(hwnd, id, fsModifiers, (uint)KeyInterop.VirtualKeyFromKey(key)))
+            {
+                MessageBox.Show(errMessage, "Hotkey error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /*
@@ -250,8 +266,54 @@ namespace OnScreenTranslator.ui
                 switch (hotkeyId)
                 {
                     case SCREEN_CAPTURE_HOTKEY_ID:
-                        if (!isSelectingArea)
+                        if (!_isSelectingArea)
                             Dispatcher.BeginInvoke(new Action(() => SelectAreaOnScreen(this, null)));
+                        break;
+
+                    case START_STOP_TRANSLATION_HOTKEY_ID:
+                        break;
+
+                    case CREATE_DESTROY_OVERLAY_HOTKEY_ID:
+                        if (_overlayWindow != null)
+                        {
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                DestroyOverlayWindow(this, null);
+                                TlgBtnOverlayCreateDestroy.IsChecked = false;
+                            }));
+                        }
+                        else
+                        {
+                            Dispatcher.BeginInvoke(new Action(() => 
+                            { 
+                                CreateOverlayWindow(this, null);
+                                TlgBtnOverlayCreateDestroy.IsChecked = true;
+                            }));
+                        }
+
+                        break;
+
+                    case LOCK_UNLOCK_OVERLAY_HOTKEY_ID:
+                        if (_overlayWindow != null)
+                        {
+                            if (TlgBtnOverlayLockUnlock.IsChecked == true)
+                            {
+                                Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    UnlockOverlayWindow(this, null);
+                                    TlgBtnOverlayLockUnlock.IsChecked = false;
+                                }));
+                            }
+                            else
+                            {
+                                Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    LockOverlayWindow(this, null);
+                                    TlgBtnOverlayLockUnlock.IsChecked = true;
+                                }));
+                            }
+                        }
+
                         break;
                 }
 
@@ -263,13 +325,16 @@ namespace OnScreenTranslator.ui
 
         protected override void OnClosed(EventArgs e)
         {
-            overlayWindow?.Close();
+            _overlayWindow?.Close();
 
             /*
              * Unbinding hotkeys
              */
             var hwnd = new WindowInteropHelper(this).Handle;
             NativeMethods.UnregisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID);
+            NativeMethods.UnregisterHotKey(hwnd, START_STOP_TRANSLATION_HOTKEY_ID);
+            NativeMethods.UnregisterHotKey(hwnd, CREATE_DESTROY_OVERLAY_HOTKEY_ID);
+            NativeMethods.UnregisterHotKey(hwnd, LOCK_UNLOCK_OVERLAY_HOTKEY_ID);
             base.OnClosed(e);
         }
     }

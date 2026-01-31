@@ -19,7 +19,7 @@ namespace OnScreenTranslator.services
 
         public void DisposeEngine()
         {
-            ocr.DisposeEngine();
+            ocr.Dispose();
         }
     }
 }
