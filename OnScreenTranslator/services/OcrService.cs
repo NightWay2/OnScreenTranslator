@@ -16,10 +16,5 @@ namespace OnScreenTranslator.services
         {
             return ocr.GetTextFromImage(bitmap);
         }
-
-        public void DisposeEngine()
-        {
-            ocr.Dispose();
-        }
     }
 }

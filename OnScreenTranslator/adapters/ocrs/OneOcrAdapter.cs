@@ -94,12 +94,6 @@ namespace OnScreenTranslator.adapters.ocrs
             Marshal.Copy(ptr, buf, 0, len);
             return Encoding.UTF8.GetString(buf);
         }
-
-        public void Dispose()
-        {
-            // якщо dll має destroy — викличеш тут
-            _initialized = false;
-        }
     }
 
     [StructLayout(LayoutKind.Sequential)]

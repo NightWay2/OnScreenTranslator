@@ -23,14 +23,22 @@ namespace OnScreenTranslator.ui
 
         // Translation related vars
         private CancellationTokenSource? _translationCts;
-        private const int TRANSLATION_INTERVAL_MS = 10000;
-        private string _previousText = "";
+        private const int TRANSLATION_INTERVAL_MS = 5000;
+        private string _previousText = ""; // todo : control this var, if we destroy overlay and return it without visible text it prevent translation
 
-        // Hotkey IDs
+        // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
         private const int START_STOP_TRANSLATION_HOTKEY_ID = 2;
         private const int CREATE_DESTROY_OVERLAY_HOTKEY_ID = 3;
         private const int LOCK_UNLOCK_OVERLAY_HOTKEY_ID = 4;
+        private const Key SCREEN_CAPTURE_KEY = Key.Q;
+        private const Key START_STOP_TRANSLATION_KEY = Key.T;
+        private const Key CREATE_DESTROY_OVERLAY_KEY = Key.O;
+        private const Key LOCK_UNLOCK_OVERLAY_KEY = Key.L;
+        public const uint MOD_ALT = 0x0001;
+        public const uint MOD_CONTROL = 0x0002;
+        public const uint MOD_SHIFT = 0x0004;
+        public const uint MOD_WIN = 0x0008;
 
         public MainWindow()
         {
@@ -93,9 +101,9 @@ namespace OnScreenTranslator.ui
         /*
          * Translation logic
          */
-        private void StartTranslation(object sender, RoutedEventArgs e) // todo mb add timer before start
+        private void StartStopTranslation(object sender, RoutedEventArgs e) // todo mb add timer before start
         {
-            if (BtnStartTranslation.IsChecked == true)
+            if (TlgBtnStartStopTranslation.IsChecked == true)
             {
                 StartTranslationLoop();
             }
@@ -112,7 +120,7 @@ namespace OnScreenTranslator.ui
             {
                 // mb change here
                 MessageBox.Show("Area on screen isn`t selected.");
-                BtnStartTranslation.IsChecked = false;
+                TlgBtnStartStopTranslation.IsChecked = false;
                 return;
             }
 
@@ -165,7 +173,7 @@ namespace OnScreenTranslator.ui
                             _previousText = text;
 
                             // change to custom langs
-                            /*string translated = await translationService.TranslateAsync(
+                            /*string translated = await _translationService.TranslateAsync(
                                 text, "en", "uk"
                             );*/
                             string translated = text;
@@ -187,7 +195,7 @@ namespace OnScreenTranslator.ui
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error
                             );
-                            BtnStartTranslation.IsChecked = false;
+                            TlgBtnStartStopTranslation.IsChecked = false;
                         });
                         break;
                     }
@@ -224,7 +232,7 @@ namespace OnScreenTranslator.ui
             TlgBtnOverlayLockUnlock.IsChecked = false;
         }
 
-
+        // todo add posoibility of changing hotkeys
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -234,13 +242,13 @@ namespace OnScreenTranslator.ui
              */
             var hwnd = new WindowInteropHelper(this).Handle;
 
-            RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, NativeMethods.MOD_ALT, Key.Q,
+            RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, MOD_ALT, Key.Q,
                 "Screen Capture Hotkey is not registered");
-            RegisterHotKey(hwnd, START_STOP_TRANSLATION_HOTKEY_ID, NativeMethods.MOD_ALT, Key.T,
+            RegisterHotKey(hwnd, START_STOP_TRANSLATION_HOTKEY_ID, MOD_ALT, Key.T,
                 "Start/Stop Translation Hotkey is not registered");
-            RegisterHotKey(hwnd, CREATE_DESTROY_OVERLAY_HOTKEY_ID, NativeMethods.MOD_ALT, Key.O,
+            RegisterHotKey(hwnd, CREATE_DESTROY_OVERLAY_HOTKEY_ID, MOD_ALT, Key.O,
                 "Create/Destroy Overlay Hotkey is not registered");
-            RegisterHotKey(hwnd, LOCK_UNLOCK_OVERLAY_HOTKEY_ID, NativeMethods.MOD_ALT, Key.L,
+            RegisterHotKey(hwnd, LOCK_UNLOCK_OVERLAY_HOTKEY_ID, MOD_ALT, Key.L,
                 "Lock/Unlock Hotkey is not registered");
 
             HwndSource.FromHwnd(hwnd).AddHook(WndProc);
@@ -271,6 +279,16 @@ namespace OnScreenTranslator.ui
                         break;
 
                     case START_STOP_TRANSLATION_HOTKEY_ID:
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            if (TlgBtnStartStopTranslation.IsChecked == false)
+                                TlgBtnStartStopTranslation.IsChecked = true;
+                            else 
+                                TlgBtnStartStopTranslation.IsChecked = false;
+
+                            StartStopTranslation(this, null);
+                        }));
+
                         break;
 
                     case CREATE_DESTROY_OVERLAY_HOTKEY_ID:
