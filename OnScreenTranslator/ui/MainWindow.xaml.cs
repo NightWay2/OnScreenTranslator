@@ -28,8 +28,11 @@ namespace OnScreenTranslator.ui
 
         // Translation related vars
         private CancellationTokenSource? _translationCts;
-        private const int TRANSLATION_INTERVAL_MS = 5000;
+        private bool _isTranslationRunning = false;
+        private const int TRANSLATION_INTERVAL_MS = 10000; // min ~1000
         private string _previousText = ""; // todo : control this var, if we destroy overlay and return it without visible text it prevent translation
+        private string _previousSourceLang = "";
+        private string _previousTargetLang = "";
 
         // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
@@ -126,14 +129,14 @@ namespace OnScreenTranslator.ui
         // todo
         private void StartTranslationLoop()
         {
-            if (!_selectedScreenArea.HasValue)
-            {
-                // mb change here
-                MessageBox.Show("Area on screen isn`t selected.");
-                TlgBtnStartStopTranslation.IsChecked = false;
+            // check if translation is running
+            if (_isTranslationRunning)
                 return;
-            }
 
+            // if translation is not running set lock
+            _isTranslationRunning = true;
+
+            // cancellation token to cancel translation using button
             _translationCts = new CancellationTokenSource();
             var token = _translationCts.Token;
 
@@ -149,80 +152,85 @@ namespace OnScreenTranslator.ui
                 )
             );
 
+            // languages that will be used in translator
             string source = ComBoxSourceLang.SelectedItem.ToString();
             string target = ComBoxTargetLang.SelectedItem.ToString();
 
             Task.Run(async () =>
             {
-                while (!token.IsCancellationRequested)
+                try
                 {
-                    if (_overlayWindow == null) continue;
-
-                    try
+                    while (!token.IsCancellationRequested)
                     {
+                        // if overlay is hidden do not spend resources to translate anything
+                        if (_overlayWindow == null)
+                        {
+                            await Task.Delay(400);
+                            continue;
+                        }
+
                         Bitmap image;
 
+                        // check if overlay lays over text area we want to translate
                         bool? intersects = _overlayWindow?.Dispatcher.Invoke(() =>
                             _overlayWindow?.IntersectsScreenArea(_selectedScreenArea.Value)
                         );
 
-                        if (intersects.HasValue == true)
+                        if (intersects == true)
                         {
-                            /*_overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Hide());
+                            // hide overlay to not capture it
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Hide());
                             image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
-                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Show());*/
-
-                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Opacity = 0);
-                            image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
-                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Opacity = 1);
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Show());
                         }
                         else
                         {
                             image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
                         }
 
-                        // optional
-                        // image = ImagePreprocessor.Process(image);
-
+                        // getting text from image
                         string text = _ocrService.GetTextFromImage(image);
+                        image.Dispose();
 
-                        if (source.Equals(target))
+                        // check if text has to be translated
+                        if (!string.IsNullOrEmpty(text) && (!_previousText.Equals(text) ||
+                            !_previousSourceLang.Equals(source) || !_previousTargetLang.Equals(target)))
                         {
+                            // update previous data
                             _previousText = text;
-                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = text);
-                        }
+                            _previousSourceLang = source;
+                            _previousTargetLang = target;
 
-                        if (!string.IsNullOrEmpty(text) && !_previousText.Equals(text))
-                        {
-                            _previousText = text;
-
-                            string translated = await _translationService.TranslateAsync(
-                                text, source, target
+                            // translate text if source and target languages are different
+                            string translated = source == target ? text : await _translationService.TranslateAsync(
+                                text, source, target // todo mb add api
                             );
 
-                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
+                            // update text in overlay
+                            Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
                         }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            MessageBox.Show(
-                                ex.Message,
-                                "Translation error",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error
-                            );
-                            TlgBtnStartStopTranslation.IsChecked = false;
-                        });
-                        break;
-                    }
 
-                    await Task.Delay(TRANSLATION_INTERVAL_MS, token);
+                        await Task.Delay(TRANSLATION_INTERVAL_MS, token);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // exit translation loop if stop button was pressed
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show(ex.Message, "Translation error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        TlgBtnStartStopTranslation.IsChecked = false;
+                    });
+                    return;
+                }
+                finally
+                {
+                    // release lock
+                    _isTranslationRunning = false;
                 }
             }, token);
         }
@@ -305,12 +313,19 @@ namespace OnScreenTranslator.ui
                     case START_STOP_TRANSLATION_HOTKEY_ID:
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            if (TlgBtnStartStopTranslation.IsChecked == false)
-                                TlgBtnStartStopTranslation.IsChecked = true;
-                            else 
-                                TlgBtnStartStopTranslation.IsChecked = false;
-
-                            StartStopTranslation(this, null);
+                            if (TlgBtnStartStopTranslation.IsEnabled == true)
+                            {
+                                if (TlgBtnStartStopTranslation.IsChecked == false)
+                                {
+                                    TlgBtnStartStopTranslation.IsChecked = true;
+                                    StartTranslationLoop();
+                                }
+                                else
+                                {
+                                    TlgBtnStartStopTranslation.IsChecked = false;
+                                    StopTranslationLoop();
+                                }  
+                            }
                         }));
 
                         break;

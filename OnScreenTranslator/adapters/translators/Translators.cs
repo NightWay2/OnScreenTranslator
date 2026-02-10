@@ -2,9 +2,7 @@
 {
     internal enum Translators
     {
-        GoogleFreeTranslator, 
-        MicrosoftFreeTranslator, 
-        BingFreeTranslator,
+        GoogleFreeTranslator,
         LibreTranslator
     }
 }

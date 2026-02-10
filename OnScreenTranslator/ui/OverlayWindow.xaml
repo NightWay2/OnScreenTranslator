@@ -9,6 +9,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         Topmost="True"
+        ShowActivated="False"
         ShowInTaskbar="False"
         ResizeMode="CanResizeWithGrip"
         Title="Overlay" Width="600" Height="300" MinWidth="200" MinHeight="100">
