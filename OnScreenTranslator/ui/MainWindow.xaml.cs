@@ -1,6 +1,7 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
 using OnScreenTranslator.adapters.translators;
 using OnScreenTranslator.services;
+using OnScreenTranslator.settings;
 using OnScreenTranslator.win32;
 using System.Drawing;
 using System.Windows;
@@ -11,15 +12,19 @@ using System.Windows.Threading;
 namespace OnScreenTranslator.ui
 {
     // todo hide prpogram in tray
+    // todo add hide button (mb custom buttons for exit and hide)
+    // todo add scale option (100%, 125%, 150%)
+    // todo add localization
+    // add posibility use in ocr mode
+    // mb add possibility to copy text in unlocked mode
     public partial class MainWindow : Window
     {
         private OverlayWindow? _overlayWindow;
         private Rect? _selectedScreenArea;
+        private bool _isSelectingArea = false;
 
         private OcrService? _ocrService;
         private TranslationService? _translationService;
-
-        private bool _isSelectingArea = false;
 
         // Translation related vars
         private CancellationTokenSource? _translationCts;
@@ -43,6 +48,10 @@ namespace OnScreenTranslator.ui
         public MainWindow()
         {
             InitializeComponent();
+
+            SettingsManager.GetInstance().Init(this);
+
+            //MessageBox.Show(ComBoxSourceLang.SelectedItem.ToString());
         }
 
         private void CreateOverlayWindow(object sender, RoutedEventArgs e)
@@ -90,6 +99,7 @@ namespace OnScreenTranslator.ui
                 if (selector.ShowDialog() == true)
                 {
                     _selectedScreenArea = selector.SelectedArea;
+                    TlgBtnStartStopTranslation.IsEnabled = true;
                 }
             }
             finally
@@ -127,6 +137,7 @@ namespace OnScreenTranslator.ui
             _translationCts = new CancellationTokenSource();
             var token = _translationCts.Token;
 
+            // todo
             // зробити метод, який буде викликатися на початку роботи програми в якому будуть
             // ініціалізовуватися необхідні сервіси
             // (поки ініціалізовуються тут)
@@ -138,6 +149,9 @@ namespace OnScreenTranslator.ui
                 )
             );
 
+            string source = ComBoxSourceLang.SelectedItem.ToString();
+            string target = ComBoxTargetLang.SelectedItem.ToString();
+
             Task.Run(async () =>
             {
                 while (!token.IsCancellationRequested)
@@ -148,15 +162,19 @@ namespace OnScreenTranslator.ui
                     {
                         Bitmap image;
 
-                        bool intersects = _overlayWindow.Dispatcher.Invoke(() =>
-                            _overlayWindow.IntersectsScreenArea(_selectedScreenArea.Value)
+                        bool? intersects = _overlayWindow?.Dispatcher.Invoke(() =>
+                            _overlayWindow?.IntersectsScreenArea(_selectedScreenArea.Value)
                         );
 
-                        if (intersects)
+                        if (intersects.HasValue == true)
                         {
-                            _overlayWindow.Dispatcher.Invoke(() => _overlayWindow.Hide());
+                            /*_overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Hide());
                             image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
-                            _overlayWindow.Dispatcher.Invoke(() => _overlayWindow.Show());
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Show());*/
+
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Opacity = 0);
+                            image = ScreenCaptureService.GetImage(_selectedScreenArea.Value);
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.Opacity = 1);
                         }
                         else
                         {
@@ -168,17 +186,21 @@ namespace OnScreenTranslator.ui
 
                         string text = _ocrService.GetTextFromImage(image);
 
+                        if (source.Equals(target))
+                        {
+                            _previousText = text;
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = text);
+                        }
+
                         if (!string.IsNullOrEmpty(text) && !_previousText.Equals(text))
                         {
                             _previousText = text;
 
-                            // change to custom langs
-                            /*string translated = await _translationService.TranslateAsync(
-                                text, "en", "uk"
-                            );*/
-                            string translated = text;
+                            string translated = await _translationService.TranslateAsync(
+                                text, source, target
+                            );
 
-                            Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
+                            _overlayWindow?.Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
                         }
                     }
                     catch (OperationCanceledException)
@@ -211,12 +233,14 @@ namespace OnScreenTranslator.ui
             _translationCts = null;
         }
 
-        /*
-         * Method for setting params using settingsManager
-         */
-        private void LoadSettings()
+        private void LanguageIsChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
+            // call setting manager and set new params
+            if (TlgBtnStartStopTranslation.IsChecked == true)
+            {
+                TlgBtnStartStopTranslation.IsChecked = false;
+                StopTranslationLoop();
+            }
         }
 
         /*
@@ -242,13 +266,13 @@ namespace OnScreenTranslator.ui
              */
             var hwnd = new WindowInteropHelper(this).Handle;
 
-            RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, MOD_ALT, Key.Q,
+            RegisterHotKey(hwnd, SCREEN_CAPTURE_HOTKEY_ID, MOD_ALT, SCREEN_CAPTURE_KEY,
                 "Screen Capture Hotkey is not registered");
-            RegisterHotKey(hwnd, START_STOP_TRANSLATION_HOTKEY_ID, MOD_ALT, Key.T,
+            RegisterHotKey(hwnd, START_STOP_TRANSLATION_HOTKEY_ID, MOD_ALT, START_STOP_TRANSLATION_KEY,
                 "Start/Stop Translation Hotkey is not registered");
-            RegisterHotKey(hwnd, CREATE_DESTROY_OVERLAY_HOTKEY_ID, MOD_ALT, Key.O,
+            RegisterHotKey(hwnd, CREATE_DESTROY_OVERLAY_HOTKEY_ID, MOD_ALT, CREATE_DESTROY_OVERLAY_KEY,
                 "Create/Destroy Overlay Hotkey is not registered");
-            RegisterHotKey(hwnd, LOCK_UNLOCK_OVERLAY_HOTKEY_ID, MOD_ALT, Key.L,
+            RegisterHotKey(hwnd, LOCK_UNLOCK_OVERLAY_HOTKEY_ID, MOD_ALT, LOCK_UNLOCK_OVERLAY_KEY,
                 "Lock/Unlock Hotkey is not registered");
 
             HwndSource.FromHwnd(hwnd).AddHook(WndProc);
@@ -344,6 +368,8 @@ namespace OnScreenTranslator.ui
         protected override void OnClosed(EventArgs e)
         {
             _overlayWindow?.Close();
+
+            // todo call setings manager to rewrite config file with new data
 
             /*
              * Unbinding hotkeys

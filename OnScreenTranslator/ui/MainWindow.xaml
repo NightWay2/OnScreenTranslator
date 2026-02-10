@@ -44,7 +44,15 @@
 
             <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="TlgBtnStartStopTranslation" Content="Start" Height="45" 
                           Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0" 
-                          Checked="StartStopTranslation" Unchecked="StartStopTranslation" />
+                          Checked="StartStopTranslation" Unchecked="StartStopTranslation" IsEnabled="False"/>
+
+            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxSourceLang" Height="30" Width="160" 
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 320 0" 
+                      SelectionChanged="LanguageIsChanged" />
+
+            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxTargetLang" Height="30" Width="160" 
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="110 0 0 0" 
+                      SelectionChanged="LanguageIsChanged" />
 
             <!-- Settings background -->
             <Border Grid.Column="1" Grid.Row="1" Background="DarkGray" CornerRadius="7, 0, 0, 0" />

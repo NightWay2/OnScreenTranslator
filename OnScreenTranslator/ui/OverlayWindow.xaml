@@ -11,7 +11,7 @@
         Topmost="True"
         ShowInTaskbar="False"
         ResizeMode="CanResizeWithGrip"
-        Title="OnScreenTranslatorOverlay" Width="600" Height="300" MinWidth="200" MinHeight="100">
+        Title="Overlay" Width="600" Height="300" MinWidth="200" MinHeight="100">
     <Grid x:Name="RootGrid">
         <Border x:Name="MainBorder"
                 Background="#AA000000"
