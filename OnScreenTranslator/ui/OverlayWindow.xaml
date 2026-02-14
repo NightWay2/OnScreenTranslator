@@ -17,9 +17,9 @@
         <Border x:Name="MainBorder"
                 Background="#AA000000"
                 CornerRadius="8"
-                Padding="12">
-            <TextBlock x:Name="TxtOverlay" Text=""
-                       Foreground="White" FontSize="22" TextWrapping="Wrap"/>
+                Padding="16">
+            <TextBox x:Name="TxtOverlay" Text="" Background="Transparent" IsReadOnly="True"
+                     BorderThickness="0" Foreground="White" FontSize="22" TextWrapping="Wrap"/>
         </Border>
         <Button x:Name="BtnOverlayClose" Width="20" Height="20" Background="Transparent" 
                 HorizontalAlignment="Right" VerticalAlignment="Top" Click="CloseOverlay" 
@@ -27,8 +27,8 @@
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="Icon" Background="Transparent" CornerRadius="0 6 0 0">
-                        <Path Data="M 1 1 L 10 10 M 10 1 L 1 10" Stroke="White" StrokeThickness="1" 
-                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="✕" Foreground="White" TextAlignment="Center" Height="17" Width="17" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

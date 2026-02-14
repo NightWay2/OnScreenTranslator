@@ -95,9 +95,15 @@ namespace OnScreenTranslator.ui
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
             _isSelectingArea = true;
+            bool wasTranslationRunning = _isTranslationRunning;
 
             try
             {
+                if (_isTranslationRunning)
+                {
+                    TlgBtnStartStopTranslation.IsChecked = false;
+                    StopTranslationLoop();
+                }
                 AreaSelectionWindow selector = new AreaSelectionWindow();
                 if (selector.ShowDialog() == true)
                 {
@@ -108,6 +114,11 @@ namespace OnScreenTranslator.ui
             finally
             {
                 _isSelectingArea = false;
+                if (wasTranslationRunning)
+                {
+                    TlgBtnStartStopTranslation.IsChecked = true;
+                    StartTranslationLoop();
+                }
             }
         }
 
@@ -126,7 +137,7 @@ namespace OnScreenTranslator.ui
             }
         }
 
-        // todo
+        // todo mb add default param to check if we call method using hotkey to create notification
         private void StartTranslationLoop()
         {
             // check if translation is running
@@ -223,7 +234,6 @@ namespace OnScreenTranslator.ui
                     Dispatcher.Invoke(() =>
                     {
                         MessageBox.Show(ex.Message, "Translation error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        TlgBtnStartStopTranslation.IsChecked = false;
                     });
                     return;
                 }
@@ -231,6 +241,7 @@ namespace OnScreenTranslator.ui
                 {
                     // release lock
                     _isTranslationRunning = false;
+                    Dispatcher.Invoke(() => TlgBtnStartStopTranslation.IsChecked = false);
                 }
             }, token);
         }
@@ -297,6 +308,7 @@ namespace OnScreenTranslator.ui
         /*
          * Hotkey handler
          */
+        // todo add notifications when hotkey is pressed
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == NativeMethods.WM_HOTKEY)
@@ -313,18 +325,21 @@ namespace OnScreenTranslator.ui
                     case START_STOP_TRANSLATION_HOTKEY_ID:
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            if (TlgBtnStartStopTranslation.IsEnabled == true)
+                            if (!_isSelectingArea)
                             {
-                                if (TlgBtnStartStopTranslation.IsChecked == false)
+                                if (TlgBtnStartStopTranslation.IsEnabled == true)
                                 {
-                                    TlgBtnStartStopTranslation.IsChecked = true;
-                                    StartTranslationLoop();
+                                    if (TlgBtnStartStopTranslation.IsChecked == false)
+                                    {
+                                        TlgBtnStartStopTranslation.IsChecked = true;
+                                        StartTranslationLoop();
+                                    }
+                                    else
+                                    {
+                                        TlgBtnStartStopTranslation.IsChecked = false;
+                                        StopTranslationLoop();
+                                    }
                                 }
-                                else
-                                {
-                                    TlgBtnStartStopTranslation.IsChecked = false;
-                                    StopTranslationLoop();
-                                }  
                             }
                         }));
 

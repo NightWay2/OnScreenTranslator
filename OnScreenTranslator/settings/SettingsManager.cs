@@ -10,7 +10,37 @@ namespace OnScreenTranslator.settings
         // todo
         private static SettingsManager? _instance;
 
-        public static List<string> LANGUAGES = new List<string>()
+        public static List<string> LANGUAGES_SOURCE = new List<string>()
+        {
+            "Auto",
+            "Arabic",
+            "Chinese (simplified)",
+            "Chinese (traditional)",
+            "Czech",
+            "Danish",
+            "Dutch",
+            "English",
+            "Finnish",
+            "French",
+            "German",
+            "Hindi",
+            "Indonesian",
+            "Italian",
+            "Japanese",
+            "Korean",
+            "Persian",
+            "Polish",
+            "Portuguese",
+            "Romanian",
+            "Russian",
+            "Spanish",
+            "Thai",
+            "Turkish",
+            "Ukrainian",
+            "Vietnamese"
+        };
+
+        public static List<string> LANGUAGES_TARGET = new List<string>()
         {
             "Arabic",
             "Chinese (simplified)",
@@ -51,10 +81,11 @@ namespace OnScreenTranslator.settings
         // todo all stuff like reading conf file and set def params
         public void Init(MainWindow mainWindow)
         {
-            mainWindow.ComBoxSourceLang.ItemsSource = LANGUAGES;
+            // todo test with auto
+            mainWindow.ComBoxSourceLang.ItemsSource = LANGUAGES_SOURCE;
             mainWindow.ComBoxSourceLang.SelectedItem = "English";
 
-            mainWindow.ComBoxTargetLang.ItemsSource = LANGUAGES;
+            mainWindow.ComBoxTargetLang.ItemsSource = LANGUAGES_TARGET;
             mainWindow.ComBoxTargetLang.SelectedItem = "Ukrainian";
         }
 

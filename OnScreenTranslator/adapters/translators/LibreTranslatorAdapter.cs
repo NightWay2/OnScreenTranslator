@@ -13,7 +13,7 @@ namespace OnScreenTranslator.adapters.translators
             HttpClient = new HttpClient()
             {
                 BaseAddress = new Uri(url),
-                Timeout = TimeSpan.FromSeconds(5)
+                Timeout = TimeSpan.FromSeconds(45)
             };
         }
 
