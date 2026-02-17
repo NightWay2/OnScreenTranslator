@@ -1,46 +1,16 @@
-﻿using OnScreenTranslator.ui;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OnScreenTranslator.resources;
+using OnScreenTranslator.ui;
 
 namespace OnScreenTranslator.settings
 {
     internal class SettingsManager
     {
-        // todo
-        private static SettingsManager? _instance;
-
-        public static List<string> LANGUAGES_SOURCE = new List<string>()
+        private static List<string> LANGUAGES_SOURCE = new List<string>()
         {
             "Auto",
-            "Arabic",
-            "Chinese (simplified)",
-            "Chinese (traditional)",
-            "Czech",
-            "Danish",
-            "Dutch",
-            "English",
-            "Finnish",
-            "French",
-            "German",
-            "Hindi",
-            "Indonesian",
-            "Italian",
-            "Japanese",
-            "Korean",
-            "Persian",
-            "Polish",
-            "Portuguese",
-            "Romanian",
-            "Russian",
-            "Spanish",
-            "Thai",
-            "Turkish",
-            "Ukrainian",
-            "Vietnamese"
         };
 
-        public static List<string> LANGUAGES_TARGET = new List<string>()
+        private static List<string> LANGUAGES_TARGET = new List<string>()
         {
             "Arabic",
             "Chinese (simplified)",
@@ -68,6 +38,9 @@ namespace OnScreenTranslator.settings
             "Ukrainian",
             "Vietnamese"
         };
+
+        private static SettingsManager? _instance;
+        private string localization;
 
         private SettingsManager() { }
 
@@ -81,15 +54,17 @@ namespace OnScreenTranslator.settings
         // todo all stuff like reading conf file and set def params
         public void Init(MainWindow mainWindow)
         {
-            // todo test with auto
+            LANGUAGES_SOURCE.AddRange(LANGUAGES_TARGET);
             mainWindow.ComBoxSourceLang.ItemsSource = LANGUAGES_SOURCE;
-            mainWindow.ComBoxSourceLang.SelectedItem = "English";
+            mainWindow.ComBoxSourceLang.SelectedItem = "English"; // todo add through localization
 
             mainWindow.ComBoxTargetLang.ItemsSource = LANGUAGES_TARGET;
             mainWindow.ComBoxTargetLang.SelectedItem = "Ukrainian";
+
+            LocalizationManager.GetInstance().SetLanguage("en");
         }
 
-        public string GetSourceLanguage()
+        public string GetLocalizationLanguage()
         {
             return "en";
         }

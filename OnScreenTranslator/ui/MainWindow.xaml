@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnScreenTranslator.ui"
+        DataContext="{StaticResource Loc}"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         Title="OnScreenTranslator" Height="450" Width="800" ThemeMode="Dark" MinHeight="450" MinWidth="800">
@@ -16,14 +17,37 @@
         </Grid.ColumnDefinitions>
 
         <!-- Toggle button to create and destroy overlay window -->
-        <ToggleButton Name="TlgBtnOverlayCreateDestroy" Content="Spawn Overlay" Height="55" Width="120" 
-                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0" 
-                      Checked="CreateOverlayWindow" Unchecked="DestroyOverlayWindow"/>
+        <ToggleButton Name="TlgBtnOverlayCreateDestroy" Height="55" Width="120" 
+                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0"
+                      Checked="CreateOverlayWindow" Unchecked="DestroyOverlayWindow"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center" >
+            <ToggleButton.Style>
+                <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}" >
+                    <Setter Property="Content" Value="{Binding CreateOverlay}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Content" Value="{Binding DestroyOverlay}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+        </ToggleButton>
 
         <!-- Toggle button to lock and unlock overlay window -->
-        <ToggleButton Name="TlgBtnOverlayLockUnlock" Content="Lock Overlay" Height="55" Width="120" 
-                  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,105,0,0" IsEnabled="False" 
-                      Checked="LockOverlayWindow" Unchecked="UnlockOverlayWindow"/>
+        <ToggleButton Name="TlgBtnOverlayLockUnlock" Height="55" Width="120" 
+                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,105,0,0" IsEnabled="False" 
+                      Checked="LockOverlayWindow" Unchecked="UnlockOverlayWindow" >
+            <ToggleButton.Style>
+                <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}" >
+                    <Setter Property="Content" Value="{Binding LockOverlay}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Content" Value="{Binding UnlockOverlay}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+        </ToggleButton>
 
         <!-- Button for selecting area to translate from -->
         <Button Name="BtnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
@@ -33,7 +57,13 @@
 
         <!-- Button to open settings -->
         <Button Name="BtnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
-          HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30" />
+            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60" />
+
+        <ComboBox Name="ComBoxLocalization" Height="25" Width="120" VerticalAlignment="Bottom" 
+                  HorizontalAlignment="Center" Margin="0 0 0 10" SelectionChanged="LocalizationChanged" >
+            <ComboBoxItem Content="English" Tag="en" />
+            <ComboBoxItem Content="Українська" Tag="uk" />
+        </ComboBox>
 
         <!-- Right part of grid -->
         <Grid Grid.Column="1" Grid.ColumnSpan="2">

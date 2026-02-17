@@ -2,9 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:OnScreenTranslator"
+             xmlns:res="clr-namespace:OnScreenTranslator.settings"
              StartupUri="ui/MainWindow.xaml">
     
     <Application.Resources>
-         
+        <ObjectDataProvider x:Key="Loc" ObjectType="{x:Type res:LocalizationManager}" MethodName="GetInstance" />
     </Application.Resources>
 </Application>

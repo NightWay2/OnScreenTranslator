@@ -1,10 +1,12 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
 using OnScreenTranslator.adapters.translators;
+using OnScreenTranslator.resources;
 using OnScreenTranslator.services;
 using OnScreenTranslator.settings;
 using OnScreenTranslator.win32;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
@@ -64,6 +66,7 @@ namespace OnScreenTranslator.ui
 
             _overlayWindow = new OverlayWindow();
             _overlayWindow.Closed += OverlayWindow_Closed;
+            _overlayWindow.TxtOverlay.Text = _previousText;
             _overlayWindow.Show();
 
             TlgBtnOverlayLockUnlock.IsEnabled = true;
@@ -164,7 +167,7 @@ namespace OnScreenTranslator.ui
             );
 
             // languages that will be used in translator
-            string source = ComBoxSourceLang.SelectedItem.ToString();
+            string source = ComBoxSourceLang.SelectedItem.ToString(); // todo change to tags
             string target = ComBoxTargetLang.SelectedItem.ToString();
 
             Task.Run(async () =>
@@ -252,7 +255,7 @@ namespace OnScreenTranslator.ui
             _translationCts = null;
         }
 
-        private void LanguageIsChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void LanguageIsChanged(object sender, SelectionChangedEventArgs e)
         {
             // call setting manager and set new params
             if (TlgBtnStartStopTranslation.IsChecked == true)
@@ -273,6 +276,15 @@ namespace OnScreenTranslator.ui
 
             TlgBtnOverlayLockUnlock.IsEnabled = false;
             TlgBtnOverlayLockUnlock.IsChecked = false;
+        }
+
+        private void LocalizationChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComBoxLocalization.SelectedItem is ComboBoxItem item)
+            {
+                string langCode = item.Tag.ToString();
+                LocalizationManager.GetInstance().SetLanguage(langCode);
+            }
         }
 
         // todo add posoibility of changing hotkeys
