@@ -123,8 +123,95 @@
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Destroy Overlay</value>
   </data>
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="Language_Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Language_Chinese_sim" xml:space="preserve">
+    <value>Chinese (simplified)</value>
+  </data>
+  <data name="Language_Chinese_tra" xml:space="preserve">
+    <value>Chinise (traditional)</value>
+  </data>
+  <data name="Language_Czech" xml:space="preserve">
+    <value>Czech</value>
+  </data>
+  <data name="Language_Danish" xml:space="preserve">
+    <value>Danish</value>
+  </data>
+  <data name="Language_Dutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Language_Finnish" xml:space="preserve">
+    <value>Finnish</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>Indonesian</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="Language_Persian" xml:space="preserve">
+    <value>Persian</value>
+  </data>
+  <data name="Language_Polish" xml:space="preserve">
+    <value>Polish</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="Language_Romanian" xml:space="preserve">
+    <value>Romanian</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Russian</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Language_Thai" xml:space="preserve">
+    <value>Thai</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="Language_Ukrainian" xml:space="preserve">
+    <value>Ukrainian</value>
+  </data>
+  <data name="Language_Vietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
   <data name="LockOverlay" xml:space="preserve">
     <value>Lock Overlay</value>
+  </data>
+  <data name="SelectArea" xml:space="preserve">
+    <value>Select Area On Screen</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
   </data>
   <data name="UnlockOverlay" xml:space="preserve">
     <value>Unlock Overlay</value>

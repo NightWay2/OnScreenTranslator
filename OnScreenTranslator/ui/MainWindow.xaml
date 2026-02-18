@@ -52,14 +52,14 @@
         <!-- Button for selecting area to translate from -->
         <Button Name="BtnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
                 Margin="0,185,0,0" Click="SelectAreaOnScreen" >
-            <TextBlock Text="Select Area To Translate From" TextWrapping="Wrap" TextAlignment="Center" />
+            <TextBlock Text="{Binding SelectArea}" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
         <!-- Button to open settings -->
         <Button Name="BtnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
             HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60" />
 
-        <ComboBox Name="ComBoxLocalization" Height="25" Width="120" VerticalAlignment="Bottom" 
+        <ComboBox Name="ComBoxLocalization" Height="25" Width="120" VerticalAlignment="Bottom" SelectedValuePath="Tag"
                   HorizontalAlignment="Center" Margin="0 0 0 10" SelectionChanged="LocalizationChanged" >
             <ComboBoxItem Content="English" Tag="en" />
             <ComboBoxItem Content="Українська" Tag="uk" />
@@ -72,17 +72,82 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="TlgBtnStartStopTranslation" Content="Start" Height="45" 
+            <!-- Start/stop translation button -->
+            <ToggleButton Grid.Column="1" Grid.Row="0" x:Name="TlgBtnStartStopTranslation" Height="45" 
                           Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0" 
-                          Checked="StartStopTranslation" Unchecked="StartStopTranslation" IsEnabled="False"/>
+                          Checked="StartStopTranslation" Unchecked="StartStopTranslation" IsEnabled="False">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}" >
+                        <Setter Property="Content" Value="{Binding Start}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="{Binding Stop}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
 
-            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxSourceLang" Height="30" Width="160" 
+            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxSourceLang" Height="30" Width="180" 
                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 320 0" 
-                      SelectionChanged="LanguageIsChanged" />
+                      SelectionChanged="LanguageIsChanged" SelectedValuePath="Tag" >
+                <ComboBoxItem Content="{Binding Language_Auto}" Tag="auto" />
+                <ComboBoxItem Content="{Binding Language_Arabic}" Tag="ar" />
+                <ComboBoxItem Content="{Binding Language_Chinese_sim}" Tag="zh" />
+                <ComboBoxItem Content="{Binding Language_Chinese_tra}" Tag="zt" />
+                <ComboBoxItem Content="{Binding Language_Czech}" Tag="cs" />
+                <ComboBoxItem Content="{Binding Language_Danish}" Tag="da" />
+                <ComboBoxItem Content="{Binding Language_Dutch}" Tag="nl" />
+                <ComboBoxItem Content="{Binding Language_English}" Tag="en" />
+                <ComboBoxItem Content="{Binding Language_Finnish}" Tag="fi" />
+                <ComboBoxItem Content="{Binding Language_French}" Tag="fr" />
+                <ComboBoxItem Content="{Binding Language_German}" Tag="de" />
+                <ComboBoxItem Content="{Binding Language_Hindi}" Tag="hi" />
+                <ComboBoxItem Content="{Binding Language_Indonesian}" Tag="id" />
+                <ComboBoxItem Content="{Binding Language_Italian}" Tag="it" />
+                <ComboBoxItem Content="{Binding Language_Japanese}" Tag="ja" />
+                <ComboBoxItem Content="{Binding Language_Korean}" Tag="ko" />
+                <ComboBoxItem Content="{Binding Language_Persian}" Tag="fa" />
+                <ComboBoxItem Content="{Binding Language_Polish}" Tag="pl" />
+                <ComboBoxItem Content="{Binding Language_Portuguese}" Tag="pt" />
+                <ComboBoxItem Content="{Binding Language_Romanian}" Tag="ro" />
+                <ComboBoxItem Content="{Binding Language_Russian}" Tag="ru" />
+                <ComboBoxItem Content="{Binding Language_Spanish}" Tag="es" />
+                <ComboBoxItem Content="{Binding Language_Thai}" Tag="th" />
+                <ComboBoxItem Content="{Binding Language_Turkish}" Tag="tr" />
+                <ComboBoxItem Content="{Binding Language_Ukrainian}" Tag="uk" />
+                <ComboBoxItem Content="{Binding Language_Vietnamese}" Tag="vi" />
+            </ComboBox>
 
-            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxTargetLang" Height="30" Width="160" 
+            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxTargetLang" Height="30" Width="180" 
                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="110 0 0 0" 
-                      SelectionChanged="LanguageIsChanged" />
+                      SelectionChanged="LanguageIsChanged" SelectedValuePath="Tag" >
+                <ComboBoxItem Content="{Binding Language_Arabic}" Tag="ar" />
+                <ComboBoxItem Content="{Binding Language_Chinese_sim}" Tag="zh" />
+                <ComboBoxItem Content="{Binding Language_Chinese_tra}" Tag="zt" />
+                <ComboBoxItem Content="{Binding Language_Czech}" Tag="cs" />
+                <ComboBoxItem Content="{Binding Language_Danish}" Tag="da" />
+                <ComboBoxItem Content="{Binding Language_Dutch}" Tag="nl" />
+                <ComboBoxItem Content="{Binding Language_English}" Tag="en" />
+                <ComboBoxItem Content="{Binding Language_Finnish}" Tag="fi" />
+                <ComboBoxItem Content="{Binding Language_French}" Tag="fr" />
+                <ComboBoxItem Content="{Binding Language_German}" Tag="de" />
+                <ComboBoxItem Content="{Binding Language_Hindi}" Tag="hi" />
+                <ComboBoxItem Content="{Binding Language_Indonesian}" Tag="id" />
+                <ComboBoxItem Content="{Binding Language_Italian}" Tag="it" />
+                <ComboBoxItem Content="{Binding Language_Japanese}" Tag="ja" />
+                <ComboBoxItem Content="{Binding Language_Korean}" Tag="ko" />
+                <ComboBoxItem Content="{Binding Language_Persian}" Tag="fa" />
+                <ComboBoxItem Content="{Binding Language_Polish}" Tag="pl" />
+                <ComboBoxItem Content="{Binding Language_Portuguese}" Tag="pt" />
+                <ComboBoxItem Content="{Binding Language_Romanian}" Tag="ro" />
+                <ComboBoxItem Content="{Binding Language_Russian}" Tag="ru" />
+                <ComboBoxItem Content="{Binding Language_Spanish}" Tag="es" />
+                <ComboBoxItem Content="{Binding Language_Thai}" Tag="th" />
+                <ComboBoxItem Content="{Binding Language_Turkish}" Tag="tr" />
+                <ComboBoxItem Content="{Binding Language_Ukrainian}" Tag="uk" />
+                <ComboBoxItem Content="{Binding Language_Vietnamese}" Tag="vi" />
+            </ComboBox>
 
             <!-- Settings background -->
             <Border Grid.Column="1" Grid.Row="1" Background="DarkGray" CornerRadius="7, 0, 0, 0" />

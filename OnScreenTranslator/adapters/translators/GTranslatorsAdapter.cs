@@ -23,8 +23,8 @@
             return language.ToLower() switch
             {
                 "arabic" => "ar",
-                "chinese (simplified)" => "zh-CN",
-                "chinese (traditional)" => "zh-TW",
+                "chinese (simplified)" or "zh" => "zh-CN",
+                "chinese (traditional)" or "zt" => "zh-TW",
                 "czech" => "cs",
                 "danish" => "da",
                 "dutch" => "nl",

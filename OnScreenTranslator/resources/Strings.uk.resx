@@ -123,8 +123,95 @@
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Прибрати оверлей</value>
   </data>
+  <data name="Language_Arabic" xml:space="preserve">
+    <value>Арабська</value>
+  </data>
+  <data name="Language_Auto" xml:space="preserve">
+    <value>Автовизначення</value>
+  </data>
+  <data name="Language_Chinese_sim" xml:space="preserve">
+    <value>Китайська (спрощена)</value>
+  </data>
+  <data name="Language_Chinese_tra" xml:space="preserve">
+    <value>Китайська (традиційна)</value>
+  </data>
+  <data name="Language_Czech" xml:space="preserve">
+    <value>Чеська</value>
+  </data>
+  <data name="Language_Danish" xml:space="preserve">
+    <value>Данська</value>
+  </data>
+  <data name="Language_Dutch" xml:space="preserve">
+    <value>Нідерландська</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>Англійська</value>
+  </data>
+  <data name="Language_Finnish" xml:space="preserve">
+    <value>Фінська</value>
+  </data>
+  <data name="Language_French" xml:space="preserve">
+    <value>Французька</value>
+  </data>
+  <data name="Language_German" xml:space="preserve">
+    <value>Німецька</value>
+  </data>
+  <data name="Language_Hindi" xml:space="preserve">
+    <value>Індійська</value>
+  </data>
+  <data name="Language_Indonesian" xml:space="preserve">
+    <value>Індонезійська</value>
+  </data>
+  <data name="Language_Italian" xml:space="preserve">
+    <value>Італійська</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>Японська</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>Корейська</value>
+  </data>
+  <data name="Language_Persian" xml:space="preserve">
+    <value>Перська</value>
+  </data>
+  <data name="Language_Polish" xml:space="preserve">
+    <value>Польська</value>
+  </data>
+  <data name="Language_Portuguese" xml:space="preserve">
+    <value>Португальська</value>
+  </data>
+  <data name="Language_Romanian" xml:space="preserve">
+    <value>Румунська</value>
+  </data>
+  <data name="Language_Russian" xml:space="preserve">
+    <value>Російська</value>
+  </data>
+  <data name="Language_Spanish" xml:space="preserve">
+    <value>Іспанська</value>
+  </data>
+  <data name="Language_Thai" xml:space="preserve">
+    <value>Тайська</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>Турецька</value>
+  </data>
+  <data name="Language_Ukrainian" xml:space="preserve">
+    <value>Українська</value>
+  </data>
+  <data name="Language_Vietnamese" xml:space="preserve">
+    <value>В'єтнамська</value>
+  </data>
   <data name="LockOverlay" xml:space="preserve">
     <value>Заблокувати оверлей</value>
+  </data>
+  <data name="SelectArea" xml:space="preserve">
+    <value>Вибрати область на екрані</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Почати</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Зупинити</value>
   </data>
   <data name="UnlockOverlay" xml:space="preserve">
     <value>Розблокувати оверлей</value>

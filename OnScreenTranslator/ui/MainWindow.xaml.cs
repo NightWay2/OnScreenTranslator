@@ -167,8 +167,8 @@ namespace OnScreenTranslator.ui
             );
 
             // languages that will be used in translator
-            string source = ComBoxSourceLang.SelectedItem.ToString(); // todo change to tags
-            string target = ComBoxTargetLang.SelectedItem.ToString();
+            string source = ComBoxSourceLang.SelectedValue.ToString();
+            string target = ComBoxTargetLang.SelectedValue.ToString();
 
             Task.Run(async () =>
             {

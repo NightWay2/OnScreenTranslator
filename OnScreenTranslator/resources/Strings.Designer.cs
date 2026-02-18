@@ -79,11 +79,272 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arabic.
+        /// </summary>
+        public static string Language_Arabic {
+            get {
+                return ResourceManager.GetString("Language_Arabic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string Language_Auto {
+            get {
+                return ResourceManager.GetString("Language_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chinese (simplified).
+        /// </summary>
+        public static string Language_Chinese_sim {
+            get {
+                return ResourceManager.GetString("Language_Chinese_sim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chinise (traditional).
+        /// </summary>
+        public static string Language_Chinese_tra {
+            get {
+                return ResourceManager.GetString("Language_Chinese_tra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Czech.
+        /// </summary>
+        public static string Language_Czech {
+            get {
+                return ResourceManager.GetString("Language_Czech", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danish.
+        /// </summary>
+        public static string Language_Danish {
+            get {
+                return ResourceManager.GetString("Language_Danish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dutch.
+        /// </summary>
+        public static string Language_Dutch {
+            get {
+                return ResourceManager.GetString("Language_Dutch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string Language_English {
+            get {
+                return ResourceManager.GetString("Language_English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finnish.
+        /// </summary>
+        public static string Language_Finnish {
+            get {
+                return ResourceManager.GetString("Language_Finnish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to French.
+        /// </summary>
+        public static string Language_French {
+            get {
+                return ResourceManager.GetString("Language_French", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to German.
+        /// </summary>
+        public static string Language_German {
+            get {
+                return ResourceManager.GetString("Language_German", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hindi.
+        /// </summary>
+        public static string Language_Hindi {
+            get {
+                return ResourceManager.GetString("Language_Hindi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indonesian.
+        /// </summary>
+        public static string Language_Indonesian {
+            get {
+                return ResourceManager.GetString("Language_Indonesian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Italian.
+        /// </summary>
+        public static string Language_Italian {
+            get {
+                return ResourceManager.GetString("Language_Italian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Japanese.
+        /// </summary>
+        public static string Language_Japanese {
+            get {
+                return ResourceManager.GetString("Language_Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Korean.
+        /// </summary>
+        public static string Language_Korean {
+            get {
+                return ResourceManager.GetString("Language_Korean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Persian.
+        /// </summary>
+        public static string Language_Persian {
+            get {
+                return ResourceManager.GetString("Language_Persian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polish.
+        /// </summary>
+        public static string Language_Polish {
+            get {
+                return ResourceManager.GetString("Language_Polish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portuguese.
+        /// </summary>
+        public static string Language_Portuguese {
+            get {
+                return ResourceManager.GetString("Language_Portuguese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Romanian.
+        /// </summary>
+        public static string Language_Romanian {
+            get {
+                return ResourceManager.GetString("Language_Romanian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Russian.
+        /// </summary>
+        public static string Language_Russian {
+            get {
+                return ResourceManager.GetString("Language_Russian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spanish.
+        /// </summary>
+        public static string Language_Spanish {
+            get {
+                return ResourceManager.GetString("Language_Spanish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thai.
+        /// </summary>
+        public static string Language_Thai {
+            get {
+                return ResourceManager.GetString("Language_Thai", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turkish.
+        /// </summary>
+        public static string Language_Turkish {
+            get {
+                return ResourceManager.GetString("Language_Turkish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ukrainian.
+        /// </summary>
+        public static string Language_Ukrainian {
+            get {
+                return ResourceManager.GetString("Language_Ukrainian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vietnamese.
+        /// </summary>
+        public static string Language_Vietnamese {
+            get {
+                return ResourceManager.GetString("Language_Vietnamese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lock Overlay.
         /// </summary>
         public static string LockOverlay {
             get {
                 return ResourceManager.GetString("LockOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Area On Screen.
+        /// </summary>
+        public static string SelectArea {
+            get {
+                return ResourceManager.GetString("SelectArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        public static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
             }
         }
         
