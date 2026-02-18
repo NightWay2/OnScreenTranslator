@@ -2,19 +2,20 @@
 {
     internal class GTranslatorsAdapter : ITranslator
     {
-        private GTranslate.Translators.ITranslator translator;
+        private GTranslate.Translators.ITranslator _translator;
 
         public GTranslatorsAdapter(GTranslate.Translators.ITranslator translator)
         {
-            this.translator = translator;
+            _translator = translator;
         }
 
         public async Task<string> TranslateAsync(string textToTranslate, string source, string target, string apiKey)
         {
             source = GetLanguageCode(source);
             target = GetLanguageCode(target);
-
-            var result = await translator.TranslateAsync(textToTranslate, target, source);
+            if (source == "auto")
+                source = null;
+            var result = await _translator.TranslateAsync(textToTranslate, target, source);
             return result.Translation;
         }
 
@@ -22,10 +23,10 @@
         {
             return language.ToLower() switch
             {
-                "arabic" => "ar",
-                "chinese (simplified)" or "zh" => "zh-CN",
-                "chinese (traditional)" or "zt" => "zh-TW",
-                "czech" => "cs",
+                //"arabic" => "ar",
+                /*"chinese (simplified)" or */"zh" => "zh-CN",
+                /*"chinese (traditional)" or */"zt" => "zh-TW",
+                /*"czech" => "cs",
                 "danish" => "da",
                 "dutch" => "nl",
                 "english" => "en",
@@ -46,9 +47,14 @@
                 "thai" => "th",
                 "turkish" => "tr",
                 "ukrainian" => "uk",
-                "vietnamese" => "vi",
+                "vietnamese" => "vi",*/
                 _ => language
             };
+        }
+
+        public void Dispose()
+        {
+            Dispose();
         }
     }
 }

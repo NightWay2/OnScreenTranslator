@@ -5,7 +5,7 @@ namespace OnScreenTranslator.settings
     internal class SettingsManager
     {
         private static SettingsManager? _instance;
-        private string localization;
+        private string _localization;
 
         private SettingsManager() { }
 
@@ -19,11 +19,12 @@ namespace OnScreenTranslator.settings
         // todo all stuff like reading conf file and set def params
         public void Init(MainWindow mainWindow)
         {
-            mainWindow.ComBoxSourceLang.SelectedValue = "en"; // default Eng index
-            mainWindow.ComBoxTargetLang.SelectedValue = "uk"; // default Ukr index
+            mainWindow.ComBoxSourceLang.SelectedValue = "en";
+            mainWindow.ComBoxTargetLang.SelectedValue = "uk";
 
+            // todo mb add sorting for diff langs
             LocalizationManager.GetInstance().SetLanguage("uk");
-            mainWindow.ComBoxLocalization.SelectedValue = "uk"; // default ukr index
+            mainWindow.ComBoxLocalization.SelectedValue = "uk";
         }
 
         public string GetLocalizationLanguage()

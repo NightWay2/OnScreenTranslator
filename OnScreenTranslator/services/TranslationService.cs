@@ -4,16 +4,21 @@ namespace OnScreenTranslator.services
 {
     internal class TranslationService
     {
-        private ITranslator translator;
+        private ITranslator _translator;
 
         public TranslationService(ITranslator translator)
         {
-            this.translator = translator;
+            _translator = translator;
         }
 
         public async Task<string> TranslateAsync(string textToTranslate, string source, string target, string apiKey = "")
         {
-            return await translator.TranslateAsync(textToTranslate, source, target, apiKey);
+            return await _translator.TranslateAsync(textToTranslate, source, target, apiKey);
+        }
+
+        public void Dispose()
+        {
+            _translator.Dispose();
         }
     }
 }

@@ -13,15 +13,11 @@ namespace OnScreenTranslator.adapters.translators
             HttpClient = new HttpClient()
             {
                 BaseAddress = new Uri(url),
-                Timeout = TimeSpan.FromSeconds(45)
             };
         }
 
         public async Task<string> TranslateAsync(string textToTranslate, string source, string target, string apiKey)
         {
-            source = GetLanguageCode(source);
-            target = GetLanguageCode(target);
-
             var formUrlEncodedContent = new FormUrlEncodedContent(new Dictionary<string, string>()
             {
                 { "q", textToTranslate },
@@ -44,37 +40,10 @@ namespace OnScreenTranslator.adapters.translators
             return string.Empty;
         }
 
-        private string GetLanguageCode(string language)
+        public void Dispose()
         {
-            return language.ToLower() switch
-            {
-                "arabic" => "ar",
-                "chinese (simplified)" => "zh",
-                "chinese (traditional)" => "zt",
-                "czech" => "cs",
-                "danish" => "da",
-                "dutch" => "nl",
-                "english" => "en",
-                "finnish" => "fi",
-                "french" => "fr",
-                "german" => "de",
-                "hindi" => "hi",
-                "indonesian" => "id",
-                "italian" => "it",
-                "japanese" => "ja",
-                "korean" => "ko",
-                "persian" => "fa",
-                "polish" => "pl",
-                "portuguese" => "pt",
-                "romanian" => "ro",
-                "russian" => "ru",
-                "spanish" => "es",
-                "thai" => "th",
-                "turkish" => "tr",
-                "ukrainian" => "uk",
-                "vietnamese" => "vi",
-                _ => language
-            };
+            HttpClient?.Dispose();
+            Dispose();
         }
     }
 }

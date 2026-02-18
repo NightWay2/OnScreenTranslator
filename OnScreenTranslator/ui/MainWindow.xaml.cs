@@ -1,6 +1,5 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
 using OnScreenTranslator.adapters.translators;
-using OnScreenTranslator.resources;
 using OnScreenTranslator.services;
 using OnScreenTranslator.settings;
 using OnScreenTranslator.win32;
@@ -13,12 +12,14 @@ using System.Windows.Threading;
 
 namespace OnScreenTranslator.ui
 {
-    // todo hide prpogram in tray
+    // todo mb hide prpogram in tray
     // todo add hide button (mb custom buttons for exit and hide)
-    // todo add scale option (100%, 125%, 150%)
-    // todo add localization
-    // add posibility use in ocr mode
-    // mb add possibility to copy text in unlocked mode
+    // todo mb add scale option (100%, 125%, 150%)
+
+    // todo add hint text in buttons on hover (long hover)
+    // todo add guide how to use + hotkeys
+
+    // todo mb save location of overlay
     public partial class MainWindow : Window
     {
         private OverlayWindow? _overlayWindow;
@@ -32,7 +33,8 @@ namespace OnScreenTranslator.ui
         private CancellationTokenSource? _translationCts;
         private bool _isTranslationRunning = false;
         private const int TRANSLATION_INTERVAL_MS = 10000; // min ~1000
-        private string _previousText = ""; // todo : control this var, if we destroy overlay and return it without visible text it prevent translation
+        private string _previousText = "";
+        private string _previousTranslatedText = "";
         private string _previousSourceLang = "";
         private string _previousTargetLang = "";
 
@@ -55,8 +57,6 @@ namespace OnScreenTranslator.ui
             InitializeComponent();
 
             SettingsManager.GetInstance().Init(this);
-
-            //MessageBox.Show(ComBoxSourceLang.SelectedItem.ToString());
         }
 
         private void CreateOverlayWindow(object sender, RoutedEventArgs e)
@@ -66,7 +66,7 @@ namespace OnScreenTranslator.ui
 
             _overlayWindow = new OverlayWindow();
             _overlayWindow.Closed += OverlayWindow_Closed;
-            _overlayWindow.TxtOverlay.Text = _previousText;
+            _overlayWindow.TxtOverlay.Text = _previousTranslatedText;
             _overlayWindow.Show();
 
             TlgBtnOverlayLockUnlock.IsEnabled = true;
@@ -154,10 +154,7 @@ namespace OnScreenTranslator.ui
             _translationCts = new CancellationTokenSource();
             var token = _translationCts.Token;
 
-            // todo
-            // зробити метод, який буде викликатися на початку роботи програми в якому будуть
-            // ініціалізовуватися необхідні сервіси
-            // (поки ініціалізовуються тут)
+            // todo add possibility to change translator !!!!!!!!!!!!!!!!!
             _ocrService = new OcrService(new OneOcrAdapter());
             _translationService = new TranslationService(
                 TranslatorFactory.GetTranslator(
@@ -219,6 +216,7 @@ namespace OnScreenTranslator.ui
                             string translated = source == target ? text : await _translationService.TranslateAsync(
                                 text, source, target // todo mb add api
                             );
+                            _previousTranslatedText = translated;
 
                             // update text in overlay
                             Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
@@ -242,6 +240,7 @@ namespace OnScreenTranslator.ui
                 }
                 finally
                 {
+                    _translationService?.Dispose();
                     // release lock
                     _isTranslationRunning = false;
                     Dispatcher.Invoke(() => TlgBtnStartStopTranslation.IsChecked = false);
@@ -278,6 +277,7 @@ namespace OnScreenTranslator.ui
             TlgBtnOverlayLockUnlock.IsChecked = false;
         }
 
+        // todo mb add sorting for diff langs
         private void LocalizationChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ComBoxLocalization.SelectedItem is ComboBoxItem item)
@@ -287,7 +287,6 @@ namespace OnScreenTranslator.ui
             }
         }
 
-        // todo add posoibility of changing hotkeys
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -425,29 +424,13 @@ namespace OnScreenTranslator.ui
         }
     }
 
-    // add Language class with supported langs
-
-    // think about multithreading
-
-    // mb hide overlay window while doing screenshot & delete screenshot?
-    // add setting of selecting monitor ?
-
-    // Add settings logic with all necessary checks
-    // Fix OverlayWindow transparency, add textblock or text field to provide text on, add clicking through window
-    // Think about binding and how it can be used in this project
-    // Think about different hot keys
-    // mb animations
-    // download tesseract +
-    // mb rename all methods with more appropriate 
     // mb add button restore to defaults 
-    // mb tray icon
+    // todo add settings
 
     // add user entered seconds for delay before each translation
     // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
-    // add other free translators
-    // check if overlay lies in selected area, to not hide it
-    // add posibility to translate only one time, and repeatedly
+    // mb add posibility to translate only one time, and repeatedly
 
     // docker compose: add only supported languages
 }

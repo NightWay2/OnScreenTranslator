@@ -139,5 +139,4 @@ namespace OnScreenTranslator.adapters.ocrs
         [LibraryImport("oneocr.dll")]
         public static partial long GetOcrLineContent(long line, out IntPtr content);
     }
-
 }

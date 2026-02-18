@@ -5,16 +5,16 @@ namespace OnScreenTranslator.services
 {
     internal class OcrService
     {
-        private IOcr ocr;
+        private IOcr _ocr;
 
         public OcrService(IOcr ocr) 
         {
-            this.ocr = ocr;
+            _ocr = ocr;
         }
 
         public string GetTextFromImage(Bitmap bitmap)
         {
-            return ocr.GetTextFromImage(bitmap);
+            return _ocr.GetTextFromImage(bitmap);
         }
     }
 }

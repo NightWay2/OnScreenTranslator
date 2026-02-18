@@ -9,6 +9,76 @@
         ResizeMode="CanMinimize"
         Title="OnScreenTranslator" Height="450" Width="800" ThemeMode="Dark" MinHeight="450" MinWidth="800">
 
+    <Window.Resources>
+        <Style TargetType="ToggleButton">
+            <Setter Property="Background" Value="#2D2D2D" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#15FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI" />
+            <Setter Property="Padding" Value="5,6" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="4"
+                            SnapsToDevicePixels="True">
+                            <Viewbox Stretch="Uniform" StretchDirection="DownOnly" Margin="{TemplateBinding Padding}">
+                                <ContentPresenter x:Name="contentPresenter" 
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center">
+                                    <ContentPresenter.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                            <!-- Change if button width is changed !!!!! -->
+                                            <Setter Property="MaxWidth" Value="110"/>
+                                        </Style>
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
+                            </Viewbox>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#323232" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#25FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#33000000" />
+                                <Setter Property="Foreground" Value="Black" />
+                                <!-- Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" / -->
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsChecked" Value="True" />
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}" />
+                                <Setter TargetName="border" Property="Opacity" Value="0.9" />
+                            </MultiTrigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.97" ScaleY="0.97" CenterX="60" CenterY="27"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <!-- Left menu for overlay stuff -->
         <Grid.ColumnDefinitions>
@@ -18,7 +88,7 @@
 
         <!-- Toggle button to create and destroy overlay window -->
         <ToggleButton Name="TlgBtnOverlayCreateDestroy" Height="55" Width="120" 
-                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0"
+                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 25 0 0"
                       Checked="CreateOverlayWindow" Unchecked="DestroyOverlayWindow"
                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center" >
             <ToggleButton.Style>
@@ -35,7 +105,7 @@
 
         <!-- Toggle button to lock and unlock overlay window -->
         <ToggleButton Name="TlgBtnOverlayLockUnlock" Height="55" Width="120" 
-                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,105,0,0" IsEnabled="False" 
+                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 105 0 0" IsEnabled="False" 
                       Checked="LockOverlayWindow" Unchecked="UnlockOverlayWindow" >
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}" >
@@ -51,13 +121,13 @@
 
         <!-- Button for selecting area to translate from -->
         <Button Name="BtnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
-                Margin="0,185,0,0" Click="SelectAreaOnScreen" >
+                Margin="0 185 0 0" Click="SelectAreaOnScreen" >
             <TextBlock Text="{Binding SelectArea}" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
         <!-- Button to open settings -->
         <Button Name="BtnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
-            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,60" />
+            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 60" />
 
         <ComboBox Name="ComBoxLocalization" Height="25" Width="120" VerticalAlignment="Bottom" SelectedValuePath="Tag"
                   HorizontalAlignment="Center" Margin="0 0 0 10" SelectionChanged="LocalizationChanged" >
@@ -152,7 +222,6 @@
             <!-- Settings background -->
             <Border Grid.Column="1" Grid.Row="1" Background="DarkGray" CornerRadius="7, 0, 0, 0" />
         </Grid>
-
-
     </Grid>
+    
 </Window>

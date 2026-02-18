@@ -7,8 +7,8 @@ namespace OnScreenTranslator.ui
 {
     public partial class AreaSelectionWindow : Window
     {
-        private Point startPoint;
-        private bool isSelecting;
+        private Point _startPoint;
+        private bool _isSelecting;
         public Rect SelectedArea { get; private set; }
 
         public AreaSelectionWindow()
@@ -42,27 +42,27 @@ namespace OnScreenTranslator.ui
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            startPoint = e.GetPosition(this);
-            isSelecting = true;
+            _startPoint = e.GetPosition(this);
+            _isSelecting = true;
 
             SelectionRect.Visibility = Visibility.Visible;
-            Canvas.SetLeft(SelectionRect, startPoint.X);
-            Canvas.SetTop(SelectionRect, startPoint.Y);
+            Canvas.SetLeft(SelectionRect, _startPoint.X);
+            Canvas.SetTop(SelectionRect, _startPoint.Y);
             SelectionRect.Width = 0;
             SelectionRect.Height = 0;
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (!isSelecting)
+            if (!_isSelecting)
                 return;
 
             Point current = e.GetPosition(this);
 
-            double x = Math.Min(current.X, startPoint.X);
-            double y = Math.Min(current.Y, startPoint.Y);
-            double w = Math.Abs(current.X - startPoint.X);
-            double h = Math.Abs(current.Y - startPoint.Y);
+            double x = Math.Min(current.X, _startPoint.X);
+            double y = Math.Min(current.Y, _startPoint.Y);
+            double w = Math.Abs(current.X - _startPoint.X);
+            double h = Math.Abs(current.Y - _startPoint.Y);
 
             Canvas.SetLeft(SelectionRect, x);
             Canvas.SetTop(SelectionRect, y);
@@ -72,9 +72,9 @@ namespace OnScreenTranslator.ui
 
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            isSelecting = false;
+            _isSelecting = false;
 
-            Point p1 = PointToScreen(startPoint);
+            Point p1 = PointToScreen(_startPoint);
             Point p2 = PointToScreen(e.GetPosition(this));
 
             double x = Math.Min(p1.X, p2.X);

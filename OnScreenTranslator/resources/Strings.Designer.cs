@@ -322,7 +322,7 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select Area On Screen.
+        ///   Looks up a localized string similar to Select Area To Translate From.
         /// </summary>
         public static string SelectArea {
             get {
