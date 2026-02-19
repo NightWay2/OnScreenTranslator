@@ -15,10 +15,5 @@ namespace OnScreenTranslator.services
         {
             return await _translator.TranslateAsync(textToTranslate, source, target, apiKey);
         }
-
-        public void Dispose()
-        {
-            _translator.Dispose();
-        }
     }
 }

@@ -37,6 +37,9 @@ namespace OnScreenTranslator.ui
         private string _previousTranslatedText = "";
         private string _previousSourceLang = "";
         private string _previousTargetLang = "";
+        private DispatcherTimer? _countdownTimer;
+        private int _secondsRemaining;
+        private bool _isHotkeyCall = false;
 
         // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
@@ -66,7 +69,10 @@ namespace OnScreenTranslator.ui
 
             _overlayWindow = new OverlayWindow();
             _overlayWindow.Closed += OverlayWindow_Closed;
-            _overlayWindow.TxtOverlay.Text = _previousTranslatedText;
+            if (_previousTranslatedText != "")
+                _overlayWindow.TxtOverlay.Text = _previousTranslatedText;
+            else
+                _overlayWindow.TxtOverlay.Visibility = Visibility.Hidden;
             _overlayWindow.Show();
 
             TlgBtnOverlayLockUnlock.IsEnabled = true;
@@ -95,6 +101,7 @@ namespace OnScreenTranslator.ui
             _overlayWindow?.DisableLockMode();
         }
 
+        // todo fix memory leak when create some windows here
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
             _isSelectingArea = true;
@@ -106,6 +113,7 @@ namespace OnScreenTranslator.ui
                 {
                     TlgBtnStartStopTranslation.IsChecked = false;
                     StopTranslationLoop();
+                    ResetCountdown();
                 }
                 AreaSelectionWindow selector = new AreaSelectionWindow();
                 if (selector.ShowDialog() == true)
@@ -120,6 +128,7 @@ namespace OnScreenTranslator.ui
                 if (wasTranslationRunning)
                 {
                     TlgBtnStartStopTranslation.IsChecked = true;
+                    ResetCountdown();
                     StartTranslationLoop();
                 }
             }
@@ -130,14 +139,53 @@ namespace OnScreenTranslator.ui
          */
         private void StartStopTranslation(object sender, RoutedEventArgs e) // todo mb add timer before start
         {
+            if (_isHotkeyCall) return;
+
             if (TlgBtnStartStopTranslation.IsChecked == true)
             {
-                StartTranslationLoop();
+                //StartTranslationLoop();
+                StartCountdown(3);
             }
             else
             {
                 StopTranslationLoop();
+                ResetCountdown();
             }
+        }
+
+        private void StartCountdown(int seconds)
+        {
+            ResetCountdown();
+
+            _secondsRemaining = seconds;
+            TlgBtnStartStopTranslation.IsEnabled = false;
+
+            _countdownTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            _countdownTimer.Tick += (s, e) =>
+            {
+                _secondsRemaining--;
+                if (_secondsRemaining > 0)
+                {
+                    TlgBtnStartStopTranslation.Content = _secondsRemaining.ToString();
+                }
+                else
+                {
+                    ResetCountdown();
+                    StartTranslationLoop();
+                }
+            };
+
+            TlgBtnStartStopTranslation.Content = _secondsRemaining.ToString();
+            _countdownTimer.Start();
+        }
+
+        private void ResetCountdown()
+        {
+            _countdownTimer?.Stop();
+            _countdownTimer = null;
+
+            TlgBtnStartStopTranslation.IsEnabled = _selectedScreenArea != null;
+            TlgBtnStartStopTranslation.ClearValue(ContentProperty);
         }
 
         // todo mb add default param to check if we call method using hotkey to create notification
@@ -219,7 +267,11 @@ namespace OnScreenTranslator.ui
                             _previousTranslatedText = translated;
 
                             // update text in overlay
-                            Dispatcher.Invoke(() => _overlayWindow?.TxtOverlay.Text = translated);
+                            Dispatcher.Invoke(() =>
+                            {
+                                _overlayWindow?.TxtOverlay.Visibility = Visibility.Visible;
+                                _overlayWindow?.TxtOverlay.Text = translated;
+                            });
                         }
 
                         await Task.Delay(TRANSLATION_INTERVAL_MS, token);
@@ -240,7 +292,6 @@ namespace OnScreenTranslator.ui
                 }
                 finally
                 {
-                    _translationService?.Dispose();
                     // release lock
                     _isTranslationRunning = false;
                     Dispatcher.Invoke(() => TlgBtnStartStopTranslation.IsChecked = false);
@@ -256,12 +307,15 @@ namespace OnScreenTranslator.ui
 
         private void LanguageIsChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (TlgBtnStartStopTranslation == null) return;
+
             // call setting manager and set new params
             if (TlgBtnStartStopTranslation.IsChecked == true)
             {
                 TlgBtnStartStopTranslation.IsChecked = false;
                 StopTranslationLoop();
             }
+            ResetCountdown();
         }
 
         /*
@@ -336,21 +390,24 @@ namespace OnScreenTranslator.ui
                     case START_STOP_TRANSLATION_HOTKEY_ID:
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            if (!_isSelectingArea)
+                            if (!_isSelectingArea && TlgBtnStartStopTranslation.IsEnabled == true)
                             {
-                                if (TlgBtnStartStopTranslation.IsEnabled == true)
+                                _isHotkeyCall = true;
+
+                                if (TlgBtnStartStopTranslation.IsChecked == false)
                                 {
-                                    if (TlgBtnStartStopTranslation.IsChecked == false)
-                                    {
-                                        TlgBtnStartStopTranslation.IsChecked = true;
-                                        StartTranslationLoop();
-                                    }
-                                    else
-                                    {
-                                        TlgBtnStartStopTranslation.IsChecked = false;
-                                        StopTranslationLoop();
-                                    }
+                                    TlgBtnStartStopTranslation.IsChecked = true;
+                                    ResetCountdown();
+                                    StartTranslationLoop();
                                 }
+                                else
+                                {
+                                    TlgBtnStartStopTranslation.IsChecked = false;
+                                    StopTranslationLoop();
+                                    ResetCountdown();
+                                }
+
+                                _isHotkeyCall = false;
                             }
                         }));
 

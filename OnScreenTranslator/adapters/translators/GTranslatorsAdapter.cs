@@ -51,10 +51,5 @@
                 _ => language
             };
         }
-
-        public void Dispose()
-        {
-            Dispose();
-        }
     }
 }
