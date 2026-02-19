@@ -20,13 +20,32 @@ namespace OnScreenTranslator.ui
     // todo add guide how to use + hotkeys
 
     // todo mb save location of overlay
+
+    // todo add settings:
+    // add translation_interval_ms to settings (can`t be 0 or less)
+    // add _countdownTime to settings (can`t be less than 0)
+    // add overlay transparency in lock mode (0 to 100 %)
+    // add overlay font size (mb 12 and other)
+    // add overlay font color
+    // todo save file (prev and below):
+    // mb add overlay last overlay
+    // langs and translator
+    // localization
+
+    // mb add button restore to defaults 
+
+    // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
+
+    // mb add posibility to translate only one time, and repeatedly
+
+    // docker compose: add only supported languages
     public partial class MainWindow : Window
     {
         private OverlayWindow? _overlayWindow;
         private Rect? _selectedScreenArea;
         private bool _isSelectingArea = false;
 
-        private OcrService? _ocrService;
+        private OcrService? _ocrService = new OcrService(new OneOcrAdapter());
         private TranslationService? _translationService;
 
         // Translation related vars
@@ -40,6 +59,7 @@ namespace OnScreenTranslator.ui
         private DispatcherTimer? _countdownTimer;
         private int _secondsRemaining;
         private bool _isHotkeyCall = false;
+        private int _countdownTime = 3;
 
         // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
@@ -101,7 +121,6 @@ namespace OnScreenTranslator.ui
             _overlayWindow?.DisableLockMode();
         }
 
-        // todo fix memory leak when create some windows here
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
             _isSelectingArea = true;
@@ -121,6 +140,7 @@ namespace OnScreenTranslator.ui
                     _selectedScreenArea = selector.SelectedArea;
                     TlgBtnStartStopTranslation.IsEnabled = true;
                 }
+                selector.Close();
             }
             finally
             {
@@ -137,14 +157,14 @@ namespace OnScreenTranslator.ui
         /*
          * Translation logic
          */
-        private void StartStopTranslation(object sender, RoutedEventArgs e) // todo mb add timer before start
+        private void StartStopTranslation(object sender, RoutedEventArgs e)
         {
             if (_isHotkeyCall) return;
 
             if (TlgBtnStartStopTranslation.IsChecked == true)
             {
                 //StartTranslationLoop();
-                StartCountdown(3);
+                StartCountdown(_countdownTime);
             }
             else
             {
@@ -203,7 +223,6 @@ namespace OnScreenTranslator.ui
             var token = _translationCts.Token;
 
             // todo add possibility to change translator !!!!!!!!!!!!!!!!!
-            _ocrService = new OcrService(new OneOcrAdapter());
             _translationService = new TranslationService(
                 TranslatorFactory.GetTranslator(
                     Translators.LibreTranslator,
@@ -480,14 +499,4 @@ namespace OnScreenTranslator.ui
             base.OnClosed(e);
         }
     }
-
-    // mb add button restore to defaults 
-    // todo add settings
-
-    // add user entered seconds for delay before each translation
-    // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
-
-    // mb add posibility to translate only one time, and repeatedly
-
-    // docker compose: add only supported languages
 }
