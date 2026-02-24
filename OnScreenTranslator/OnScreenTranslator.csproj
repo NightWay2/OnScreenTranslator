@@ -12,8 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\change_languages.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GTranslate" Version="2.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="resources\change_languages.png" />
   </ItemGroup>
 
   <ItemGroup>

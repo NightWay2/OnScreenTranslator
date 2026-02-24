@@ -13,7 +13,6 @@ using System.Windows.Threading;
 namespace OnScreenTranslator.ui
 {
     // todo mb hide prpogram in tray
-    // todo add hide button (mb custom buttons for exit and hide)
     // todo mb add scale option (100%, 125%, 150%)
 
     // todo add hint text in buttons on hover (long hover)
@@ -34,7 +33,7 @@ namespace OnScreenTranslator.ui
     // langs and translator
     // localization
 
-    // mb add button restore to defaults 
+    // todo add button restore to defaults and aplly settings !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
@@ -326,19 +325,6 @@ namespace OnScreenTranslator.ui
             _translationCts = null;
         }
 
-        private void LanguageIsChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (TlgBtnStartStopTranslation == null) return;
-
-            // call setting manager and set new params
-            if (TlgBtnStartStopTranslation.IsChecked == true)
-            {
-                TlgBtnStartStopTranslation.IsChecked = false;
-                StopTranslationLoop();
-            }
-            ResetCountdown();
-        }
-
         /*
          * METHODS THAT PROVIDE NON-MAIN LOGIC
          */
@@ -352,6 +338,19 @@ namespace OnScreenTranslator.ui
             TlgBtnOverlayLockUnlock.IsChecked = false;
         }
 
+        private void LanguageIsChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TlgBtnStartStopTranslation == null) return;
+
+            // todo call setting manager and set new params
+            if (TlgBtnStartStopTranslation.IsChecked == true)
+            {
+                TlgBtnStartStopTranslation.IsChecked = false;
+                StopTranslationLoop();
+            }
+            ResetCountdown();
+        }
+
         // todo mb add sorting for diff langs
         private void LocalizationChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -360,6 +359,23 @@ namespace OnScreenTranslator.ui
                 string langCode = item.Tag.ToString();
                 LocalizationManager.GetInstance().SetLanguage(langCode);
             }
+        }
+
+        private void SwitchLanguages(object sender, RoutedEventArgs e)
+        {
+            if (ComBoxSourceLang.SelectedValue.ToString() == "auto") return;
+
+            string temp = ComBoxSourceLang.SelectedValue.ToString();
+            ComBoxSourceLang.SelectedValue = ComBoxTargetLang.SelectedValue;
+            ComBoxTargetLang.SelectedValue = temp;
+
+            // todo call setting manager and set new params
+            if (TlgBtnStartStopTranslation.IsChecked == true)
+            {
+                TlgBtnStartStopTranslation.IsChecked = false;
+                StopTranslationLoop();
+            }
+            ResetCountdown();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
