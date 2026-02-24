@@ -123,6 +123,9 @@
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Прибрати оверлей</value>
   </data>
+  <data name="Guide" xml:space="preserve">
+    <value>Посібник</value>
+  </data>
   <data name="Language_Arabic" xml:space="preserve">
     <value>Арабська</value>
   </data>
@@ -201,11 +204,17 @@
   <data name="Language_Vietnamese" xml:space="preserve">
     <value>В'єтнамська</value>
   </data>
+  <data name="LocalizationLabel" xml:space="preserve">
+    <value>Мова інтерфейсу</value>
+  </data>
   <data name="LockOverlay" xml:space="preserve">
-    <value>Заблокувати оверлей</value>
+    <value>Закріпити оверлей</value>
   </data>
   <data name="SelectArea" xml:space="preserve">
     <value>Вибрати область для перекладу</value>
+  </data>
+  <data name="SourceLangLabel" xml:space="preserve">
+    <value>Мова оригіналу</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Почати</value>
@@ -213,7 +222,13 @@
   <data name="Stop" xml:space="preserve">
     <value>Зупинити</value>
   </data>
+  <data name="TargetLangLabel" xml:space="preserve">
+    <value>Мова перекладу</value>
+  </data>
+  <data name="TranslatorSettings" xml:space="preserve">
+    <value>Параметри перекладача</value>
+  </data>
   <data name="UnlockOverlay" xml:space="preserve">
-    <value>Розблокувати оверлей</value>
+    <value>Відкріпити оверлей</value>
   </data>
 </root>

@@ -6,8 +6,10 @@
         xmlns:local="clr-namespace:OnScreenTranslator.ui"
         DataContext="{StaticResource Loc}"
         mc:Ignorable="d"
-        ResizeMode="CanMinimize"
-        Title="OnScreenTranslator" Height="450" Width="800" ThemeMode="Dark" MinHeight="450" MinWidth="800">
+        ResizeMode="CanResize"
+        Background="#1C1C1C"
+        ThemeMode="Dark"
+        Title="OnScreenTranslator" Height="490" Width="800" MinHeight="490" MinWidth="800">
 
     <Window.Resources>
         <Style TargetType="ToggleButton">
@@ -35,7 +37,6 @@
                                         <Style TargetType="TextBlock">
                                             <Setter Property="TextWrapping" Value="Wrap"/>
                                             <Setter Property="TextAlignment" Value="Center"/>
-                                            <!-- Change if button width is changed !!!!! -->
                                             <Setter Property="MaxWidth" Value="110"/>
                                         </Style>
                                     </ContentPresenter.Resources>
@@ -51,7 +52,6 @@
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}" />
                                 <Setter TargetName="border" Property="BorderBrush" Value="#33000000" />
                                 <Setter Property="Foreground" Value="Black" />
-                                <!-- Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" / -->
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -77,6 +77,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#2D2D2D" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#15FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI" />
+            <Setter Property="Padding" Value="5,6" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#323232" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#25FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -87,7 +115,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Toggle button to create and destroy overlay window -->
-        <ToggleButton Name="TlgBtnOverlayCreateDestroy" Height="55" Width="120" 
+        <ToggleButton Name="TlgBtnOverlayCreateDestroy" Height="55" Width="140" 
                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 25 0 0"
                       Checked="CreateOverlayWindow" Unchecked="DestroyOverlayWindow"
                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center" >
@@ -104,7 +132,7 @@
         </ToggleButton>
 
         <!-- Toggle button to lock and unlock overlay window -->
-        <ToggleButton Name="TlgBtnOverlayLockUnlock" Height="55" Width="120" 
+        <ToggleButton Name="TlgBtnOverlayLockUnlock" Height="55" Width="140" 
                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 105 0 0" IsEnabled="False" 
                       Checked="LockOverlayWindow" Unchecked="UnlockOverlayWindow" >
             <ToggleButton.Style>
@@ -120,17 +148,33 @@
         </ToggleButton>
 
         <!-- Button for selecting area to translate from -->
-        <Button Name="BtnAreaSelection" Height="55" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" 
+        <Button Name="BtnAreaSelection" Height="55" Width="140" HorizontalAlignment="Center" VerticalAlignment="Top" 
                 Margin="0 185 0 0" Click="SelectAreaOnScreen" >
             <TextBlock Text="{Binding SelectArea}" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
-        <!-- Button to open settings -->
-        <Button Name="BtnSettingsOpen" Content="Translator Settings" Height="55" Width="120" 
-            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 60" />
+        <!-- Line over localization section -->
+        <Border VerticalAlignment="Bottom" Margin="0 0 0 195" Background="#2D2D2D" Height="1" />
 
-        <ComboBox Name="ComBoxLocalization" Height="25" Width="120" VerticalAlignment="Bottom" SelectedValuePath="Tag"
-                  HorizontalAlignment="Center" Margin="0 0 0 10" SelectionChanged="LocalizationChanged" >
+        <!-- Button to open guide -->
+        <Button Name="BtnGuideOpen" Content="{Binding Guide}" Height="35" Width="160" 
+            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 145" />
+        
+        <!-- Button to open settings -->
+        <Button Name="BtnSettingsOpen" Content="{Binding TranslatorSettings}" Height="35" Width="160" 
+            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 90" />
+
+        <!-- Line over localization section -->
+        <Border VerticalAlignment="Bottom" Margin="0 0 0 75" Background="#2D2D2D" Height="1" />
+
+        <!-- Localization label -->
+        <TextBlock x:Name="TxtLocalizationLabel" Text="{Binding LocalizationLabel}" HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom" Margin="10 0 0 50" Foreground="White" FontWeight="Bold" />
+
+        <!-- Localization combo box -->
+        <ComboBox Name="ComBoxLocalization" Height="25" Width="160" VerticalAlignment="Bottom" SelectedValuePath="Tag"
+                  HorizontalAlignment="Center" Margin="0 0 0 10" SelectionChanged="LocalizationChanged" Background="#2D2D2D"
+                  Focusable="False" >
             <ComboBoxItem Content="English" Tag="en" />
             <ComboBoxItem Content="Українська" Tag="uk" />
         </ComboBox>
@@ -158,9 +202,16 @@
                 </ToggleButton.Style>
             </ToggleButton>
 
+            <!-- Source lang label -->
+            <TextBlock x:Name="TxtSourceLangLabel" Text="{Binding SourceLangLabel}" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Margin="0 0 320 40" Foreground="White" FontWeight="Bold"
+                       TextAlignment="Left" Width="180" />
+
+            <!-- Source combo box -->
             <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxSourceLang" Height="30" Width="180" 
-                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 320 0" 
-                      SelectionChanged="LanguageIsChanged" SelectedValuePath="Tag" >
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 320 0" 
+                      SelectionChanged="LanguageIsChanged" SelectedValuePath="Tag" Background="#2D2D2D"
+                      Focusable="False" >
                 <ComboBoxItem Content="{Binding Language_Auto}" Tag="auto" />
                 <ComboBoxItem Content="{Binding Language_Arabic}" Tag="ar" />
                 <ComboBoxItem Content="{Binding Language_Chinese_sim}" Tag="zh" />
@@ -189,9 +240,16 @@
                 <ComboBoxItem Content="{Binding Language_Vietnamese}" Tag="vi" />
             </ComboBox>
 
+            <!-- Target lang label -->
+            <TextBlock x:Name="TxtTargetLangLabel" Text="{Binding TargetLangLabel}" HorizontalAlignment="Center"
+           VerticalAlignment="Center" Margin="110 0 0 40" Foreground="White" FontWeight="Bold"
+           TextAlignment="Left" Width="180" />
+
+            <!-- Target combo box -->
             <ComboBox Grid.Column="1" Grid.Row="0" x:Name="ComBoxTargetLang" Height="30" Width="180" 
-                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="110 0 0 0" 
-                      SelectionChanged="LanguageIsChanged" SelectedValuePath="Tag" >
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="110 20 0 0" 
+                      SelectionChanged="LanguageIsChanged" SelectedValuePath="Tag" Background="#2D2D2D" 
+                      Focusable="False" >
                 <ComboBoxItem Content="{Binding Language_Arabic}" Tag="ar" />
                 <ComboBoxItem Content="{Binding Language_Chinese_sim}" Tag="zh" />
                 <ComboBoxItem Content="{Binding Language_Chinese_tra}" Tag="zt" />
@@ -220,7 +278,11 @@
             </ComboBox>
 
             <!-- Settings background -->
-            <Border Grid.Column="1" Grid.Row="1" Background="DarkGray" CornerRadius="7, 0, 0, 0" />
+            <Border Grid.Column="1" Grid.Row="1" Background="#2D2D2D" CornerRadius="7, 0, 0, 0">
+                <Grid Margin="10" >
+                    <TextBox Width="140" Height="30" Background="#212121" />
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
     

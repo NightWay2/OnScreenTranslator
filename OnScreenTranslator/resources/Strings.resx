@@ -123,6 +123,9 @@
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Destroy Overlay</value>
   </data>
+  <data name="Guide" xml:space="preserve">
+    <value>Guide</value>
+  </data>
   <data name="Language_Arabic" xml:space="preserve">
     <value>Arabic</value>
   </data>
@@ -201,11 +204,17 @@
   <data name="Language_Vietnamese" xml:space="preserve">
     <value>Vietnamese</value>
   </data>
+  <data name="LocalizationLabel" xml:space="preserve">
+    <value>Interface language</value>
+  </data>
   <data name="LockOverlay" xml:space="preserve">
-    <value>Lock Overlay</value>
+    <value>Pin Overlay</value>
   </data>
   <data name="SelectArea" xml:space="preserve">
     <value>Select Area To Translate From</value>
+  </data>
+  <data name="SourceLangLabel" xml:space="preserve">
+    <value>Source Language</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
@@ -213,7 +222,13 @@
   <data name="Stop" xml:space="preserve">
     <value>Stop</value>
   </data>
+  <data name="TargetLangLabel" xml:space="preserve">
+    <value>Target Language</value>
+  </data>
+  <data name="TranslatorSettings" xml:space="preserve">
+    <value>Translator Settings</value>
+  </data>
   <data name="UnlockOverlay" xml:space="preserve">
-    <value>Unlock Overlay</value>
+    <value>Unpin Overlay</value>
   </data>
 </root>

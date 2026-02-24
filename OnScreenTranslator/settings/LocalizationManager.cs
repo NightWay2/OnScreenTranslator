@@ -28,6 +28,7 @@ namespace OnScreenTranslator.settings
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
         }
 
+        // Buttons
         public string CreateOverlay => Strings.CreateOverlay;
         public string DestroyOverlay => Strings.DestroyOverlay;
         public string LockOverlay => Strings.LockOverlay;
@@ -35,7 +36,10 @@ namespace OnScreenTranslator.settings
         public string SelectArea => Strings.SelectArea;
         public string Start => Strings.Start;
         public string Stop => Strings.Stop;
+        public string Guide => Strings.Guide;
+        public string TranslatorSettings => Strings.TranslatorSettings;
 
+        // Languages
         public string Language_Auto => Strings.Language_Auto;
         public string Language_Arabic => Strings.Language_Arabic;
         public string Language_Chinese_sim => Strings.Language_Chinese_sim;
@@ -62,5 +66,10 @@ namespace OnScreenTranslator.settings
         public string Language_Turkish => Strings.Language_Turkish;
         public string Language_Ukrainian => Strings.Language_Ukrainian;
         public string Language_Vietnamese => Strings.Language_Vietnamese;
+
+        // Labels
+        public string LocalizationLabel => Strings.LocalizationLabel;
+        public string SourceLangLabel => Strings.SourceLangLabel;
+        public string TargetLangLabel => Strings.TargetLangLabel;
     }
 }

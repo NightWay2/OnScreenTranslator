@@ -79,6 +79,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Guide.
+        /// </summary>
+        public static string Guide {
+            get {
+                return ResourceManager.GetString("Guide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arabic.
         /// </summary>
         public static string Language_Arabic {
@@ -313,7 +322,16 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lock Overlay.
+        ///   Looks up a localized string similar to Interface language.
+        /// </summary>
+        public static string LocalizationLabel {
+            get {
+                return ResourceManager.GetString("LocalizationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin Overlay.
         /// </summary>
         public static string LockOverlay {
             get {
@@ -327,6 +345,15 @@ namespace OnScreenTranslator.resources {
         public static string SelectArea {
             get {
                 return ResourceManager.GetString("SelectArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source Language.
+        /// </summary>
+        public static string SourceLangLabel {
+            get {
+                return ResourceManager.GetString("SourceLangLabel", resourceCulture);
             }
         }
         
@@ -349,7 +376,25 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unlock Overlay.
+        ///   Looks up a localized string similar to Target Language.
+        /// </summary>
+        public static string TargetLangLabel {
+            get {
+                return ResourceManager.GetString("TargetLangLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translator Settings.
+        /// </summary>
+        public static string TranslatorSettings {
+            get {
+                return ResourceManager.GetString("TranslatorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpin Overlay.
         /// </summary>
         public static string UnlockOverlay {
             get {

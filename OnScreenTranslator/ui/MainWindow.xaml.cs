@@ -27,6 +27,8 @@ namespace OnScreenTranslator.ui
     // add overlay transparency in lock mode (0 to 100 %)
     // add overlay font size (mb 12 and other)
     // add overlay font color
+    // mb overlay color (locked and unlocked mode)
+    // add check box to enable selecting text in overlay (only in unlocked mode)
     // todo save file (prev and below):
     // mb add overlay last overlay
     // langs and translator
