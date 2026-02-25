@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace OnScreenTranslator.ui
 {
@@ -46,6 +47,8 @@ namespace OnScreenTranslator.ui
             _isSelecting = true;
 
             SelectionRect.Visibility = Visibility.Visible;
+            SizeText.Visibility = Visibility.Visible;
+
             Canvas.SetLeft(SelectionRect, _startPoint.X);
             Canvas.SetTop(SelectionRect, _startPoint.Y);
             SelectionRect.Width = 0;
@@ -68,11 +71,27 @@ namespace OnScreenTranslator.ui
             Canvas.SetTop(SelectionRect, y);
             SelectionRect.Width = w;
             SelectionRect.Height = h;
+
+            // print pixels
+            Point p1 = PointToScreen(_startPoint);
+            Point p2 = PointToScreen(current);
+
+            double realWidth = Math.Abs(p1.X - p2.X);
+            double realHeight = Math.Abs(p1.Y - p2.Y);
+
+            SizeText.Text = $"{(int)realWidth} x {(int)realHeight} px";
+
+            Canvas.SetLeft(SizeText, x + w / 2 - 20);
+            Canvas.SetTop(SizeText, y + h + 5);
+
+            SizeText.Foreground = (realHeight < 50 || realWidth < 50) ? Brushes.OrangeRed : Brushes.White;
         }
 
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             _isSelecting = false;
+
+            SizeText.Visibility = Visibility.Collapsed;
 
             Point p1 = PointToScreen(_startPoint);
             Point p2 = PointToScreen(e.GetPosition(this));

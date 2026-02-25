@@ -22,7 +22,7 @@ namespace OnScreenTranslator.settings
             mainWindow.ComBoxSourceLang.SelectedValue = "en";
             mainWindow.ComBoxTargetLang.SelectedValue = "uk";
 
-            // todo mb add sorting for diff langs
+            // todo mb add sorting for diff locals
             LocalizationManager.GetInstance().SetLanguage("uk");
             mainWindow.ComBoxLocalization.SelectedValue = "uk";
         }

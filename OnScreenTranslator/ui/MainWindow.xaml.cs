@@ -127,6 +127,8 @@ namespace OnScreenTranslator.ui
             _isSelectingArea = true;
             bool wasTranslationRunning = _isTranslationRunning;
 
+            bool isDataValid = false;
+
             try
             {
                 if (_isTranslationRunning)
@@ -135,18 +137,29 @@ namespace OnScreenTranslator.ui
                     StopTranslationLoop();
                     ResetCountdown();
                 }
+
                 AreaSelectionWindow selector = new AreaSelectionWindow();
                 if (selector.ShowDialog() == true)
                 {
-                    _selectedScreenArea = selector.SelectedArea;
-                    TlgBtnStartStopTranslation.IsEnabled = true;
+                    isDataValid = selector.SelectedArea.Height >= 50 && selector.SelectedArea.Width >= 50;
+
+                    if (isDataValid)
+                    {
+                        _selectedScreenArea = selector.SelectedArea;
+                        TlgBtnStartStopTranslation.IsEnabled = true;
+                    }
+                    else
+                    {
+                        _selectedScreenArea = null;
+                        TlgBtnStartStopTranslation.IsEnabled = false;
+                    }
                 }
                 selector.Close();
             }
             finally
             {
                 _isSelectingArea = false;
-                if (wasTranslationRunning)
+                if (wasTranslationRunning && isDataValid)
                 {
                     TlgBtnStartStopTranslation.IsChecked = true;
                     ResetCountdown();

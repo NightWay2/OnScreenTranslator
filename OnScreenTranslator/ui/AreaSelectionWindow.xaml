@@ -19,5 +19,15 @@
                    StrokeThickness="2"
                    Fill="#40007ACC"
                    Visibility="Collapsed"/>
+
+        <TextBlock x:Name="SizeText" 
+               Foreground="White" 
+               FontSize="14" 
+               FontWeight="Bold"
+               Visibility="Collapsed">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="Black"/>
+            </TextBlock.Effect>
+        </TextBlock>
     </Canvas>
 </Window>
