@@ -18,8 +18,6 @@ namespace OnScreenTranslator.ui
     // todo add hint text in buttons on hover (long hover)
     // todo add guide how to use + hotkeys
 
-    // todo mb save location of overlay
-
     // todo add settings:
     // add translation_interval_ms to settings (can`t be 0 or less)
     // add _countdownTime to settings (can`t be less than 0)
@@ -32,8 +30,6 @@ namespace OnScreenTranslator.ui
     // mb add overlay last overlay
     // langs and translator
     // localization
-
-    // todo add button restore to defaults and aplly settings !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
@@ -61,6 +57,13 @@ namespace OnScreenTranslator.ui
         private int _secondsRemaining;
         private bool _isHotkeyCall = false;
         private int _countdownTime = 3;
+
+        // Overlay settings
+        private double? _overlayWidth;
+        private double? _overlayHeight;
+        private double? _overlayX;
+        private double? _overlayY;
+
 
         // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
@@ -94,6 +97,15 @@ namespace OnScreenTranslator.ui
                 _overlayWindow.TxtOverlay.Text = _previousTranslatedText;
             else
                 _overlayWindow.TxtOverlay.Visibility = Visibility.Hidden;
+
+            if (_overlayHeight.HasValue)
+            {
+                _overlayWindow.Height = _overlayHeight.Value;
+                _overlayWindow.Width = _overlayWidth.Value;
+                _overlayWindow.Top = _overlayY.Value;
+                _overlayWindow.Left = _overlayX.Value;
+            }
+
             _overlayWindow.Show();
 
             TlgBtnOverlayLockUnlock.IsEnabled = true;
@@ -103,6 +115,11 @@ namespace OnScreenTranslator.ui
         {
             if (_overlayWindow != null)
             {
+                _overlayHeight = _overlayWindow.Height;
+                _overlayWidth = _overlayWindow.Width;
+                _overlayX = _overlayWindow.Left;
+                _overlayY = _overlayWindow.Top;
+
                 _overlayWindow.Closed -= OverlayWindow_Closed;
                 _overlayWindow.Close();
                 _overlayWindow = null;

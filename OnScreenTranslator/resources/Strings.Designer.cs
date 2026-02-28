@@ -61,6 +61,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply Settings.
+        /// </summary>
+        public static string ApplySettings {
+            get {
+                return ResourceManager.GetString("ApplySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Overlay.
         /// </summary>
         public static string CreateOverlay {
@@ -340,11 +349,29 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore Settings.
+        /// </summary>
+        public static string RestoreSettings {
+            get {
+                return ResourceManager.GetString("RestoreSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Area To Translate From.
         /// </summary>
         public static string SelectArea {
             get {
                 return ResourceManager.GetString("SelectArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsLabel {
+            get {
+                return ResourceManager.GetString("SettingsLabel", resourceCulture);
             }
         }
         

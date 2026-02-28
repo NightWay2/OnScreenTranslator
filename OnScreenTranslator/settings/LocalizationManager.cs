@@ -38,6 +38,8 @@ namespace OnScreenTranslator.settings
         public string Stop => Strings.Stop;
         public string Guide => Strings.Guide;
         public string TranslatorSettings => Strings.TranslatorSettings;
+        public string RestoreSettings => Strings.RestoreSettings;
+        public string ApplySettings => Strings.ApplySettings;
 
         // Languages
         public string Language_Auto => Strings.Language_Auto;
@@ -71,5 +73,6 @@ namespace OnScreenTranslator.settings
         public string LocalizationLabel => Strings.LocalizationLabel;
         public string SourceLangLabel => Strings.SourceLangLabel;
         public string TargetLangLabel => Strings.TargetLangLabel;
+        public string SettingsLabel => Strings.SettingsLabel;
     }
 }
