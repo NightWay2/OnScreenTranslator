@@ -18,7 +18,7 @@
                 Background="#AA000000"
                 CornerRadius="8"
                 Padding="16">
-            <TextBox x:Name="TxtOverlay" Text="" Background="Transparent" IsReadOnly="True"
+            <TextBox x:Name="TxtOverlay" Text="" Background="Transparent" IsReadOnly="True" Focusable="False"
                      BorderThickness="0" Foreground="White" FontSize="22" TextWrapping="Wrap"/>
         </Border>
         <Button x:Name="BtnOverlayClose" Width="20" Height="20" Background="Transparent" 

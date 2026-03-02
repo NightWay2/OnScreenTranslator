@@ -20,14 +20,18 @@ namespace OnScreenTranslator.ui
 
         private bool _isLocked = false;
 
-        private int _textSize = 12; // SettingsManager.GetInstance().GetOverlayTextSize();
-        private int _transparencyPercentage = 80; // todo or create applySettings method that gonna be called before initLogic() and gonna set values. Its should be better because we don`t need to reset this class
+        private int _textSize = 12;
+        private int _transparencyPercentage = 80;
+        private bool _isTextSelectingAllowed = false;
+        private string _selectedTheme = "dark";
+
+        private byte _color = 0;
 
         public OverlayWindow()
         {
             InitializeComponent();
 
-            ApplySettings();
+            GetSettings();
 
             InitLogic();
         }
@@ -40,12 +44,14 @@ namespace OnScreenTranslator.ui
             Left = left;
         }
 
-        public void ApplySettings()
+        private void GetSettings()
         {
             SettingsManager manager = SettingsManager.GetInstance();
 
             _textSize = manager.GetOverlayFontSize();
             _transparencyPercentage = manager.GetOverlayTransparency();
+            _isTextSelectingAllowed = manager.GetOverlayIsTextSelectingAllowed();
+            _selectedTheme = manager.GetOverlaySelectedTheme();
         }
 
         private void InitLogic()
@@ -59,6 +65,15 @@ namespace OnScreenTranslator.ui
             MouseLeftButtonDown += (s, e) => DragMove();
 
             TxtOverlay.FontSize = _textSize;
+
+            if (_isTextSelectingAllowed)
+                TxtOverlay.Focusable = true;
+            
+            if (_selectedTheme == "light")
+            {
+                TxtOverlay.Foreground = Brushes.Black;
+                _color = 255;
+            }
         }
 
         private void OverlayWindow_Loaded(object sender, RoutedEventArgs e)
@@ -80,7 +95,7 @@ namespace OnScreenTranslator.ui
 
             byte transparency = (byte) ((100 - _transparencyPercentage) * 255 / 100);
 
-            MainBorder.Background = new SolidColorBrush(Color.FromArgb(transparency, 0, 0, 0));
+            MainBorder.Background = new SolidColorBrush(Color.FromArgb(transparency, _color, _color, _color));
             ResizeMode = ResizeMode.NoResize;
 
             BtnOverlayClose.Visibility = Visibility.Hidden;
@@ -98,7 +113,7 @@ namespace OnScreenTranslator.ui
 
             RootGrid.IsHitTestVisible = true;
 
-            MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0));
+            MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, _color, _color, _color));
             ResizeMode = ResizeMode.CanResizeWithGrip;
 
             BtnOverlayClose.Visibility = Visibility.Visible;
@@ -109,7 +124,7 @@ namespace OnScreenTranslator.ui
         private void SetUnlockedVisuals()
         {
             RootGrid.IsHitTestVisible = true;
-            MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, 0, 0, 0));
+            MainBorder.Background = new SolidColorBrush(Color.FromArgb(170, _color, _color, _color));
 
             long ex = NativeMethods.GetWindowLongPtr64(_hwnd, GWL_EXSTYLE).ToInt64();
             ex &= ~WS_EX_TRANSPARENT;

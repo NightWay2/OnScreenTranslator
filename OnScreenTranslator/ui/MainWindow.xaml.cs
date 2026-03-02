@@ -532,7 +532,7 @@ namespace OnScreenTranslator.ui
         {
             _overlayWindow?.Close();
 
-            // todo call setings manager to rewrite config file with new data
+            SettingsManager.GetInstance().SaveSettings(this);
 
             /*
              * Unbinding hotkeys
