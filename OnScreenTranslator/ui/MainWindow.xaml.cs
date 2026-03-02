@@ -36,6 +36,8 @@ namespace OnScreenTranslator.ui
     // mb add posibility to translate only one time, and repeatedly
 
     // docker compose: add only supported languages
+
+    // todo fix buttons hover and textbox hover
     public partial class MainWindow : Window
     {
         private OverlayWindow? _overlayWindow;
@@ -91,20 +93,16 @@ namespace OnScreenTranslator.ui
             if (_overlayWindow != null)
                 return;
 
-            _overlayWindow = new OverlayWindow();
+            if (_overlayHeight.HasValue)
+                _overlayWindow = new OverlayWindow(_overlayHeight.Value, _overlayWidth.Value, _overlayX.Value, _overlayY.Value);
+            else 
+                _overlayWindow = new OverlayWindow();
+
             _overlayWindow.Closed += OverlayWindow_Closed;
             if (_previousTranslatedText != "")
                 _overlayWindow.TxtOverlay.Text = _previousTranslatedText;
             else
                 _overlayWindow.TxtOverlay.Visibility = Visibility.Hidden;
-
-            if (_overlayHeight.HasValue)
-            {
-                _overlayWindow.Height = _overlayHeight.Value;
-                _overlayWindow.Width = _overlayWidth.Value;
-                _overlayWindow.Top = _overlayY.Value;
-                _overlayWindow.Left = _overlayX.Value;
-            }
 
             _overlayWindow.Show();
 

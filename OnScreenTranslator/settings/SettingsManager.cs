@@ -31,5 +31,15 @@ namespace OnScreenTranslator.settings
         {
             return "en";
         }
+
+        public int GetOverlayFontSize()
+        {
+            return 14;
+        }
+
+        public int GetOverlayTransparency()
+        {
+            return 99;
+        }
     }
 }

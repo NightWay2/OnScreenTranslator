@@ -213,6 +213,9 @@
   <data name="LockOverlay" xml:space="preserve">
     <value>Закріпити оверлей</value>
   </data>
+  <data name="OverlaySettingsLabel" xml:space="preserve">
+    <value>Оверлей</value>
+  </data>
   <data name="RestoreSettings" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>

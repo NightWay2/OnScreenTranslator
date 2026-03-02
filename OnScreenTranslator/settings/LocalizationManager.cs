@@ -74,5 +74,6 @@ namespace OnScreenTranslator.settings
         public string SourceLangLabel => Strings.SourceLangLabel;
         public string TargetLangLabel => Strings.TargetLangLabel;
         public string SettingsLabel => Strings.SettingsLabel;
+        public string OverlaySettingsLabel => Strings.OverlaySettingsLabel;
     }
 }

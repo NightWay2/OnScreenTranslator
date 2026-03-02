@@ -12,7 +12,7 @@
         Title="OnScreenTranslator" Height="490" Width="880" MinHeight="490" MinWidth="880">
 
     <Window.Resources>
-        <Style TargetType="ToggleButton">
+        <Style TargetType="ToggleButton" >
             <Setter Property="Background" Value="#2D2D2D" />
             <Setter Property="Foreground" Value="#FFFFFF" />
             <Setter Property="BorderBrush" Value="#15FFFFFF" />
@@ -78,8 +78,37 @@
             </Setter>
         </Style>
 
-        <Style TargetType="Button">
+        <Style TargetType="Button" x:Key="MainButton" >
             <Setter Property="Background" Value="#2D2D2D" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#15FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI" />
+            <Setter Property="Padding" Value="5,6" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#323232" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#25FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SettingButton" >
+            <Setter Property="Background" Value="#1C1C1C" />
             <Setter Property="Foreground" Value="#FFFFFF" />
             <Setter Property="BorderBrush" Value="#15FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
@@ -94,11 +123,49 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#323232" />
+                                <Setter TargetName="border" Property="Background" Value="#252525" />
                                 <Setter TargetName="border" Property="BorderBrush" Value="#25FFFFFF" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Background" Value="#2D2D2D"/>
+            <Setter Property="BorderBrush" Value="#4DFFFFFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Border x:Name="checkBoxBorder" Width="18" Height="18"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="4" HorizontalAlignment="Right">
+                                <Path x:Name="optionMark"
+                                      Data="M1.5,4.5 L4.5,7.5 L9.5,1.5" Stroke="White" StrokeThickness="2" Stretch="Uniform"
+                                      Width="10" Height="10" Visibility="Collapsed" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="checkBoxBorder" Property="Background" Value="#3D3D3D"/>
+                                <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="#80FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="optionMark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="checkBoxBorder" Property="Background" Value="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"/>
+                                <Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="checkBoxBorder" Property="Opacity" Value="0.3"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -149,7 +216,7 @@
 
         <!-- Button for selecting area to translate from -->
         <Button Name="BtnAreaSelection" Height="55" Width="140" HorizontalAlignment="Center" VerticalAlignment="Top" 
-                Margin="0 185 0 0" Click="SelectAreaOnScreen" >
+                Margin="0 185 0 0" Click="SelectAreaOnScreen" Style="{StaticResource MainButton}" >
             <TextBlock Text="{Binding SelectArea}" TextWrapping="Wrap" TextAlignment="Center" />
         </Button>
 
@@ -157,11 +224,11 @@
         <Border VerticalAlignment="Bottom" Margin="0 0 0 195" Background="#2D2D2D" Height="1" />
 
         <!-- Button to open guide -->
-        <Button Name="BtnGuideOpen" Content="{Binding Guide}" Height="35" Width="160" 
+        <Button Name="BtnGuideOpen" Content="{Binding Guide}" Height="35" Width="160" Style="{StaticResource MainButton}"
             HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 145" />
         
         <!-- Button to open settings -->
-        <Button Name="BtnSettingsOpen" Content="{Binding TranslatorSettings}" Height="35" Width="160" 
+        <Button Name="BtnSettingsOpen" Content="{Binding TranslatorSettings}" Height="35" Width="160" Style="{StaticResource MainButton}"
             HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 90" />
 
         <!-- Line over localization section -->
@@ -294,22 +361,37 @@
                             VerticalAlignment="Top" TextAlignment="Left" Foreground="White" FontSize="20" 
                             FontWeight="Bold" Margin="7 0 0 0" />
                         
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 40 0 0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 40 0 0" Focusable="False">
                             <StackPanel Width="310">
-                                <Border Background="DimGray" Margin="5" CornerRadius="5" Padding="10">
+                                <Border Background="#1C1C1C" Margin="5" CornerRadius="5" Padding="10">
                                     <StackPanel>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
-                                        <TextBox Width="140" Height="30" Background="#212121" Margin="0 5"/>
+                                        <TextBlock x:Name="TxtOverlaySettingsLabel" Text="{Binding OverlaySettingsLabel}" 
+                                                   Foreground="White" FontWeight="Bold" FontSize="16" />
+                                        <Grid Height="50" >
+                                            <TextBlock x:Name="TxtOverlayFontSizeLabel" Text="Font size" Foreground="White" 
+                                                       FontSize="14" VerticalAlignment="Center" />
+                                            <TextBox x:Name="TxtOverlayFontSize" Height="20" Width="120" VerticalAlignment="Center"
+                                                     HorizontalAlignment="Right" Margin="0 0 10 0" />
+                                        </Grid>
+                                        <Grid Height="50" >
+                                            <TextBlock x:Name="TxtOverlayTransparencyLabel" Text="Transparency (locked)" Foreground="White" 
+                                                       FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Width="135"
+                                                       TextWrapping="Wrap" />
+                                            <TextBox x:Name="TxtOverlayTransparency" Height="20" Width="120" VerticalAlignment="Center"
+                                                     HorizontalAlignment="Right" Margin="0 0 10 0" />
+                                        </Grid>
+                                        <Grid Height="50" >
+                                            <TextBlock x:Name="TxtOverlayAllowCopyLabel" Text="Allow text selecting" Foreground="White" 
+                                                       FontSize="14" VerticalAlignment="Center" />
+                                            <CheckBox x:Name="CheckBoxOverlayAllowCopy" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle}" 
+                                                      HorizontalAlignment="Right" Margin="0 0 10 0" Focusable="False" />
+                                        </Grid>
+                                        <Grid Height="50" >
+                                            <TextBlock x:Name="TxtOverlayThemeLabel" Text="Selected theme" Foreground="White" 
+                                                       FontSize="14" VerticalAlignment="Center" />
+                                            <ComboBox x:Name="ComBoxOverlayTheme" Height="20" Width="120" VerticalAlignment="Center"
+                                                      HorizontalAlignment="Right" Margin="0 0 10 0" Background="#2D2D2D" Focusable="False" />
+                                        </Grid>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -331,12 +413,12 @@
             <Border Grid.Column="1" Grid.Row="2" Background="#2D2D2D" BorderThickness="0 1 0 0" BorderBrush="DimGray" >
                 <Grid>
                     <Button Name="BtnRestoreSettings" Height="35" Width="160" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                            Margin="0 0 277 0" Background="DimGray" >
+                            Margin="0 0 277 0" Style="{StaticResource SettingButton}" >
                         <TextBlock Text="{Binding RestoreSettings}" TextWrapping="Wrap" TextAlignment="Center" />
                     </Button>
 
                     <Button Name="BtnApllySettings" Height="35" Width="160" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                            Margin="242 0 0 0" Background="DimGray" >
+                            Margin="242 0 0 0" Style="{StaticResource SettingButton}" >
                         <TextBlock Text="{Binding ApplySettings}" TextWrapping="Wrap" TextAlignment="Center" />
                     </Button>
                 </Grid>

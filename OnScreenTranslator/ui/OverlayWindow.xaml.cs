@@ -1,4 +1,5 @@
-﻿using OnScreenTranslator.win32;
+﻿using OnScreenTranslator.settings;
+using OnScreenTranslator.win32;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -19,14 +20,32 @@ namespace OnScreenTranslator.ui
 
         private bool _isLocked = false;
 
-        private int _textSize = 12;
-        private int _transparencyPercentage = 20;
+        private int _textSize = 12; // SettingsManager.GetInstance().GetOverlayTextSize();
+        private int _transparencyPercentage = 80; // todo or create applySettings method that gonna be called before initLogic() and gonna set values. Its should be better because we don`t need to reset this class
 
         public OverlayWindow()
         {
             InitializeComponent();
 
+            ApplySettings();
+
             InitLogic();
+        }
+
+        public OverlayWindow(double height, double width, double left, double top) : this()
+        {
+            Height = height;
+            Width = width;
+            Top = top;
+            Left = left;
+        }
+
+        public void ApplySettings()
+        {
+            SettingsManager manager = SettingsManager.GetInstance();
+
+            _textSize = manager.GetOverlayFontSize();
+            _transparencyPercentage = manager.GetOverlayTransparency();
         }
 
         private void InitLogic()
@@ -59,7 +78,7 @@ namespace OnScreenTranslator.ui
 
             RootGrid.IsHitTestVisible = false;
 
-            byte transparency = (byte) (_transparencyPercentage * 255 / 100);
+            byte transparency = (byte) ((100 - _transparencyPercentage) * 255 / 100);
 
             MainBorder.Background = new SolidColorBrush(Color.FromArgb(transparency, 0, 0, 0));
             ResizeMode = ResizeMode.NoResize;

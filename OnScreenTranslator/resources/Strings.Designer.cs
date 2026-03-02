@@ -349,6 +349,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overlay.
+        /// </summary>
+        public static string OverlaySettingsLabel {
+            get {
+                return ResourceManager.GetString("OverlaySettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore Settings.
         /// </summary>
         public static string RestoreSettings {
