@@ -400,7 +400,7 @@
 
             <!-- Settings -->
             <Border Grid.Column="1" Grid.Row="1" Background="#2D2D2D" CornerRadius="7, 0, 0, 0" >
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" >
                     <Grid Margin="10" >
                         
                         <!-- Settings label -->
@@ -480,7 +480,7 @@
                     </Button>
 
                     <Button Name="BtnApllySettings" Height="35" Width="160" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                            Margin="242 0 0 0" Style="{StaticResource SettingButton}" >
+                            Margin="242 0 0 0" Style="{StaticResource SettingButton}" Click="ApplySettings" >
                         <TextBlock Text="{Binding ApplySettings}" TextWrapping="Wrap" TextAlignment="Center" />
                     </Button>
                 </Grid>

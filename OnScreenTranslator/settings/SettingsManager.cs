@@ -1,5 +1,4 @@
-﻿using GTranslate;
-using OnScreenTranslator.models;
+﻿using OnScreenTranslator.models;
 using OnScreenTranslator.ui;
 using System.IO;
 using System.Text.Json;
@@ -11,7 +10,7 @@ namespace OnScreenTranslator.settings
         private static SettingsManager? _instance;
         private static SettingsModel _settings = new SettingsModel();
 
-        private static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+        private static string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
 
         private static List<string> _allowedLangs = new List<string>
         {
@@ -36,11 +35,11 @@ namespace OnScreenTranslator.settings
 
         public void LoadSettings(MainWindow mainWindow)
         {
-            if (File.Exists(filePath))
+            if (File.Exists(_filePath))
             {
                 try
                 {
-                    string jsonString = File.ReadAllText(filePath);
+                    string jsonString = File.ReadAllText(_filePath);
 
                     _settings = JsonSerializer.Deserialize<SettingsModel>(jsonString) ?? new SettingsModel();
 
@@ -72,7 +71,7 @@ namespace OnScreenTranslator.settings
 
             string jsonString = JsonSerializer.Serialize(_settings, options);
 
-            File.WriteAllText(filePath, jsonString);
+            File.WriteAllText(_filePath, jsonString);
         }
 
         private void CheckParams()
@@ -92,7 +91,7 @@ namespace OnScreenTranslator.settings
                 _settings.Localization = "en";
             }
 
-            if (_settings.OverlayFontSize < 8 || _settings.OverlayFontSize > 40) { }
+            if (_settings.OverlayFontSize < 8 || _settings.OverlayFontSize > 40) // mb change
             {
                 _settings.OverlayFontSize = 12;
             }
@@ -126,8 +125,13 @@ namespace OnScreenTranslator.settings
             mainWindow.ComBoxOverlayTheme.SelectedValue = _settings.OverlayTheme;
         }
 
-        // mb
-        //private void ApplySettings() { }
+        public void ApplySettings(MainWindow mainWindow) 
+        {
+            _settings.OverlayFontSize = int.Parse(mainWindow.TxtOverlayFontSize.Text); // careful, need to be only special int
+            _settings.OverlayTransparency = (int) mainWindow.SliderOverlayTransparency.Value;
+            _settings.OverlayAllowSelectingText = mainWindow.CheckBoxOverlayAllowCopy.IsChecked.Value;
+            _settings.OverlayTheme = mainWindow.ComBoxOverlayTheme.SelectedValue.ToString();
+        }
 
         public int GetOverlayFontSize()
         {

@@ -406,6 +406,42 @@ namespace OnScreenTranslator.ui
             ResetCountdown();
         }
 
+        private void ApplySettings(object? sender, EventArgs e)
+        {
+            bool overlayWasShowed = TlgBtnOverlayCreateDestroy.IsChecked.Value;
+            bool overlayWasPinned = TlgBtnOverlayLockUnlock.IsChecked.Value;
+            bool translationWasRunning = TlgBtnStartStopTranslation.IsChecked.Value;
+
+            if (translationWasRunning)
+            {
+                StopTranslationLoop();
+                ResetCountdown();
+                TlgBtnStartStopTranslation.IsChecked = false;
+            }
+
+            // todo show dialog window and ask if user really wants to apply new settings
+
+            if (overlayWasShowed)
+            {
+                DestroyOverlayWindow(this, null);
+                TlgBtnOverlayCreateDestroy.IsChecked = false;
+            }
+
+            SettingsManager.GetInstance().ApplySettings(this);
+
+            if (overlayWasShowed)
+            {
+                CreateOverlayWindow(this, null);
+                TlgBtnOverlayCreateDestroy.IsChecked = true;
+            }
+                
+            if (overlayWasPinned)
+            {
+                LockOverlayWindow(this, null);
+                TlgBtnOverlayLockUnlock.IsChecked = true;
+            }
+        }
+
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
