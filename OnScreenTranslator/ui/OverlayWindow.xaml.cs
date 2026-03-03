@@ -1,6 +1,7 @@
 ﻿using OnScreenTranslator.settings;
 using OnScreenTranslator.win32;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -66,8 +67,11 @@ namespace OnScreenTranslator.ui
 
             TxtOverlay.FontSize = _textSize;
 
-            if (_isTextSelectingAllowed)
-                TxtOverlay.Focusable = true;
+            if (_isTextSelectingAllowed == false)
+            {
+                TxtOverlay.Focusable = false;
+                TxtOverlay.Cursor = Cursors.Arrow;
+            }
             
             if (_selectedTheme == "light")
             {

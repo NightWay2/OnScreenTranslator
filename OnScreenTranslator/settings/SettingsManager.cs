@@ -1,4 +1,5 @@
-﻿using OnScreenTranslator.models;
+﻿using GTranslate;
+using OnScreenTranslator.models;
 using OnScreenTranslator.ui;
 using System.IO;
 using System.Text.Json;
@@ -10,6 +11,15 @@ namespace OnScreenTranslator.settings
         private static SettingsManager? _instance;
         private static SettingsModel _settings = new SettingsModel();
 
+        private static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+
+        private static List<string> _allowedLangs = new List<string>
+        {
+                "ar", "zh", "zt", "cs", "da", "nl", "en", "fi", "fr",
+                "de", "hi", "id", "it", "ja", "ko", "fa", "pl", "pt",
+                "ro", "ru", "es", "th", "tr", "uk", "vi",
+        };
+
         private SettingsManager() { }
 
         public static SettingsManager GetInstance()
@@ -19,40 +29,45 @@ namespace OnScreenTranslator.settings
             return _instance = new SettingsManager(); 
         }
 
-        // todo
         public void Init(MainWindow mainWindow)
         {
             LoadSettings(mainWindow);
         }
 
-        // todo (check all setting, if they validated)
         public void LoadSettings(MainWindow mainWindow)
         {
-            //sUpdateAllFields(mainWindow);
-            // if (fail ) {
-            // set def localization
-            // mb set def source and target langs
-            // call LoadDefauktSettings
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    string jsonString = File.ReadAllText(filePath);
 
-            mainWindow.ComBoxSourceLang.SelectedValue = _settings.SourceLang = "en";
-            mainWindow.ComBoxTargetLang.SelectedValue = _settings.TargetLanguage = "uk";
+                    _settings = JsonSerializer.Deserialize<SettingsModel>(jsonString) ?? new SettingsModel();
 
-            // todo mb add sorting for diff locals
-            LocalizationManager.GetInstance().SetLanguage("uk");
-            mainWindow.ComBoxLocalization.SelectedValue = _settings.Localization = "uk";
+                    CheckParams();
+                    SetInitialParams(mainWindow);
+                }
+                catch
+                {
+                    _settings = new SettingsModel();
+                    SetInitialParams(mainWindow);
+                }
+            }
+            else
+            {
+                _settings = new SettingsModel();
+                SetInitialParams(mainWindow);
+            }
         }
 
-        // todo mb
         public void SaveSettings(MainWindow mainWindow)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
-
             var options = new JsonSerializerOptions { WriteIndented = true };
 
-            // all other fields should be writed somewhere else
+            // all other fields should be writed when we use button aplly settings !!!!!!!!!!!!!!!!!!
 
             _settings.Localization = mainWindow.ComBoxLocalization.SelectedValue.ToString();
-            _settings.SourceLang = mainWindow.ComBoxSourceLang.SelectedValue.ToString();
+            _settings.SourceLanguage = mainWindow.ComBoxSourceLang.SelectedValue.ToString();
             _settings.TargetLanguage = mainWindow.ComBoxTargetLang.SelectedValue.ToString();
 
             string jsonString = JsonSerializer.Serialize(_settings, options);
@@ -60,45 +75,78 @@ namespace OnScreenTranslator.settings
             File.WriteAllText(filePath, jsonString);
         }
 
-        // todo (Can be used by button Set by default)
-        public void LoadSettingsByDefault(MainWindow mainWindow)
+        private void CheckParams()
         {
+            if (!_allowedLangs.Contains(_settings.SourceLanguage) && _settings.SourceLanguage != "auto")
+            {
+                _settings.SourceLanguage = "en";
+            }
 
+            if (!_allowedLangs.Contains(_settings.TargetLanguage))
+            {
+                _settings.TargetLanguage = "uk";
+            }
+
+            if (_settings.Localization != "en" && _settings.Localization != "uk")
+            {
+                _settings.Localization = "en";
+            }
+
+            if (_settings.OverlayFontSize < 8 || _settings.OverlayFontSize > 40) { }
+            {
+                _settings.OverlayFontSize = 12;
+            }
+
+            if (_settings.OverlayTransparency < 0 || _settings.OverlayTransparency > 100)
+            {
+                _settings.OverlayTransparency = 80;
+            }
+
+            if (_settings.OverlayAllowSelectingText != false && _settings.OverlayAllowSelectingText != true)
+            {
+                _settings.OverlayAllowSelectingText = false;
+            }
+
+            if (_settings.OverlayTheme != "dark" && _settings.OverlayTheme != "light")
+            {
+                _settings.OverlayTheme = "dark";
+            }
+        }
+
+        private void SetInitialParams(MainWindow mainWindow)
+        {
+            LocalizationManager.GetInstance().SetLanguage(_settings.Localization);
+            mainWindow.ComBoxLocalization.SelectedValue = _settings.Localization;
+            mainWindow.ComBoxSourceLang.SelectedValue = _settings.SourceLanguage;
+            mainWindow.ComBoxTargetLang.SelectedValue = _settings.TargetLanguage;
+
+            mainWindow.TxtOverlayFontSize.Text = _settings.OverlayFontSize.ToString();
+            mainWindow.SliderOverlayTransparency.Value = _settings.OverlayTransparency;
+            mainWindow.CheckBoxOverlayAllowCopy.IsChecked = _settings.OverlayAllowSelectingText;
+            mainWindow.ComBoxOverlayTheme.SelectedValue = _settings.OverlayTheme;
         }
 
         // mb
         //private void ApplySettings() { }
 
-        // todo change and use
-        public string GetSourceLanguage()
-        {
-            return "en";
-        }
-
-        // todo change and use
-        public string GetTargetLanguage()
-        {
-            return "ua";
-        }
-
         public int GetOverlayFontSize()
         {
-            return 14;
+            return _settings.OverlayFontSize;
         }
 
         public int GetOverlayTransparency()
         {
-            return 99;
+            return _settings.OverlayTransparency;
         }
 
         public bool GetOverlayIsTextSelectingAllowed()
         {
-            return false;
+            return _settings.OverlayAllowSelectingText;
         }
 
         public string GetOverlaySelectedTheme()
         {
-            return "dark";
+            return _settings.OverlayTheme;
         }
     }
 }
