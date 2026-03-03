@@ -21,17 +21,6 @@ namespace OnScreenTranslator.ui
     // todo add settings:
     // add translation_interval_ms to settings (can`t be 0 or less)
     // add _countdownTime to settings (can`t be less than 0)
-    // add overlay transparency in lock mode (0 to 100 %)
-    // add overlay font size (mb 12 and other)
-    // add overlay font color
-    // mb overlay color (locked and unlocked mode)
-    // add check box to enable selecting text in overlay (only in unlocked mode)
-    // todo save file (prev and below):
-    // mb add overlay last overlay
-    // langs and translator
-    // localization
-
-    // add custom size of text in overlay, custom color of text in overlay, custom alpha of overlay window
 
     // mb add posibility to translate only one time, and repeatedly
 
@@ -65,7 +54,8 @@ namespace OnScreenTranslator.ui
         private double? _overlayHeight;
         private double? _overlayX;
         private double? _overlayY;
-
+        private int _overlayFontSizeLowerLimit = 8;
+        private int _overlayFontSizeHigherLimit = 40;
 
         // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
@@ -88,6 +78,9 @@ namespace OnScreenTranslator.ui
             SettingsManager.GetInstance().Init(this);
         }
 
+        /*
+         * OVERLAY
+         */
         private void CreateOverlayWindow(object sender, RoutedEventArgs e)
         {
             if (_overlayWindow != null)
@@ -137,6 +130,19 @@ namespace OnScreenTranslator.ui
             _overlayWindow?.DisableLockMode();
         }
 
+        private void OverlayWindow_Closed(object? sender, EventArgs e)
+        {
+            _overlayWindow = null;
+
+            TlgBtnOverlayCreateDestroy.IsChecked = false;
+
+            TlgBtnOverlayLockUnlock.IsEnabled = false;
+            TlgBtnOverlayLockUnlock.IsChecked = false;
+        }
+
+        /*
+         * AREA ON SCREEN
+         */
         private void SelectAreaOnScreen(object sender, RoutedEventArgs e)
         {
             _isSelectingArea = true;
@@ -184,7 +190,7 @@ namespace OnScreenTranslator.ui
         }
 
         /*
-         * Translation logic
+         * TRANSLATION
          */
         private void StartStopTranslation(object sender, RoutedEventArgs e)
         {
@@ -202,6 +208,9 @@ namespace OnScreenTranslator.ui
             }
         }
 
+        /*
+         * Countdown before start translation
+         */
         private void StartCountdown(int seconds)
         {
             ResetCountdown();
@@ -354,18 +363,8 @@ namespace OnScreenTranslator.ui
         }
 
         /*
-         * METHODS THAT PROVIDE NON-MAIN LOGIC
+         * COMBOBOX FOR SOURCE AND TARGET LANGS
          */
-        private void OverlayWindow_Closed(object? sender, EventArgs e)
-        {
-            _overlayWindow = null;
-
-            TlgBtnOverlayCreateDestroy.IsChecked = false;
-
-            TlgBtnOverlayLockUnlock.IsEnabled = false;
-            TlgBtnOverlayLockUnlock.IsChecked = false;
-        }
-
         private void LanguageIsChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TlgBtnStartStopTranslation == null) return;
@@ -379,7 +378,29 @@ namespace OnScreenTranslator.ui
             ResetCountdown();
         }
 
+        /*
+         * BUTTON TO SWITCH LANGS
+         */
+        private void SwitchLanguages(object sender, RoutedEventArgs e)
+        {
+            if (ComBoxSourceLang.SelectedValue.ToString() == "auto") return;
+
+            string temp = ComBoxSourceLang.SelectedValue.ToString();
+            ComBoxSourceLang.SelectedValue = ComBoxTargetLang.SelectedValue;
+            ComBoxTargetLang.SelectedValue = temp;
+
+            if (TlgBtnStartStopTranslation.IsChecked == true)
+            {
+                TlgBtnStartStopTranslation.IsChecked = false;
+                StopTranslationLoop();
+            }
+            ResetCountdown();
+        }
+
         // todo mb add sorting for diff langs
+        /*
+         * COMBOBOX FOR LOCALIZATION
+         */
         private void LocalizationChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ComBoxLocalization.SelectedItem is ComboBoxItem item)
@@ -389,23 +410,9 @@ namespace OnScreenTranslator.ui
             }
         }
 
-        private void SwitchLanguages(object sender, RoutedEventArgs e)
-        {
-            if (ComBoxSourceLang.SelectedValue.ToString() == "auto") return;
-
-            string temp = ComBoxSourceLang.SelectedValue.ToString();
-            ComBoxSourceLang.SelectedValue = ComBoxTargetLang.SelectedValue;
-            ComBoxTargetLang.SelectedValue = temp;
-
-            // todo call setting manager and set new params
-            if (TlgBtnStartStopTranslation.IsChecked == true)
-            {
-                TlgBtnStartStopTranslation.IsChecked = false;
-                StopTranslationLoop();
-            }
-            ResetCountdown();
-        }
-
+        /*
+         * SETTINGS
+         */
         private void ApplySettings(object? sender, EventArgs e)
         {
             bool overlayWasShowed = TlgBtnOverlayCreateDestroy.IsChecked.Value;
@@ -442,6 +449,144 @@ namespace OnScreenTranslator.ui
             }
         }
 
+        /*
+         * TEXTBOX SETTINGS (ALL NEW TEXTBOXES THAT WILL USE IT SHOULD BE ADDED IN METHODS BELOW)
+         */
+        private void TxtBoxSettings_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                int higherLimit = 0;
+
+                switch (textBox.Name) // add new textBoxes here
+                {
+                    case "TxtOverlayFontSize":
+                        higherLimit = _overlayFontSizeHigherLimit;
+                        break;
+                }
+
+                if (!int.TryParse(e.Text, out _))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                string currentText = textBox.Text;
+                int selectionStart = textBox.SelectionStart;
+                int selectionLength = textBox.SelectionLength;
+
+                string resultText = currentText.Remove(selectionStart, selectionLength).Insert(selectionStart, e.Text);
+
+                if (int.TryParse(resultText, out int val))
+                {
+                    if (val > higherLimit || resultText.Length > 2)
+                    {
+                        textBox.Text = higherLimit.ToString();
+                        textBox.SelectionStart = textBox.Text.Length;
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private void TxtBoxSettings_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Enter)
+            {
+                if (sender is TextBox textBox)
+                {
+                    switch (textBox.Name) // add new textBoxes here
+                    {
+                        case "TxtOverlayFontSize":
+                            ValidateAndFixValue(textBox, _overlayFontSizeLowerLimit, _overlayFontSizeHigherLimit,
+                                SettingsManager.GetInstance().GetOverlayFontSize());
+                            break;
+                    }
+                }
+                Keyboard.ClearFocus();
+            }
+        }
+
+        private void TxtBoxSettings_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                switch (textBox.Name) // add new textBoxes here
+                {
+                    case "TxtOverlayFontSize":
+                        ValidateAndFixValue(textBox, _overlayFontSizeLowerLimit, _overlayFontSizeHigherLimit,
+                            SettingsManager.GetInstance().GetOverlayFontSize());
+                        break;
+                }
+            }
+        }
+
+        private void ValidateAndFixValue(TextBox textBox, int lowerLimit, int higherLimit, int defaultValue)
+        {
+            if (int.TryParse(textBox.Text, out int val))
+            {
+                if (val < lowerLimit) textBox.Text = lowerLimit.ToString();
+                else if (val > higherLimit) textBox.Text = higherLimit.ToString();
+            }
+            else
+            {
+                textBox.Text = defaultValue.ToString();
+            }
+        }
+
+        private void BtnSettingsUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                int lowerLimit = 0, higherLimit = 0;
+                TextBox textBox = null;
+
+                switch (button.Name) // add new buttons here
+                {
+                    case "BtnOverlayFontSizeUp":
+                        lowerLimit = _overlayFontSizeLowerLimit;
+                        higherLimit = _overlayFontSizeHigherLimit;
+                        textBox = TxtOverlayFontSize;
+                        break;
+                }
+
+                if (int.TryParse(textBox?.Text, out int val))
+                {
+                    if (val >= higherLimit) textBox.Text = higherLimit.ToString();
+                    else if (val < lowerLimit) textBox.Text = lowerLimit.ToString();
+                    else textBox.Text = (val + 1).ToString();
+                }
+            }
+        }
+
+        private void BtnSettingsDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                int lowerLimit = 0, higherLimit = 0;
+                TextBox textBox = null;
+
+                switch (button.Name) // add new buttons here
+                {
+                    case "BtnOverlayFontSizeDown":
+                        lowerLimit = _overlayFontSizeLowerLimit;
+                        higherLimit = _overlayFontSizeHigherLimit;
+                        textBox = TxtOverlayFontSize;
+                        break;
+                }
+
+                if (int.TryParse(textBox?.Text, out int val))
+                {
+                    if (val <= lowerLimit) textBox.Text = lowerLimit.ToString();
+                    else if (val > higherLimit) textBox.Text = higherLimit.ToString();
+                    else textBox.Text = (val - 1).ToString();
+                }
+            }
+        }
+
+        /*
+         * NON-MAIN LOGIC
+         */
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
