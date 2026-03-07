@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllowTextSelecting" xml:space="preserve">
+    <value>Дозволити виділення тексту</value>
+  </data>
   <data name="ApplyConfirmation" xml:space="preserve">
     <value>Ви впевнені, що хочете застосувати нові налаштування?</value>
   </data>
@@ -132,8 +135,14 @@
   <data name="CreateOverlay" xml:space="preserve">
     <value>Створити оверлей</value>
   </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Темна</value>
+  </data>
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Прибрати оверлей</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Розмір шрифту</value>
   </data>
   <data name="Guide" xml:space="preserve">
     <value>Посібник</value>
@@ -216,6 +225,9 @@
   <data name="Language_Vietnamese" xml:space="preserve">
     <value>В'єтнамська</value>
   </data>
+  <data name="Light" xml:space="preserve">
+    <value>Світла</value>
+  </data>
   <data name="LocalizationLabel" xml:space="preserve">
     <value>Мова інтерфейсу</value>
   </data>
@@ -230,6 +242,9 @@
   </data>
   <data name="SelectArea" xml:space="preserve">
     <value>Вибрати область для перекладу</value>
+  </data>
+  <data name="SelectedTheme" xml:space="preserve">
+    <value>Обрана тема</value>
   </data>
   <data name="SettingsLabel" xml:space="preserve">
     <value>Параметри</value>
@@ -248,6 +263,9 @@
   </data>
   <data name="TranslatorSettings" xml:space="preserve">
     <value>Параметри перекладача</value>
+  </data>
+  <data name="Transparency" xml:space="preserve">
+    <value>Прозорість вікна (в закріпленому стану)</value>
   </data>
   <data name="UnlockOverlay" xml:space="preserve">
     <value>Відкріпити оверлей</value>

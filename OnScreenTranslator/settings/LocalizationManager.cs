@@ -78,5 +78,11 @@ namespace OnScreenTranslator.settings
         public string OverlaySettingsLabel => Strings.OverlaySettingsLabel;
         public string ApplyConfirmation => Strings.ApplyConfirmation;
         public string ConfirmationWindow => Strings.ConfirmationWindow;
+        public string FontSize => Strings.FontSize;
+        public string Transparency => Strings.Transparency;
+        public string AllowTextSelecting => Strings.AllowTextSelecting;
+        public string SelectedTheme => Strings.SelectedTheme;
+        public string Dark => Strings.Dark;
+        public string Light => Strings.Light;
     }
 }

@@ -61,6 +61,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow text selecting.
+        /// </summary>
+        public static string AllowTextSelecting {
+            get {
+                return ResourceManager.GetString("AllowTextSelecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to apply the new settings?.
         /// </summary>
         public static string ApplyConfirmation {
@@ -106,11 +115,29 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark.
+        /// </summary>
+        public static string Dark {
+            get {
+                return ResourceManager.GetString("Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Destroy Overlay.
         /// </summary>
         public static string DestroyOverlay {
             get {
                 return ResourceManager.GetString("DestroyOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Size.
+        /// </summary>
+        public static string FontSize {
+            get {
+                return ResourceManager.GetString("FontSize", resourceCulture);
             }
         }
         
@@ -358,6 +385,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Light.
+        /// </summary>
+        public static string Light {
+            get {
+                return ResourceManager.GetString("Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interface language.
         /// </summary>
         public static string LocalizationLabel {
@@ -399,6 +435,15 @@ namespace OnScreenTranslator.resources {
         public static string SelectArea {
             get {
                 return ResourceManager.GetString("SelectArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected theme.
+        /// </summary>
+        public static string SelectedTheme {
+            get {
+                return ResourceManager.GetString("SelectedTheme", resourceCulture);
             }
         }
         
@@ -453,6 +498,15 @@ namespace OnScreenTranslator.resources {
         public static string TranslatorSettings {
             get {
                 return ResourceManager.GetString("TranslatorSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transparency (pinned).
+        /// </summary>
+        public static string Transparency {
+            get {
+                return ResourceManager.GetString("Transparency", resourceCulture);
             }
         }
         

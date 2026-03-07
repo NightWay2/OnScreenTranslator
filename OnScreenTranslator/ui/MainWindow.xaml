@@ -444,7 +444,7 @@
                                         
                                         <!-- Font size settings -->
                                         <Grid Height="50" >
-                                            <TextBlock Text="Font size" Foreground="White" FontSize="14" VerticalAlignment="Center" 
+                                            <TextBlock Text="{Binding FontSize}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
                                                        HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
                                             <Border Background="#2D2D2D" CornerRadius="4" BorderBrush="#33FFFFFF" BorderThickness="1" 
                                                     Width="120" Height="30" HorizontalAlignment="Right" Margin="0 0 10 0">
@@ -495,7 +495,7 @@
                                                 <ColumnDefinition Width="130"/>
                                             </Grid.ColumnDefinitions>
                                             
-                                            <TextBlock Text="Transparency (locked)" Foreground="White" FontSize="14" VerticalAlignment="Center" 
+                                            <TextBlock Text="{Binding Transparency}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
                                                        HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
                                             <Slider x:Name="SliderOverlayTransparency" Grid.Column="1" Minimum="0" Maximum="100" Value="80" 
                                                     Style="{StaticResource SliderStyle}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" 
@@ -504,18 +504,19 @@
 
                                         <!-- Allow text selection settings -->
                                         <Grid Height="50" >
-                                            <TextBlock Text="Allow text selecting" Foreground="White" FontSize="14" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding AllowTextSelecting}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
+                                                       HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
                                             <CheckBox x:Name="CheckBoxOverlayAllowCopy" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle}" 
                                                       HorizontalAlignment="Right" Margin="0 0 10 0" Focusable="False" />
                                         </Grid>
                                         
                                         <!-- Selected them settings -->
                                         <Grid Height="50" >
-                                            <TextBlock Text="Selected theme" Foreground="White" FontSize="14" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding SelectedTheme}" Foreground="White" FontSize="14" VerticalAlignment="Center" />
                                             <ComboBox x:Name="ComBoxOverlayTheme" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
                                                       HorizontalAlignment="Right" Margin="0 0 10 0" Background="#2D2D2D" Focusable="False">
-                                                <ComboBoxItem Content="Dark" Tag="dark" />
-                                                <ComboBoxItem Content="Light" Tag="light" />
+                                                <ComboBoxItem Content="{Binding Dark}" Tag="dark" />
+                                                <ComboBoxItem Content="{Binding Light}" Tag="light" />
                                             </ComboBox>
                                         </Grid>
                                     </StackPanel>
