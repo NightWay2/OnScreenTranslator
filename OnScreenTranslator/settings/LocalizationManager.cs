@@ -1,7 +1,6 @@
 ﻿using OnScreenTranslator.resources;
 using System.ComponentModel;
 using System.Globalization;
-using System.Windows.Controls;
 
 namespace OnScreenTranslator.settings
 {
@@ -40,6 +39,8 @@ namespace OnScreenTranslator.settings
         public string TranslatorSettings => Strings.TranslatorSettings;
         public string RestoreSettings => Strings.RestoreSettings;
         public string ApplySettings => Strings.ApplySettings;
+        public string Yes => Strings.Yes;
+        public string Cancel => Strings.Cancel;
 
         // Languages
         public string Language_Auto => Strings.Language_Auto;
@@ -75,5 +76,7 @@ namespace OnScreenTranslator.settings
         public string TargetLangLabel => Strings.TargetLangLabel;
         public string SettingsLabel => Strings.SettingsLabel;
         public string OverlaySettingsLabel => Strings.OverlaySettingsLabel;
+        public string ApplyConfirmation => Strings.ApplyConfirmation;
+        public string ConfirmationWindow => Strings.ConfirmationWindow;
     }
 }

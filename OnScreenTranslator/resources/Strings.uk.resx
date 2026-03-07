@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplyConfirmation" xml:space="preserve">
+    <value>Ви впевнені, що хочете застосувати нові налаштування?</value>
+  </data>
   <data name="ApplySettings" xml:space="preserve">
     <value>Застосувати параметри</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="ConfirmationWindow" xml:space="preserve">
+    <value>Підтвердження</value>
   </data>
   <data name="CreateOverlay" xml:space="preserve">
     <value>Створити оверлей</value>
@@ -242,5 +251,8 @@
   </data>
   <data name="UnlockOverlay" xml:space="preserve">
     <value>Відкріпити оверлей</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Так</value>
   </data>
 </root>

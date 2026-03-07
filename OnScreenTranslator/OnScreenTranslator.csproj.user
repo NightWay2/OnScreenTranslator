@@ -5,6 +5,9 @@
     <Compile Update="ui\AreaSelectionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ui\ConfirmWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ui\OverlayWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

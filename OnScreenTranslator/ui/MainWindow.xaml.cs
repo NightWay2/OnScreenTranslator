@@ -12,11 +12,15 @@ using System.Windows.Threading;
 
 namespace OnScreenTranslator.ui
 {
-    // todo mb hide prpogram in tray
     // todo mb add scale option (100%, 125%, 150%)
 
     // todo add hint text in buttons on hover (long hover)
     // todo add guide how to use + hotkeys
+
+    // todo add settings, localization, window with yes and cancel for settings, guide, translator settings !!!!!!!!!!!!!!!!!!
+    // add hints, add try catch for save settings, start button more visible !!!!!!!!!!!!!!!!!!!!!!!!
+    // mb connect text from ocr to translate as one piece (mb param, like translate separately or together) !!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // welcome guide about how to use program (with option do not show again) !!!!!!!!!!!!!!!!!!!!
 
     // todo add settings:
     // add translation_interval_ms to settings (can`t be 0 or less)
@@ -413,6 +417,13 @@ namespace OnScreenTranslator.ui
         /*
          * SETTINGS
          */
+        private bool ShowConfirm(string message)
+        {
+            var dialog = new ConfirmWindow(message);
+            dialog.Owner = this;
+            return dialog.ShowDialog() == true;
+        }
+
         private void ApplySettings(object? sender, EventArgs e)
         {
             bool overlayWasShowed = TlgBtnOverlayCreateDestroy.IsChecked.Value;
@@ -426,26 +437,28 @@ namespace OnScreenTranslator.ui
                 TlgBtnStartStopTranslation.IsChecked = false;
             }
 
-            // todo show dialog window and ask if user really wants to apply new settings
-
-            if (overlayWasShowed)
+            string message = resources.Strings.ApplyConfirmation;
+            if (ShowConfirm(message))
             {
-                DestroyOverlayWindow(this, null);
-                TlgBtnOverlayCreateDestroy.IsChecked = false;
-            }
+                if (overlayWasShowed)
+                {
+                    DestroyOverlayWindow(this, null);
+                    TlgBtnOverlayCreateDestroy.IsChecked = false;
+                }
 
-            SettingsManager.GetInstance().ApplySettings(this);
+                SettingsManager.GetInstance().ApplySettings(this);
 
-            if (overlayWasShowed)
-            {
-                CreateOverlayWindow(this, null);
-                TlgBtnOverlayCreateDestroy.IsChecked = true;
-            }
-                
-            if (overlayWasPinned)
-            {
-                LockOverlayWindow(this, null);
-                TlgBtnOverlayLockUnlock.IsChecked = true;
+                if (overlayWasShowed)
+                {
+                    CreateOverlayWindow(this, null);
+                    TlgBtnOverlayCreateDestroy.IsChecked = true;
+                }
+
+                if (overlayWasPinned)
+                {
+                    LockOverlayWindow(this, null);
+                    TlgBtnOverlayLockUnlock.IsChecked = true;
+                }
             }
         }
 

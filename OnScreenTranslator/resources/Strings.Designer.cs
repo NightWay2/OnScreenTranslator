@@ -61,11 +61,38 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to apply the new settings?.
+        /// </summary>
+        public static string ApplyConfirmation {
+            get {
+                return ResourceManager.GetString("ApplyConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply Settings.
         /// </summary>
         public static string ApplySettings {
             get {
                 return ResourceManager.GetString("ApplySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        public static string ConfirmationWindow {
+            get {
+                return ResourceManager.GetString("ConfirmationWindow", resourceCulture);
             }
         }
         
@@ -435,6 +462,15 @@ namespace OnScreenTranslator.resources {
         public static string UnlockOverlay {
             get {
                 return ResourceManager.GetString("UnlockOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
