@@ -44,7 +44,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="MessageTextBlock" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   TextAlignment="Center" FontSize="14" Text="Are you sure you want to apply the new settings?"/>
+                   TextAlignment="Center" FontSize="12" Text="Are you sure you want to apply the new settings?"/>
 
         <UniformGrid Grid.Row="1" Columns="2" Margin="0 15 0 0">
             <Button x:Name="YesButton" Content="Yes" Click="Yes_Click" Height="32" Width="90"

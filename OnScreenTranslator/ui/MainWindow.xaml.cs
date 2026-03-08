@@ -21,6 +21,7 @@ namespace OnScreenTranslator.ui
     // add hints, add try catch for save settings, start button more visible !!!!!!!!!!!!!!!!!!!!!!!!
     // mb connect text from ocr to translate as one piece (mb param, like translate separately or together) !!!!!!!!!!!!!!!!!!!!!!!!!!!
     // welcome guide about how to use program (with option do not show again) !!!!!!!!!!!!!!!!!!!!
+    // mb add describtion for error when we are unable to connect to libre translator
 
     // todo add settings:
     // add translation_interval_ms to settings (can`t be 0 or less)
@@ -460,6 +461,43 @@ namespace OnScreenTranslator.ui
                     TlgBtnOverlayLockUnlock.IsChecked = true;
                 }
             }
+        }
+
+        private void OpenTranslatorSettings(object sender, RoutedEventArgs e)
+        {
+            bool translationWasRunning = TlgBtnStartStopTranslation.IsChecked.Value;
+
+            if (translationWasRunning)
+            {
+                StopTranslationLoop();
+                ResetCountdown();
+                TlgBtnStartStopTranslation.IsChecked = false;
+            }
+
+            var settingsWindow = new TranslatorSettingsWindow();
+
+            settingsWindow.Owner = this;
+
+            if (settingsWindow.ShowDialog() == true)
+            {
+                // todo save logic
+            }
+        }
+
+        /*
+         * GUIDE
+         */ 
+        private void OpenGuide(object sender, RoutedEventArgs e)
+        {
+            bool translationWasRunning = TlgBtnStartStopTranslation.IsChecked.Value;
+
+            if (translationWasRunning)
+            {
+                StopTranslationLoop();
+                ResetCountdown();
+                TlgBtnStartStopTranslation.IsChecked = false;
+            }
+
         }
 
         /*
