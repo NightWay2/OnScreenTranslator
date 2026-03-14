@@ -84,5 +84,7 @@ namespace OnScreenTranslator.settings
         public string SelectedTheme => Strings.SelectedTheme;
         public string Dark => Strings.Dark;
         public string Light => Strings.Light;
+        public string TranslationInterval => Strings.TranslationInterval;
+        public string TranslationSettingsLabel => Strings.TranslationSettingsLabel;
     }
 }

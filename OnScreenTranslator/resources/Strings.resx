@@ -261,6 +261,12 @@
   <data name="TargetLangLabel" xml:space="preserve">
     <value>Target Language</value>
   </data>
+  <data name="TranslationInterval" xml:space="preserve">
+    <value>Interval between translations (sec)</value>
+  </data>
+  <data name="TranslationSettingsLabel" xml:space="preserve">
+    <value>Translation</value>
+  </data>
   <data name="TranslatorSettings" xml:space="preserve">
     <value>Translator Settings</value>
   </data>

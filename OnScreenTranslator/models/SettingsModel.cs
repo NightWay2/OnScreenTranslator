@@ -10,5 +10,6 @@
         public int OverlayTransparency { get; set; } = 80;
         public bool OverlayAllowSelectingText { get; set; } = false;
         public string OverlayTheme { get; set; } = "dark";
+        public int TranslationInterval { get; set; } = 10;
     }
 }

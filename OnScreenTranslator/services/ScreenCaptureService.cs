@@ -26,7 +26,7 @@ namespace OnScreenTranslator.services
                     CopyPixelOperation.SourceCopy
                 );
             }
-            //bitmap.Save("screen_test_file.jpg"); // todo del
+            //bitmap.Save("screen_test_file.jpg"); // todo del [DEBUG]
             return bitmap;
         }
     }

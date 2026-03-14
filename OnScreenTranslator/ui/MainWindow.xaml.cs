@@ -24,9 +24,8 @@ namespace OnScreenTranslator.ui
     // mb add describtion for error when we are unable to connect to libre translator
 
     // todo add settings:
-    // add translation_interval_ms to settings (can`t be 0 or less)
-    // add _countdownTime to settings (can`t be less than 0)
-
+    // add translation_interval_ms to settings (can`t be 0 or less) +
+    // add setting to translate in different way (by rows, all together)
     // mb add posibility to translate only one time, and repeatedly
 
     // docker compose: add only supported languages
@@ -44,7 +43,7 @@ namespace OnScreenTranslator.ui
         // Translation related vars
         private CancellationTokenSource? _translationCts;
         private bool _isTranslationRunning = false;
-        private const int TRANSLATION_INTERVAL_MS = 10000; // min ~1000
+        //private const int TRANSLATION_INTERVAL_MS = 10000; // min ~1000 // todo del
         private string _previousText = "";
         private string _previousTranslatedText = "";
         private string _previousSourceLang = "";
@@ -61,6 +60,10 @@ namespace OnScreenTranslator.ui
         private double? _overlayY;
         private int _overlayFontSizeLowerLimit = 8;
         private int _overlayFontSizeHigherLimit = 40;
+
+        // Translation settings
+        private int _translationIntervalLowerLimit = 1;
+        private int _translationIntervalHigherLimit = 60;
 
         // Hotkey IDs and Keys
         private const int SCREEN_CAPTURE_HOTKEY_ID = 1;
@@ -277,6 +280,8 @@ namespace OnScreenTranslator.ui
             string source = ComBoxSourceLang.SelectedValue.ToString();
             string target = ComBoxTargetLang.SelectedValue.ToString();
 
+            int translationInterval = SettingsManager.GetInstance().GetTranslationInterval() * 1000;
+
             Task.Run(async () =>
             {
                 try
@@ -336,7 +341,7 @@ namespace OnScreenTranslator.ui
                             });
                         }
 
-                        await Task.Delay(TRANSLATION_INTERVAL_MS, token);
+                        await Task.Delay(translationInterval, token);
                     }
                 }
                 catch (OperationCanceledException)
@@ -514,6 +519,9 @@ namespace OnScreenTranslator.ui
                     case "TxtOverlayFontSize":
                         higherLimit = _overlayFontSizeHigherLimit;
                         break;
+                    case "TxtTranslationInterval":
+                        higherLimit = _translationIntervalHigherLimit;
+                        break;
                 }
 
                 if (!int.TryParse(e.Text, out _))
@@ -552,6 +560,10 @@ namespace OnScreenTranslator.ui
                             ValidateAndFixValue(textBox, _overlayFontSizeLowerLimit, _overlayFontSizeHigherLimit,
                                 SettingsManager.GetInstance().GetOverlayFontSize());
                             break;
+                        case "TxtTranslationInterval":
+                            ValidateAndFixValue(textBox, _translationIntervalLowerLimit, _translationIntervalHigherLimit,
+                                SettingsManager.GetInstance().GetTranslationInterval());
+                            break;
                     }
                 }
                 Keyboard.ClearFocus();
@@ -567,6 +579,10 @@ namespace OnScreenTranslator.ui
                     case "TxtOverlayFontSize":
                         ValidateAndFixValue(textBox, _overlayFontSizeLowerLimit, _overlayFontSizeHigherLimit,
                             SettingsManager.GetInstance().GetOverlayFontSize());
+                        break;
+                    case "TxtTranslationInterval":
+                        ValidateAndFixValue(textBox, _translationIntervalLowerLimit, _translationIntervalHigherLimit,
+                            SettingsManager.GetInstance().GetTranslationInterval());
                         break;
                 }
             }
@@ -599,6 +615,11 @@ namespace OnScreenTranslator.ui
                         higherLimit = _overlayFontSizeHigherLimit;
                         textBox = TxtOverlayFontSize;
                         break;
+                    case "BtnTranslationIntervalUp":
+                        lowerLimit = _translationIntervalLowerLimit;
+                        higherLimit = _translationIntervalHigherLimit;
+                        textBox = TxtTranslationInterval;
+                        break;
                 }
 
                 if (int.TryParse(textBox?.Text, out int val))
@@ -623,6 +644,11 @@ namespace OnScreenTranslator.ui
                         lowerLimit = _overlayFontSizeLowerLimit;
                         higherLimit = _overlayFontSizeHigherLimit;
                         textBox = TxtOverlayFontSize;
+                        break;
+                    case "BtnTranslationIntervalDown":
+                        lowerLimit = _translationIntervalLowerLimit;
+                        higherLimit = _translationIntervalHigherLimit;
+                        textBox = TxtTranslationInterval;
                         break;
                 }
 

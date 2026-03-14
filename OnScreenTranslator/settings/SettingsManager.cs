@@ -110,6 +110,11 @@ namespace OnScreenTranslator.settings
             {
                 _settings.OverlayTheme = "dark";
             }
+
+            if (_settings.TranslationInterval < 1 || _settings.TranslationInterval > 60) 
+            {
+                _settings.TranslationInterval = 10;
+            }
         }
 
         private void SetInitialParams(MainWindow mainWindow)
@@ -123,6 +128,8 @@ namespace OnScreenTranslator.settings
             mainWindow.SliderOverlayTransparency.Value = _settings.OverlayTransparency;
             mainWindow.CheckBoxOverlayAllowCopy.IsChecked = _settings.OverlayAllowSelectingText;
             mainWindow.ComBoxOverlayTheme.SelectedValue = _settings.OverlayTheme;
+
+            mainWindow.TxtTranslationInterval.Text = _settings.TranslationInterval.ToString();
         }
 
         public void ApplySettings(MainWindow mainWindow) 
@@ -131,6 +138,8 @@ namespace OnScreenTranslator.settings
             _settings.OverlayTransparency = (int) mainWindow.SliderOverlayTransparency.Value;
             _settings.OverlayAllowSelectingText = mainWindow.CheckBoxOverlayAllowCopy.IsChecked.Value;
             _settings.OverlayTheme = mainWindow.ComBoxOverlayTheme.SelectedValue.ToString();
+
+            _settings.TranslationInterval = int.Parse(mainWindow.TxtTranslationInterval.Text);
         }
 
         public int GetOverlayFontSize()
@@ -151,6 +160,11 @@ namespace OnScreenTranslator.settings
         public string GetOverlaySelectedTheme()
         {
             return _settings.OverlayTheme;
+        }
+
+        public int GetTranslationInterval()
+        {
+            return _settings.TranslationInterval;
         }
     }
 }

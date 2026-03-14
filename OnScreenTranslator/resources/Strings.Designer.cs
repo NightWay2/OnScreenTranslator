@@ -493,6 +493,24 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interval between translations (sec).
+        /// </summary>
+        public static string TranslationInterval {
+            get {
+                return ResourceManager.GetString("TranslationInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translation.
+        /// </summary>
+        public static string TranslationSettingsLabel {
+            get {
+                return ResourceManager.GetString("TranslationSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Translator Settings.
         /// </summary>
         public static string TranslatorSettings {

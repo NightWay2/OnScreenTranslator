@@ -261,6 +261,12 @@
   <data name="TargetLangLabel" xml:space="preserve">
     <value>Мова перекладу</value>
   </data>
+  <data name="TranslationInterval" xml:space="preserve">
+    <value>Інтервал між перекладами (с.)</value>
+  </data>
+  <data name="TranslationSettingsLabel" xml:space="preserve">
+    <value>Переклад</value>
+  </data>
   <data name="TranslatorSettings" xml:space="preserve">
     <value>Параметри перекладача</value>
   </data>
