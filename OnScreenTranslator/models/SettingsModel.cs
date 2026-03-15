@@ -1,4 +1,6 @@
-﻿namespace OnScreenTranslator.models
+﻿using OnScreenTranslator.adapters.translators;
+
+namespace OnScreenTranslator.models
 {
     public class SettingsModel
     {
@@ -11,5 +13,9 @@
         public bool OverlayAllowSelectingText { get; set; } = false;
         public string OverlayTheme { get; set; } = "dark";
         public int TranslationInterval { get; set; } = 10;
+
+        public string Translator { get; set; } = Translators.GoogleFreeTranslator.ToString();
+        public string LibreTranslatorEndpoint { get; set; } = "http://localhost:5000";
+        public string LibreTranslatorApikey { get; set; } = "";
     }
 }

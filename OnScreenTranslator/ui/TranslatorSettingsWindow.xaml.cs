@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using OnScreenTranslator.adapters.translators;
+using OnScreenTranslator.settings;
+using System.Windows;
 
 namespace OnScreenTranslator.ui
 {
@@ -7,8 +9,10 @@ namespace OnScreenTranslator.ui
         public TranslatorSettingsWindow()
         {
             InitializeComponent();
-            // todo add settings, change title
-            ComBoxTranslator.SelectedIndex = 0;
+            // todo add settings
+
+            ComBoxTranslator.SelectedValue = SettingsManager.GetInstance().GetTranslator();
+            TranslatorChanged(this, null);
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -29,6 +33,37 @@ namespace OnScreenTranslator.ui
         {
             this.DialogResult = false;
             this.Close();
+        }
+
+        private void TranslatorChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            Enum.TryParse(ComBoxTranslator.SelectedValue.ToString(), out Translators tag);
+
+            if (tag == null)
+                tag = Translators.GoogleFreeTranslator;
+
+            switch (tag)
+            {
+                case Translators.GoogleFreeTranslator:
+                    TxtEndpoint.IsEnabled = false;
+                    TxtEndpoint.Text = string.Empty;
+                    TxtApiKey.IsEnabled = false;
+                    TxtApiKey.Text = string.Empty;
+                    break;
+
+                case Translators.LibreTranslator:
+                    SettingsManager sm = SettingsManager.GetInstance();
+                    TxtEndpoint.IsEnabled = true;
+                    TxtEndpoint.Text = sm.GetLibreTranslatorEndpoint();
+                    TxtApiKey.IsEnabled = true;
+                    TxtApiKey.Text = sm.GetLibreTranslatorApikey();
+                    break;
+
+                default:
+                    ComBoxTranslator.SelectedValue = Translators.GoogleFreeTranslator;
+                    TranslatorChanged(sender, e);
+                    break;
+            }
         }
     }
 }

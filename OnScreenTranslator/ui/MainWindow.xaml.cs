@@ -1,5 +1,4 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
-using OnScreenTranslator.adapters.translators;
 using OnScreenTranslator.services;
 using OnScreenTranslator.settings;
 using OnScreenTranslator.win32;
@@ -27,6 +26,9 @@ namespace OnScreenTranslator.ui
     // add translation_interval_ms to settings (can`t be 0 or less) +
     // add setting to translate in different way (by rows, all together)
     // mb add posibility to translate only one time, and repeatedly
+    
+    // add loclization in tranlsator settings and its title
+    // add status to overlay (translation active | not active)
 
     // docker compose: add only supported languages
 
@@ -268,13 +270,8 @@ namespace OnScreenTranslator.ui
             _translationCts = new CancellationTokenSource();
             var token = _translationCts.Token;
 
-            // todo add possibility to change translator !!!!!!!!!!!!!!!!!
-            _translationService = new TranslationService(
-                TranslatorFactory.GetTranslator(
-                    Translators.LibreTranslator,
-                    "http://localhost:5000"
-                )
-            );
+            _translationService = SettingsManager.GetInstance()
+                .GetTranslationService(out string apikey);
 
             // languages that will be used in translator
             string source = ComBoxSourceLang.SelectedValue.ToString();
@@ -329,7 +326,7 @@ namespace OnScreenTranslator.ui
 
                             // translate text if source and target languages are different
                             string translated = source == target ? text : await _translationService.TranslateAsync(
-                                text, source, target // todo mb add api
+                                text, source, target, apikey
                             );
                             _previousTranslatedText = translated;
 
@@ -485,7 +482,7 @@ namespace OnScreenTranslator.ui
 
             if (settingsWindow.ShowDialog() == true)
             {
-                // todo save logic
+                SettingsManager.GetInstance().ApplyTranslatorSettings(settingsWindow);
             }
         }
 

@@ -1,6 +1,9 @@
-﻿using OnScreenTranslator.models;
+﻿using OnScreenTranslator.adapters.translators;
+using OnScreenTranslator.models;
+using OnScreenTranslator.services;
 using OnScreenTranslator.ui;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace OnScreenTranslator.settings
@@ -115,6 +118,12 @@ namespace OnScreenTranslator.settings
             {
                 _settings.TranslationInterval = 10;
             }
+
+            if (_settings.LibreTranslatorEndpoint == string.Empty || 
+                _settings.LibreTranslatorEndpoint == null)
+            {
+                _settings.LibreTranslatorEndpoint = "http://localhost:5000";
+            }
         }
 
         private void SetInitialParams(MainWindow mainWindow)
@@ -142,6 +151,34 @@ namespace OnScreenTranslator.settings
             _settings.TranslationInterval = int.Parse(mainWindow.TxtTranslationInterval.Text);
         }
 
+        public void ApplyTranslatorSettings(TranslatorSettingsWindow tsw)
+        {
+            _settings.Translator = tsw.ComBoxTranslator.SelectedValue.ToString();
+            
+            if (_settings.Translator == "LibreTranslator")
+            {
+                _settings.LibreTranslatorEndpoint = tsw.TxtEndpoint.Text;
+                _settings.LibreTranslatorApikey = tsw.TxtApiKey.Text;
+            }
+        }
+
+        // IF NEW TRANSLATORS ARE ADDED, THEY SHOULD BE ADDED HERE AS WELL
+        public TranslationService GetTranslationService(out string apikey)
+        {
+            switch (_settings.Translator)
+            {
+                case "LibreTranslator":
+                    apikey = _settings.LibreTranslatorApikey;
+                    return new TranslationService(TranslatorFactory.GetTranslator(
+                        Translators.LibreTranslator, _settings.LibreTranslatorEndpoint
+                    ));
+                default:
+                    apikey = "";
+                    return new TranslationService(TranslatorFactory.GetTranslator(Translators.GoogleFreeTranslator));
+            }
+            ;
+        }
+
         public int GetOverlayFontSize()
         {
             return _settings.OverlayFontSize;
@@ -165,6 +202,21 @@ namespace OnScreenTranslator.settings
         public int GetTranslationInterval()
         {
             return _settings.TranslationInterval;
+        }
+
+        public string GetTranslator()
+        {
+            return _settings.Translator;
+        }
+
+        public string GetLibreTranslatorEndpoint()
+        {
+            return _settings.LibreTranslatorEndpoint;
+        }
+
+        public string GetLibreTranslatorApikey()
+        {
+            return _settings.LibreTranslatorApikey;
         }
     }
 }

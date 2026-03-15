@@ -1,7 +1,7 @@
 ﻿<Window x:Class="OnScreenTranslator.ui.TranslatorSettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Translator Settings" Height="350" Width="450"
+        Title="{Binding TranslatorSettings}" Height="350" Width="450"
         WindowStartupLocation="CenterOwner" 
         ResizeMode="NoResize"
         Background="#2D2D2D" Foreground="White" ThemeMode="Dark"
@@ -73,9 +73,9 @@
         <StackPanel Grid.Row="0" Margin="0 0 0 15">
             <TextBlock Text="Translation Engine:" Margin="0 0 0 5" Opacity="0.7"/>
             <ComboBox x:Name="ComBoxTranslator" Height="30" Background="#1C1C1C" SelectedValuePath="Tag" Focusable="False"
-                      VerticalContentAlignment="Center">
-                <ComboBoxItem Content="Google Translate"/>
-                <ComboBoxItem Content="LibreTranslate"/>
+                      VerticalContentAlignment="Center" SelectionChanged="TranslatorChanged">
+                <ComboBoxItem Content="Google Free Translator" Tag="GoogleFreeTranslator"/>
+                <ComboBoxItem Content="Libre Translator" Tag="LibreTranslator"/>
             </ComboBox>
         </StackPanel>
 
