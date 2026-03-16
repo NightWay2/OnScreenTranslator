@@ -90,5 +90,7 @@ namespace OnScreenTranslator.settings
         public string TranslatorEngine => Strings.TranslatorEngine;
         public string EndpointURL => Strings.EndpointURL;
         public string ApiKey => Strings.ApiKey;
+        public string TranslationStatusOn => Strings.TranslationStatusOn;
+        public string TranslationStatusOff => Strings.TranslationStatusOff;
     }
 }

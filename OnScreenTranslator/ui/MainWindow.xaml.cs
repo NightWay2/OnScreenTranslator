@@ -1,4 +1,5 @@
 ﻿using OnScreenTranslator.adapters.ocrs;
+using OnScreenTranslator.resources;
 using OnScreenTranslator.services;
 using OnScreenTranslator.settings;
 using OnScreenTranslator.win32;
@@ -27,7 +28,6 @@ namespace OnScreenTranslator.ui
     // add setting to translate in different way (by rows, all together)
     // mb add posibility to translate only one time, and repeatedly
     
-    // add loclization in tranlsator settings and its title
     // add status to overlay (translation active | not active)
 
     // docker compose: add only supported languages
@@ -106,6 +106,11 @@ namespace OnScreenTranslator.ui
                 _overlayWindow.TxtOverlay.Text = _previousTranslatedText;
             else
                 _overlayWindow.TxtOverlay.Visibility = Visibility.Hidden;
+
+            if (TlgBtnStartStopTranslation.IsChecked.Value)
+                _overlayWindow.TxtTranslationStatus.Text = Strings.TranslationStatusOn;
+            else
+                _overlayWindow.TxtTranslationStatus.Text = Strings.TranslationStatusOff;
 
             _overlayWindow.Show();
 
@@ -279,6 +284,13 @@ namespace OnScreenTranslator.ui
 
             int translationInterval = SettingsManager.GetInstance().GetTranslationInterval() * 1000;
 
+            if (_overlayWindow != null)
+            {
+                _overlayWindow.Dispatcher.Invoke(() =>
+                    _overlayWindow?.TxtTranslationStatus.Text = Strings.TranslationStatusOn
+                );
+            }
+
             Task.Run(async () =>
             {
                 try
@@ -295,7 +307,7 @@ namespace OnScreenTranslator.ui
                         Bitmap image;
 
                         // check if overlay lays over text area we want to translate
-                        bool? intersects = _overlayWindow?.Dispatcher.Invoke(() =>
+                        bool? intersects = _overlayWindow?.Dispatcher.Invoke(() =>                            
                             _overlayWindow?.IntersectsScreenArea(_selectedScreenArea.Value)
                         );
 
@@ -359,6 +371,9 @@ namespace OnScreenTranslator.ui
                     // release lock
                     _isTranslationRunning = false;
                     Dispatcher.Invoke(() => TlgBtnStartStopTranslation.IsChecked = false);
+                    _overlayWindow?.Dispatcher.Invoke(() =>
+                        _overlayWindow?.TxtTranslationStatus.Text = Strings.TranslationStatusOff
+                    );
                 }
             }, token);
         }

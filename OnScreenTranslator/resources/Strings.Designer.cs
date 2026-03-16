@@ -538,6 +538,24 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Translation is off.
+        /// </summary>
+        public static string TranslationStatusOff {
+            get {
+                return ResourceManager.GetString("TranslationStatusOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translation is on.
+        /// </summary>
+        public static string TranslationStatusOn {
+            get {
+                return ResourceManager.GetString("TranslationStatusOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Translator Engine.
         /// </summary>
         public static string TranslatorEngine {

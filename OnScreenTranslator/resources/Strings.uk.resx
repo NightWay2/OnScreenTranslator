@@ -276,6 +276,12 @@
   <data name="TranslationSettingsLabel" xml:space="preserve">
     <value>Переклад</value>
   </data>
+  <data name="TranslationStatusOff" xml:space="preserve">
+    <value>Переклад не активний</value>
+  </data>
+  <data name="TranslationStatusOn" xml:space="preserve">
+    <value>Переклад активний</value>
+  </data>
   <data name="TranslatorEngine" xml:space="preserve">
     <value>Перекладач</value>
   </data>
