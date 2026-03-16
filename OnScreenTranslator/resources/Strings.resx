@@ -120,6 +120,9 @@
   <data name="AllowTextSelecting" xml:space="preserve">
     <value>Allow text selecting</value>
   </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Api Key (Optional)</value>
+  </data>
   <data name="ApplyConfirmation" xml:space="preserve">
     <value>Are you sure you want to apply the new settings?</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Destroy Overlay</value>
+  </data>
+  <data name="EndpointURL" xml:space="preserve">
+    <value>Endpoint URL (Optional)</value>
   </data>
   <data name="FontSize" xml:space="preserve">
     <value>Font Size</value>
@@ -240,6 +246,9 @@
   <data name="RestoreSettings" xml:space="preserve">
     <value>Restore Settings</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="SelectArea" xml:space="preserve">
     <value>Select Area To Translate From</value>
   </data>
@@ -266,6 +275,9 @@
   </data>
   <data name="TranslationSettingsLabel" xml:space="preserve">
     <value>Translation</value>
+  </data>
+  <data name="TranslatorEngine" xml:space="preserve">
+    <value>Translator Engine</value>
   </data>
   <data name="TranslatorSettings" xml:space="preserve">
     <value>Translator Settings</value>

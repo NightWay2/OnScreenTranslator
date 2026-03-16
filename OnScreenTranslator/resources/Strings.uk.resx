@@ -120,6 +120,9 @@
   <data name="AllowTextSelecting" xml:space="preserve">
     <value>Дозволити виділення тексту</value>
   </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>Api Key (Опціонально)</value>
+  </data>
   <data name="ApplyConfirmation" xml:space="preserve">
     <value>Ви впевнені, що хочете застосувати нові налаштування?</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="DestroyOverlay" xml:space="preserve">
     <value>Прибрати оверлей</value>
+  </data>
+  <data name="EndpointURL" xml:space="preserve">
+    <value>Endpoint URL (Опціонально)</value>
   </data>
   <data name="FontSize" xml:space="preserve">
     <value>Розмір шрифту</value>
@@ -240,6 +246,9 @@
   <data name="RestoreSettings" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
   <data name="SelectArea" xml:space="preserve">
     <value>Вибрати область для перекладу</value>
   </data>
@@ -267,11 +276,14 @@
   <data name="TranslationSettingsLabel" xml:space="preserve">
     <value>Переклад</value>
   </data>
+  <data name="TranslatorEngine" xml:space="preserve">
+    <value>Перекладач</value>
+  </data>
   <data name="TranslatorSettings" xml:space="preserve">
     <value>Параметри перекладача</value>
   </data>
   <data name="Transparency" xml:space="preserve">
-    <value>Прозорість вікна (в закріпленому стану)</value>
+    <value>Прозорість вікна (в закріпленому стані)</value>
   </data>
   <data name="UnlockOverlay" xml:space="preserve">
     <value>Відкріпити оверлей</value>

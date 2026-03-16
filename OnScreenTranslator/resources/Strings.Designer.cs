@@ -70,6 +70,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Api Key (Optional).
+        /// </summary>
+        public static string ApiKey {
+            get {
+                return ResourceManager.GetString("ApiKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to apply the new settings?.
         /// </summary>
         public static string ApplyConfirmation {
@@ -129,6 +138,15 @@ namespace OnScreenTranslator.resources {
         public static string DestroyOverlay {
             get {
                 return ResourceManager.GetString("DestroyOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Endpoint URL (Optional).
+        /// </summary>
+        public static string EndpointURL {
+            get {
+                return ResourceManager.GetString("EndpointURL", resourceCulture);
             }
         }
         
@@ -430,6 +448,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Area To Translate From.
         /// </summary>
         public static string SelectArea {
@@ -507,6 +534,15 @@ namespace OnScreenTranslator.resources {
         public static string TranslationSettingsLabel {
             get {
                 return ResourceManager.GetString("TranslationSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translator Engine.
+        /// </summary>
+        public static string TranslatorEngine {
+            get {
+                return ResourceManager.GetString("TranslatorEngine", resourceCulture);
             }
         }
         

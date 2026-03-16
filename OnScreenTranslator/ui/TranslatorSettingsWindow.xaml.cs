@@ -47,15 +47,19 @@ namespace OnScreenTranslator.ui
                 case Translators.GoogleFreeTranslator:
                     TxtEndpoint.IsEnabled = false;
                     TxtEndpoint.Text = string.Empty;
+                    TxtEndpoint.Opacity = 0.7;
                     TxtApiKey.IsEnabled = false;
                     TxtApiKey.Text = string.Empty;
+                    TxtApiKey.Opacity = 0.7;
                     break;
 
                 case Translators.LibreTranslator:
                     SettingsManager sm = SettingsManager.GetInstance();
                     TxtEndpoint.IsEnabled = true;
+                    TxtEndpoint.Opacity = 1;
                     TxtEndpoint.Text = sm.GetLibreTranslatorEndpoint();
                     TxtApiKey.IsEnabled = true;
+                    TxtApiKey.Opacity = 1;
                     TxtApiKey.Text = sm.GetLibreTranslatorApikey();
                     break;
 

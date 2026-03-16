@@ -159,6 +159,9 @@ namespace OnScreenTranslator.settings
             {
                 _settings.LibreTranslatorEndpoint = tsw.TxtEndpoint.Text;
                 _settings.LibreTranslatorApikey = tsw.TxtApiKey.Text;
+
+                if (_settings.LibreTranslatorEndpoint == string.Empty)
+                    _settings.LibreTranslatorEndpoint = "http://localhost:5000";
             }
         }
 

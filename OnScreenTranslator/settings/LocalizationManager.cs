@@ -41,6 +41,7 @@ namespace OnScreenTranslator.settings
         public string ApplySettings => Strings.ApplySettings;
         public string Yes => Strings.Yes;
         public string Cancel => Strings.Cancel;
+        public string Save => Strings.Save;
 
         // Languages
         public string Language_Auto => Strings.Language_Auto;
@@ -86,5 +87,8 @@ namespace OnScreenTranslator.settings
         public string Light => Strings.Light;
         public string TranslationInterval => Strings.TranslationInterval;
         public string TranslationSettingsLabel => Strings.TranslationSettingsLabel;
+        public string TranslatorEngine => Strings.TranslatorEngine;
+        public string EndpointURL => Strings.EndpointURL;
+        public string ApiKey => Strings.ApiKey;
     }
 }

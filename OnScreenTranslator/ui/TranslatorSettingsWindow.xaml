@@ -4,6 +4,7 @@
         Title="{Binding TranslatorSettings}" Height="350" Width="450"
         WindowStartupLocation="CenterOwner" 
         ResizeMode="NoResize"
+        DataContext="{StaticResource Loc}"
         Background="#2D2D2D" Foreground="White" ThemeMode="Dark"
         WindowStyle="SingleBorderWindow">
 
@@ -71,7 +72,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0 0 0 15">
-            <TextBlock Text="Translation Engine:" Margin="0 0 0 5" Opacity="0.7"/>
+            <TextBlock Text="{Binding TranslatorEngine}" Margin="0 0 0 5" Opacity="0.7"/>
             <ComboBox x:Name="ComBoxTranslator" Height="30" Background="#1C1C1C" SelectedValuePath="Tag" Focusable="False"
                       VerticalContentAlignment="Center" SelectionChanged="TranslatorChanged">
                 <ComboBoxItem Content="Google Free Translator" Tag="GoogleFreeTranslator"/>
@@ -80,19 +81,21 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0 0 0 15">
-            <TextBlock Text="Endpoint URL (Optional):" Margin="0 0 0 5" Opacity="0.7"/>
+            <TextBlock Text="{Binding EndpointURL}" Margin="0 0 0 5" Opacity="0.7"/>
             <TextBox x:Name="TxtEndpoint" Style="{StaticResource ModernTextBox}" Height="30"
                      Text="http://localhost:5000"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="0 0 0 15">
-            <TextBlock Text="API Key (Optional):" Margin="0 0 0 5" Opacity="0.7"/>
+            <TextBlock Text="{Binding ApiKey}" Margin="0 0 0 5" Opacity="0.7"/>
             <TextBox x:Name="TxtApiKey" Style="{StaticResource ModernTextBox}" Height="30"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Save" Click="Save_Click" Style="{StaticResource SettingButton}" Margin="0 0 90 0" Width="90"/>
-            <Button Content="Cancel" Click="Cancel_Click" Style="{StaticResource SettingButton}" Width="90"/>
+            <Button Content="{Binding Save}" Click="Save_Click" Style="{StaticResource SettingButton}" Margin="0 0 90 0" Width="90" 
+                    Height="32"/>
+            <Button Content="{Binding Cancel}" Click="Cancel_Click" Style="{StaticResource SettingButton}" Width="90" 
+                    Height="32"/>
         </StackPanel>
     </Grid>
 </Window>
