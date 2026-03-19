@@ -270,8 +270,8 @@
   <data name="TargetLangLabel" xml:space="preserve">
     <value>Мова перекладу</value>
   </data>
-  <data name="TranslationInterval" xml:space="preserve">
-    <value>Інтервал між перекладами (с.)</value>
+  <data name="UpdateInterval" xml:space="preserve">
+    <value>Інтервал оновлення (с.)</value>
   </data>
   <data name="TranslationSettingsLabel" xml:space="preserve">
     <value>Переклад</value>
@@ -296,5 +296,32 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Так</value>
+  </data>
+  <data name="WorkMode" xml:space="preserve">
+    <value>Режим роботи</value>
+  </data>
+  <data name="Translation" xml:space="preserve">
+    <value>Переклад</value>
+  </data>
+  <data name="OcrOnly" xml:space="preserve">
+    <value>Тільки текст (OCR)</value>
+  </data>
+  <data name="OcrMode" xml:space="preserve">
+    <value>Режим перекладу тексту</value>
+  </data>
+  <data name="ByRows" xml:space="preserve">
+    <value>По рядкам</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Блоком</value>
+  </data>
+  <data name="UpdateMode" xml:space="preserve">
+    <value>Режим повторюваності</value>
+  </data>
+  <data name="OneTime" xml:space="preserve">
+    <value>Одноразово</value>
+  </data>
+  <data name="Repeatedly" xml:space="preserve">
+    <value>Постійно</value>
   </data>
 </root>

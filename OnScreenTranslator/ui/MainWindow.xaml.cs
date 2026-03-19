@@ -27,12 +27,15 @@ namespace OnScreenTranslator.ui
     // add translation_interval_ms to settings (can`t be 0 or less) +
     // add setting to translate in different way (by rows, all together)
     // mb add posibility to translate only one time, and repeatedly
+    // add posibility to use in ocr mode
     
     // add status to overlay (translation active | not active)
 
     // docker compose: add only supported languages
 
     // todo fix buttons hover and textbox hover
+
+    // TODO fix if overlay is closed by close button, it doesn`t remember its last position
     public partial class MainWindow : Window
     {
         private OverlayWindow? _overlayWindow;
@@ -307,7 +310,7 @@ namespace OnScreenTranslator.ui
                         Bitmap image;
 
                         // check if overlay lays over text area we want to translate
-                        bool? intersects = _overlayWindow?.Dispatcher.Invoke(() =>                            
+                        bool? intersects = _overlayWindow?.Dispatcher.Invoke(() =>
                             _overlayWindow?.IntersectsScreenArea(_selectedScreenArea.Value)
                         );
 
@@ -802,7 +805,11 @@ namespace OnScreenTranslator.ui
         {
             _overlayWindow?.Close();
 
-            SettingsManager.GetInstance().SaveSettings(this);
+            try
+            {
+                SettingsManager.GetInstance().SaveSettings(this);
+            }
+            catch { }
 
             /*
              * Unbinding hotkeys

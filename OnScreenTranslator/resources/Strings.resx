@@ -270,8 +270,8 @@
   <data name="TargetLangLabel" xml:space="preserve">
     <value>Target Language</value>
   </data>
-  <data name="TranslationInterval" xml:space="preserve">
-    <value>Interval between translations (sec)</value>
+  <data name="UpdateInterval" xml:space="preserve">
+    <value>Update interval (sec)</value>
   </data>
   <data name="TranslationSettingsLabel" xml:space="preserve">
     <value>Translation</value>
@@ -296,5 +296,32 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="WorkMode" xml:space="preserve">
+    <value>Work mode</value>
+  </data>
+  <data name="Translation" xml:space="preserve">
+    <value>Translation</value>
+  </data>
+  <data name="OcrOnly" xml:space="preserve">
+    <value>OCR Only</value>
+  </data>
+  <data name="OcrMode" xml:space="preserve">
+    <value>Text translation mode</value>
+  </data>
+  <data name="ByRows" xml:space="preserve">
+    <value>By Rows</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="UpdateMode" xml:space="preserve">
+    <value>Update Mode</value>
+  </data>
+  <data name="OneTime" xml:space="preserve">
+    <value>One Time</value>
+  </data>
+  <data name="Repeatedly" xml:space="preserve">
+    <value>Repeatedly</value>
   </data>
 </root>

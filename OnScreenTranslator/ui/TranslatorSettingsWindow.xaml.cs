@@ -9,7 +9,6 @@ namespace OnScreenTranslator.ui
         public TranslatorSettingsWindow()
         {
             InitializeComponent();
-            // todo add settings
 
             ComBoxTranslator.SelectedValue = SettingsManager.GetInstance().GetTranslator();
             TranslatorChanged(this, null);

@@ -97,6 +97,24 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Block.
+        /// </summary>
+        public static string Block {
+            get {
+                return ResourceManager.GetString("Block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By Rows.
+        /// </summary>
+        public static string ByRows {
+            get {
+                return ResourceManager.GetString("ByRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -430,11 +448,47 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text translation mode.
+        /// </summary>
+        public static string OcrMode {
+            get {
+                return ResourceManager.GetString("OcrMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OCR Only.
+        /// </summary>
+        public static string OcrOnly {
+            get {
+                return ResourceManager.GetString("OcrOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One Time.
+        /// </summary>
+        public static string OneTime {
+            get {
+                return ResourceManager.GetString("OneTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Overlay.
         /// </summary>
         public static string OverlaySettingsLabel {
             get {
                 return ResourceManager.GetString("OverlaySettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeatedly.
+        /// </summary>
+        public static string Repeatedly {
+            get {
+                return ResourceManager.GetString("Repeatedly", resourceCulture);
             }
         }
         
@@ -520,11 +574,11 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interval between translations (sec).
+        ///   Looks up a localized string similar to Translation.
         /// </summary>
-        public static string TranslationInterval {
+        public static string Translation {
             get {
-                return ResourceManager.GetString("TranslationInterval", resourceCulture);
+                return ResourceManager.GetString("Translation", resourceCulture);
             }
         }
         
@@ -588,6 +642,33 @@ namespace OnScreenTranslator.resources {
         public static string UnlockOverlay {
             get {
                 return ResourceManager.GetString("UnlockOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update interval (sec).
+        /// </summary>
+        public static string UpdateInterval {
+            get {
+                return ResourceManager.GetString("UpdateInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Mode.
+        /// </summary>
+        public static string UpdateMode {
+            get {
+                return ResourceManager.GetString("UpdateMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work mode.
+        /// </summary>
+        public static string WorkMode {
+            get {
+                return ResourceManager.GetString("WorkMode", resourceCulture);
             }
         }
         

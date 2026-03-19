@@ -85,12 +85,21 @@ namespace OnScreenTranslator.settings
         public string SelectedTheme => Strings.SelectedTheme;
         public string Dark => Strings.Dark;
         public string Light => Strings.Light;
-        public string TranslationInterval => Strings.TranslationInterval;
+        public string UpdateInterval => Strings.UpdateInterval;
         public string TranslationSettingsLabel => Strings.TranslationSettingsLabel;
         public string TranslatorEngine => Strings.TranslatorEngine;
         public string EndpointURL => Strings.EndpointURL;
         public string ApiKey => Strings.ApiKey;
         public string TranslationStatusOn => Strings.TranslationStatusOn;
         public string TranslationStatusOff => Strings.TranslationStatusOff;
+        public string WorkMode => Strings.WorkMode;
+        public string Translation => Strings.Translation;
+        public string OcrOnly => Strings.OcrOnly;
+        public string OcrMode => Strings.OcrMode;
+        public string ByRows => Strings.ByRows;
+        public string Block => Strings.Block;
+        public string UpdateMode => Strings.UpdateMode;
+        public string OneTime => Strings.OneTime;
+        public string Repeatedly => Strings.Repeatedly;
     }
 }
