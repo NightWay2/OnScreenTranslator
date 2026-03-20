@@ -324,4 +324,7 @@
   <data name="Repeatedly" xml:space="preserve">
     <value>Repeatedly</value>
   </data>
+  <data name="OneTimeWithWaiting" xml:space="preserve">
+    <value>One Time with waiting new area</value>
+  </data>
 </root>

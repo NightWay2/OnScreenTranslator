@@ -3,7 +3,6 @@ using OnScreenTranslator.models;
 using OnScreenTranslator.services;
 using OnScreenTranslator.ui;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace OnScreenTranslator.settings
@@ -124,6 +123,22 @@ namespace OnScreenTranslator.settings
             {
                 _settings.LibreTranslatorEndpoint = "http://localhost:5000";
             }
+
+            if (_settings.TranslationWorkMode != "translation" && _settings.TranslationWorkMode!= "ocr")
+            {
+                _settings.TranslationWorkMode = "translation";
+            }
+
+            if (_settings.TranslationOcrMode != "block" && _settings.TranslationOcrMode != "row")
+            {
+                _settings.TranslationOcrMode = "block";
+            }
+
+            if (_settings.TranslationUpdateMode != "onetime" && _settings.TranslationUpdateMode != "onetimewithwaiting"
+                && _settings.TranslationUpdateMode != "repeatedly")
+            {
+                _settings.TranslationUpdateMode = "onetime";
+            }
         }
 
         private void SetInitialParams(MainWindow mainWindow)
@@ -139,6 +154,9 @@ namespace OnScreenTranslator.settings
             mainWindow.ComBoxOverlayTheme.SelectedValue = _settings.OverlayTheme;
 
             mainWindow.TxtTranslationInterval.Text = _settings.TranslationInterval.ToString();
+            mainWindow.ComBoxTranslationWorkMode.SelectedValue = _settings.TranslationWorkMode;
+            mainWindow.ComBoxTranslationOcrMode.SelectedValue = _settings.TranslationOcrMode;
+            mainWindow.ComBoxTranslationUpdateMode.SelectedValue = _settings.TranslationUpdateMode;
         }
 
         public void ApplySettings(MainWindow mainWindow) 
@@ -149,6 +167,9 @@ namespace OnScreenTranslator.settings
             _settings.OverlayTheme = mainWindow.ComBoxOverlayTheme.SelectedValue.ToString();
 
             _settings.TranslationInterval = int.Parse(mainWindow.TxtTranslationInterval.Text);
+            _settings.TranslationWorkMode = mainWindow.ComBoxTranslationWorkMode.SelectedValue.ToString();
+            _settings.TranslationOcrMode = mainWindow.ComBoxTranslationOcrMode.SelectedValue.ToString();
+            _settings.TranslationUpdateMode = mainWindow.ComBoxTranslationUpdateMode.SelectedValue.ToString();
         }
 
         public void ApplyTranslatorSettings(TranslatorSettingsWindow tsw)
@@ -220,6 +241,21 @@ namespace OnScreenTranslator.settings
         public string GetLibreTranslatorApikey()
         {
             return _settings.LibreTranslatorApikey;
+        }
+
+        public string GetTranslationWorkMode()
+        {
+            return _settings.TranslationWorkMode;
+        }
+
+        public string GetTranslationOcrMode()
+        {
+            return _settings.TranslationOcrMode;
+        }
+
+        public string GetTranslationUpdateMode()
+        {
+            return _settings.TranslationUpdateMode;
         }
     }
 }

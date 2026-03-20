@@ -100,6 +100,7 @@ namespace OnScreenTranslator.settings
         public string Block => Strings.Block;
         public string UpdateMode => Strings.UpdateMode;
         public string OneTime => Strings.OneTime;
+        public string OneTimeWithWaiting => Strings.OneTimeWithWaiting;
         public string Repeatedly => Strings.Repeatedly;
     }
 }

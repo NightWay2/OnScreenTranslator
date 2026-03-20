@@ -578,7 +578,7 @@
                                         <!-- Selected work mode settings -->
                                         <Grid Height="50" >
                                             <TextBlock Text="{Binding WorkMode}" Foreground="White" FontSize="14" VerticalAlignment="Center" />
-                                            <ComboBox x:Name="ComBoxTranslationMode" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
+                                            <ComboBox x:Name="ComBoxTranslationWorkMode" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
                                                       HorizontalAlignment="Right" Margin="0 0 10 0" Background="#2D2D2D" Focusable="False">
                                                 <ComboBoxItem Content="{Binding Translation}" Tag="translation" />
                                                 <ComboBoxItem Content="{Binding OcrOnly}" Tag="ocr" />
@@ -589,10 +589,10 @@
                                         <Grid Height="50" >
                                             <TextBlock Text="{Binding OcrMode}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
                                                        HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
-                                            <ComboBox x:Name="ComBoxOcrMode" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
+                                            <ComboBox x:Name="ComBoxTranslationOcrMode" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
                                                       HorizontalAlignment="Right" Margin="0 0 10 0" Background="#2D2D2D" Focusable="False">
-                                                <ComboBoxItem Content="{Binding ByRows}" Tag="row" />
                                                 <ComboBoxItem Content="{Binding Block}" Tag="block" />
+                                                <ComboBoxItem Content="{Binding ByRows}" Tag="row" />
                                             </ComboBox>
                                         </Grid>
 
@@ -600,9 +600,10 @@
                                         <Grid Height="50" >
                                             <TextBlock Text="{Binding UpdateMode}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
                                                        HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
-                                            <ComboBox x:Name="ComBox" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
+                                            <ComboBox x:Name="ComBoxTranslationUpdateMode" Height="20" Width="120" VerticalAlignment="Center" SelectedValuePath="Tag"
                                                       HorizontalAlignment="Right" Margin="0 0 10 0" Background="#2D2D2D" Focusable="False">
                                                 <ComboBoxItem Content="{Binding OneTime}" Tag="onetime" />
+                                                <ComboBoxItem Content="{Binding OneTimeWithWaiting}" Tag="onetimewithwaiting" />
                                                 <ComboBoxItem Content="{Binding Repeatedly}" Tag="repeatedly" />
                                             </ComboBox>
                                         </Grid>

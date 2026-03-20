@@ -35,7 +35,8 @@ namespace OnScreenTranslator.ui
 
     // todo fix buttons hover and textbox hover
 
-    // TODO fix if overlay is closed by close button, it doesn`t remember its last position
+    // TODO fix if overlay is closed by close button, it doesn`t remember its last position | color of status in overlay in light mode
+    // TODO add new translation mode: once with waiting of new area (mb change status of translation like waiting for new area)
     public partial class MainWindow : Window
     {
         private OverlayWindow? _overlayWindow;
@@ -264,7 +265,6 @@ namespace OnScreenTranslator.ui
             TlgBtnStartStopTranslation.ClearValue(ContentProperty);
         }
 
-        // todo mb add default param to check if we call method using hotkey to create notification
         private void StartTranslationLoop()
         {
             // check if translation is running
@@ -293,6 +293,14 @@ namespace OnScreenTranslator.ui
                     _overlayWindow?.TxtTranslationStatus.Text = Strings.TranslationStatusOn
                 );
             }
+
+            bool isBlockMode = SettingsManager.GetInstance().GetTranslationOcrMode().Equals("block");
+            bool isOcrMode = SettingsManager.GetInstance().GetTranslationWorkMode().Equals("ocr");
+            bool isOneTime = SettingsManager.GetInstance().GetTranslationUpdateMode().Equals("onetime");
+            bool isOneTimeWithWaiting = SettingsManager.GetInstance().GetTranslationUpdateMode()
+                .Equals("onetimewithwaiting");
+            if (isOneTimeWithWaiting)
+                translationInterval = int.MaxValue;
 
             Task.Run(async () =>
             {
@@ -327,7 +335,11 @@ namespace OnScreenTranslator.ui
                         }
 
                         // getting text from image
-                        string text = _ocrService.GetTextFromImage(image);
+                        string text;
+                        if (isBlockMode)
+                            text = _ocrService.GetTextFromImage(image).Replace("\r\n", " ");
+                        else
+                            text = _ocrService.GetTextFromImage(image);
                         image.Dispose();
 
                         // check if text has to be translated
@@ -337,7 +349,10 @@ namespace OnScreenTranslator.ui
                             // update previous data
                             _previousText = text;
                             _previousSourceLang = source;
-                            _previousTargetLang = target;
+                            if (isOcrMode)
+                                _previousTargetLang = target = source;
+                            else
+                                _previousTargetLang = target;
 
                             // translate text if source and target languages are different
                             string translated = source == target ? text : await _translationService.TranslateAsync(
@@ -351,6 +366,9 @@ namespace OnScreenTranslator.ui
                                 _overlayWindow?.TxtOverlay.Visibility = Visibility.Visible;
                                 _overlayWindow?.TxtOverlay.Text = translated;
                             });
+
+                            if (isOneTime)
+                                return;
                         }
 
                         await Task.Delay(translationInterval, token);
@@ -711,7 +729,6 @@ namespace OnScreenTranslator.ui
         /*
          * Hotkey handler
          */
-        // todo add notifications when hotkey is pressed
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == NativeMethods.WM_HOTKEY)

@@ -475,6 +475,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One Time with waiting new area.
+        /// </summary>
+        public static string OneTimeWithWaiting {
+            get {
+                return ResourceManager.GetString("OneTimeWithWaiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Overlay.
         /// </summary>
         public static string OverlaySettingsLabel {

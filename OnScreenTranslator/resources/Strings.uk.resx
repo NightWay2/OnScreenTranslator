@@ -319,9 +319,12 @@
     <value>Режим повторюваності</value>
   </data>
   <data name="OneTime" xml:space="preserve">
-    <value>Одноразово</value>
+    <value>Один раз</value>
   </data>
   <data name="Repeatedly" xml:space="preserve">
     <value>Постійно</value>
+  </data>
+  <data name="OneTimeWithWaiting" xml:space="preserve">
+    <value>Один раз, з очікуванням нової області</value>
   </data>
 </root>
