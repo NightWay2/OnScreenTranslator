@@ -172,6 +172,31 @@ namespace OnScreenTranslator.settings
             _settings.TranslationUpdateMode = mainWindow.ComBoxTranslationUpdateMode.SelectedValue.ToString();
         }
 
+        public void RestoreSettings(MainWindow mainWindow)
+        {
+            SettingsModel newSettings = new SettingsModel() // add new params if smth added !!!!!!!!!!!!!!
+            {
+                Localization = _settings.Localization,
+                SourceLanguage = _settings.SourceLanguage,
+                TargetLanguage = _settings.TargetLanguage,
+                Translator = _settings.Translator,
+                LibreTranslatorEndpoint = _settings.LibreTranslatorEndpoint,
+                LibreTranslatorApikey = _settings.LibreTranslatorApikey,
+            };
+
+            _settings = newSettings;
+
+            mainWindow.TxtOverlayFontSize.Text = _settings.OverlayFontSize.ToString();
+            mainWindow.SliderOverlayTransparency.Value = _settings.OverlayTransparency;
+            mainWindow.CheckBoxOverlayAllowCopy.IsChecked = _settings.OverlayAllowSelectingText;
+            mainWindow.ComBoxOverlayTheme.SelectedValue = _settings.OverlayTheme;
+
+            mainWindow.TxtTranslationInterval.Text = _settings.TranslationInterval.ToString();
+            mainWindow.ComBoxTranslationWorkMode.SelectedValue = _settings.TranslationWorkMode;
+            mainWindow.ComBoxTranslationOcrMode.SelectedValue = _settings.TranslationOcrMode;
+            mainWindow.ComBoxTranslationUpdateMode.SelectedValue = _settings.TranslationUpdateMode;
+        }
+
         public void ApplyTranslatorSettings(TranslatorSettingsWindow tsw)
         {
             _settings.Translator = tsw.ComBoxTranslator.SelectedValue.ToString();

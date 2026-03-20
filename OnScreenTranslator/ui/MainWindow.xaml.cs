@@ -278,14 +278,15 @@ namespace OnScreenTranslator.ui
             _translationCts = new CancellationTokenSource();
             var token = _translationCts.Token;
 
-            _translationService = SettingsManager.GetInstance()
-                .GetTranslationService(out string apikey);
+            SettingsManager settings = SettingsManager.GetInstance();
+
+            _translationService = settings.GetTranslationService(out string apikey);
 
             // languages that will be used in translator
             string source = ComBoxSourceLang.SelectedValue.ToString();
             string target = ComBoxTargetLang.SelectedValue.ToString();
 
-            int translationInterval = SettingsManager.GetInstance().GetTranslationInterval() * 1000;
+            int translationInterval = settings.GetTranslationInterval() * 1000;
 
             if (_overlayWindow != null)
             {
@@ -294,13 +295,12 @@ namespace OnScreenTranslator.ui
                 );
             }
 
-            bool isBlockMode = SettingsManager.GetInstance().GetTranslationOcrMode().Equals("block");
-            bool isOcrMode = SettingsManager.GetInstance().GetTranslationWorkMode().Equals("ocr");
-            bool isOneTime = SettingsManager.GetInstance().GetTranslationUpdateMode().Equals("onetime");
-            bool isOneTimeWithWaiting = SettingsManager.GetInstance().GetTranslationUpdateMode()
-                .Equals("onetimewithwaiting");
-            if (isOneTimeWithWaiting)
-                translationInterval = int.MaxValue;
+            bool isBlockMode = settings.GetTranslationOcrMode().Equals("block");
+            bool isOcrMode = settings.GetTranslationWorkMode().Equals("ocr");
+            bool isOneTime = settings.GetTranslationUpdateMode().Equals("onetime");
+            bool isOneTimeWithWaiting = settings.GetTranslationUpdateMode().Equals("onetimewithwaiting");
+            
+            if (isOneTimeWithWaiting) translationInterval = int.MaxValue;
 
             Task.Run(async () =>
             {
@@ -465,9 +465,19 @@ namespace OnScreenTranslator.ui
 
         private void ApplySettings(object? sender, EventArgs e)
         {
-            bool overlayWasShowed = TlgBtnOverlayCreateDestroy.IsChecked.Value;
-            bool overlayWasPinned = TlgBtnOverlayLockUnlock.IsChecked.Value;
-            bool translationWasRunning = TlgBtnStartStopTranslation.IsChecked.Value;
+            ChangeSettings(() => SettingsManager.GetInstance().ApplySettings(this), Strings.ApplyConfirmation);
+        }
+
+        private void RestoreSettings(object? sender, EventArgs e)
+        {
+            ChangeSettings(() => SettingsManager.GetInstance().RestoreSettings(this), Strings.RestoreConfirmation);
+        }
+
+        private void ChangeSettings(Action funk, string message)
+        {
+            bool overlayWasShowed = TlgBtnOverlayCreateDestroy.IsChecked ?? false;
+            bool overlayWasPinned = TlgBtnOverlayLockUnlock.IsChecked ?? false;
+            bool translationWasRunning = TlgBtnStartStopTranslation.IsChecked ?? false;
 
             if (translationWasRunning)
             {
@@ -476,7 +486,6 @@ namespace OnScreenTranslator.ui
                 TlgBtnStartStopTranslation.IsChecked = false;
             }
 
-            string message = resources.Strings.ApplyConfirmation;
             if (ShowConfirm(message))
             {
                 if (overlayWasShowed)
@@ -485,7 +494,7 @@ namespace OnScreenTranslator.ui
                     TlgBtnOverlayCreateDestroy.IsChecked = false;
                 }
 
-                SettingsManager.GetInstance().ApplySettings(this);
+                funk.Invoke();
 
                 if (overlayWasShowed)
                 {

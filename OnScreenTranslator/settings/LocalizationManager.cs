@@ -78,6 +78,7 @@ namespace OnScreenTranslator.settings
         public string SettingsLabel => Strings.SettingsLabel;
         public string OverlaySettingsLabel => Strings.OverlaySettingsLabel;
         public string ApplyConfirmation => Strings.ApplyConfirmation;
+        public string RestoreConfirmation => Strings.RestoreConfirmation;
         public string ConfirmationWindow => Strings.ConfirmationWindow;
         public string FontSize => Strings.FontSize;
         public string Transparency => Strings.Transparency;

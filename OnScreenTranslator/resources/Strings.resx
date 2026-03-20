@@ -327,4 +327,7 @@
   <data name="OneTimeWithWaiting" xml:space="preserve">
     <value>One Time with waiting new area</value>
   </data>
+  <data name="RestoreConfirmation" xml:space="preserve">
+    <value>Are you sure you want to restore the settings?</value>
+  </data>
 </root>

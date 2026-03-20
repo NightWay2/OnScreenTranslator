@@ -502,6 +502,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to restore the settings?.
+        /// </summary>
+        public static string RestoreConfirmation {
+            get {
+                return ResourceManager.GetString("RestoreConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore Settings.
         /// </summary>
         public static string RestoreSettings {

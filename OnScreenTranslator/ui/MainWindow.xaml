@@ -619,7 +619,7 @@
             <Border Grid.Column="1" Grid.Row="2" Background="#2D2D2D" BorderThickness="0 1 0 0" BorderBrush="DimGray" >
                 <Grid>
                     <Button Name="BtnRestoreSettings" Height="35" Width="160" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                            Margin="0 0 277 0" Style="{StaticResource SettingButton}" >
+                            Margin="0 0 277 0" Style="{StaticResource SettingButton}" Click="RestoreSettings" >
                         <TextBlock Text="{Binding RestoreSettings}" TextWrapping="Wrap" TextAlignment="Center" />
                     </Button>
 

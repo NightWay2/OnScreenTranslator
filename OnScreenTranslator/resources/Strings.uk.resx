@@ -327,4 +327,7 @@
   <data name="OneTimeWithWaiting" xml:space="preserve">
     <value>Один раз, з очікуванням нової області</value>
   </data>
+  <data name="RestoreConfirmation" xml:space="preserve">
+    <value>Ви впевнені, що хочете встановити налаштування за замовчуванням?</value>
+  </data>
 </root>
