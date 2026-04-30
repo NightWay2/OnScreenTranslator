@@ -1,13 +1,9 @@
-﻿using OnScreenTranslator.ui;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OnScreenTranslator.adapters.ocrs
 {
@@ -26,7 +22,8 @@ namespace OnScreenTranslator.adapters.ocrs
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message + "\nPlease ensure the OCR modules are present in the application folder.", "OCR initialization error.", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message + "\nPlease ensure the OCR modules are present in the application folder.", 
+                    "OCR initialization error.", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw new Exception("OCR initialization error");
             }
         }

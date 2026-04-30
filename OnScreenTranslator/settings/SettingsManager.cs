@@ -46,19 +46,18 @@ namespace OnScreenTranslator.settings
                     _settings = JsonSerializer.Deserialize<SettingsModel>(jsonString) ?? new SettingsModel();
 
                     CheckParams();
-                    SetInitialParams(mainWindow);
                 }
                 catch
                 {
                     _settings = new SettingsModel();
-                    SetInitialParams(mainWindow);
                 }
             }
             else
             {
                 _settings = new SettingsModel();
-                SetInitialParams(mainWindow);
             }
+
+            SetInitialParams(mainWindow);
         }
 
         public void SaveSettings(MainWindow mainWindow)
@@ -170,6 +169,8 @@ namespace OnScreenTranslator.settings
             _settings.TranslationWorkMode = mainWindow.ComBoxTranslationWorkMode.SelectedValue.ToString();
             _settings.TranslationOcrMode = mainWindow.ComBoxTranslationOcrMode.SelectedValue.ToString();
             _settings.TranslationUpdateMode = mainWindow.ComBoxTranslationUpdateMode.SelectedValue.ToString();
+
+            SaveSettings(mainWindow);
         }
 
         public void RestoreSettings(MainWindow mainWindow)
@@ -195,6 +196,8 @@ namespace OnScreenTranslator.settings
             mainWindow.ComBoxTranslationWorkMode.SelectedValue = _settings.TranslationWorkMode;
             mainWindow.ComBoxTranslationOcrMode.SelectedValue = _settings.TranslationOcrMode;
             mainWindow.ComBoxTranslationUpdateMode.SelectedValue = _settings.TranslationUpdateMode;
+
+            SaveSettings(mainWindow);
         }
 
         public void ApplyTranslatorSettings(TranslatorSettingsWindow tsw)

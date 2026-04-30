@@ -103,5 +103,8 @@ namespace OnScreenTranslator.settings
         public string OneTime => Strings.OneTime;
         public string OneTimeWithWaiting => Strings.OneTimeWithWaiting;
         public string Repeatedly => Strings.Repeatedly;
+
+        // Guide
+        public string HowToUse => Strings.HowToUse;
     }
 }

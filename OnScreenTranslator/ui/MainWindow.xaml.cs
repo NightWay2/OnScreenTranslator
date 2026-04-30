@@ -545,6 +545,9 @@ namespace OnScreenTranslator.ui
                 TlgBtnStartStopTranslation.IsChecked = false;
             }
 
+            var guideWindow = new GuideWindow();
+            guideWindow.Owner = this;
+            guideWindow.ShowDialog();
         }
 
         /*

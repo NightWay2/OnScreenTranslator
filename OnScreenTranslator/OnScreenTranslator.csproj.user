@@ -8,6 +8,9 @@
     <Compile Update="ui\ConfirmWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ui\GuideWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ui\OverlayWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

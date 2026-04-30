@@ -145,7 +145,7 @@
     <value>Destroy Overlay</value>
   </data>
   <data name="EndpointURL" xml:space="preserve">
-    <value>Endpoint URL (Optional)</value>
+    <value>Endpoint URL</value>
   </data>
   <data name="FontSize" xml:space="preserve">
     <value>Font Size</value>
@@ -329,5 +329,8 @@
   </data>
   <data name="RestoreConfirmation" xml:space="preserve">
     <value>Are you sure you want to restore the settings?</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>How To Use OnScreenTranslator</value>
   </data>
 </root>

@@ -298,7 +298,7 @@
 
         <!-- Button to open guide -->
         <Button Name="BtnGuideOpen" Content="{Binding Guide}" Height="35" Width="160" Style="{StaticResource MainButton}"
-            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 145" />
+            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 145" Click="OpenGuide" />
         
         <!-- Button to open settings -->
         <Button Name="BtnSettingsOpen" Content="{Binding TranslatorSettings}" Height="35" Width="160" Style="{StaticResource MainButton}"
@@ -446,8 +446,8 @@
                                         <Grid Height="50" >
                                             <TextBlock Text="{Binding FontSize}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
                                                        HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
-                                            <Border Background="#2D2D2D" CornerRadius="4" BorderBrush="#33FFFFFF" BorderThickness="1" 
-                                                    Width="120" Height="30" HorizontalAlignment="Right" Margin="0 0 10 0">
+                                            <Border Background="#2D2D2D" CornerRadius="4" BorderThickness="1" 
+                                                    Width="120" Height="34" HorizontalAlignment="Right" Margin="0 0 10 0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
@@ -462,7 +462,7 @@
                                                         <TextBox.Template>
                                                             <ControlTemplate TargetType="TextBox">
                                                                 <Grid Background="Transparent">
-                                                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="0 -4 0 0" 
+                                                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="0 0 0 0" 
                                                                                   Focusable="false" HorizontalScrollBarVisibility="Hidden" 
                                                                                   VerticalScrollBarVisibility="Hidden"/>
                                                                 </Grid>
@@ -533,8 +533,8 @@
                                         <Grid Height="50" >
                                             <TextBlock Text="{Binding UpdateInterval}" Foreground="White" FontSize="14" VerticalAlignment="Center" 
                                                        HorizontalAlignment="Left" Width="135" TextWrapping="Wrap" />
-                                            <Border Background="#2D2D2D" CornerRadius="4" BorderBrush="#33FFFFFF" BorderThickness="1" 
-                                                    Width="120" Height="30" HorizontalAlignment="Right" Margin="0 0 10 0">
+                                            <Border Background="#2D2D2D" CornerRadius="4" BorderThickness="1" 
+                                                    Width="120" Height="34" HorizontalAlignment="Right" Margin="0 0 10 0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>

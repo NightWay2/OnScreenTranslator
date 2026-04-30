@@ -145,7 +145,7 @@
     <value>Прибрати оверлей</value>
   </data>
   <data name="EndpointURL" xml:space="preserve">
-    <value>Endpoint URL (Опціонально)</value>
+    <value>Endpoint URL</value>
   </data>
   <data name="FontSize" xml:space="preserve">
     <value>Розмір шрифту</value>
@@ -329,5 +329,8 @@
   </data>
   <data name="RestoreConfirmation" xml:space="preserve">
     <value>Ви впевнені, що хочете встановити налаштування за замовчуванням?</value>
+  </data>
+  <data name="HowToUse" xml:space="preserve">
+    <value>Як використовувати OnScreenTranslator</value>
   </data>
 </root>

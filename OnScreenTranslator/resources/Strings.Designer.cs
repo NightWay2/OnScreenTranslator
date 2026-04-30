@@ -160,7 +160,7 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Endpoint URL (Optional).
+        ///   Looks up a localized string similar to Endpoint URL.
         /// </summary>
         public static string EndpointURL {
             get {
@@ -183,6 +183,15 @@ namespace OnScreenTranslator.resources {
         public static string Guide {
             get {
                 return ResourceManager.GetString("Guide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How To Use OnScreenTranslator.
+        /// </summary>
+        public static string HowToUse {
+            get {
+                return ResourceManager.GetString("HowToUse", resourceCulture);
             }
         }
         
