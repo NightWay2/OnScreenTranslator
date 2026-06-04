@@ -333,4 +333,40 @@
   <data name="HowToUse" xml:space="preserve">
     <value>How To Use OnScreenTranslator</value>
   </data>
+  <data name="HowToUseDesc1" xml:space="preserve">
+    <value>1. Select the screen area you want to translate using the “Select Area” button or the keyboard shortcut (Alt + Q).</value>
+  </data>
+  <data name="MainSteps" xml:space="preserve">
+    <value>Main Steps:</value>
+  </data>
+  <data name="HowToUseDesc2" xml:space="preserve">
+    <value>2. Create or display the overlay window to show the translation result.</value>
+  </data>
+  <data name="HowToUseDesc3" xml:space="preserve">
+    <value>3. Start the translation process using the corresponding command or hotkey.</value>
+  </data>
+  <data name="HowToUseDesc4" xml:space="preserve">
+    <value>4. The recognized and translated text will be displayed in a semi-transparent window over the selected screen area.</value>
+  </data>
+  <data name="HotKeys" xml:space="preserve">
+    <value>Hotkeys:</value>
+  </data>
+  <data name="SelectAreaOnScreen" xml:space="preserve">
+    <value>Select area for translation</value>
+  </data>
+  <data name="CreateDestroyOverlay" xml:space="preserve">
+    <value>Create/hide overlay</value>
+  </data>
+  <data name="PinUnpinOverlay" xml:space="preserve">
+    <value>Pin/unpin overlay</value>
+  </data>
+  <data name="StartStopTranslation" xml:space="preserve">
+    <value>Start/stop translation process</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>Tip:</value>
+  </data>
+  <data name="TipDesc" xml:space="preserve">
+    <value>For more convenient use, you can adjust the translation update interval, overlay transparency, and other settings in the “Settings” menu.</value>
+  </data>
 </root>

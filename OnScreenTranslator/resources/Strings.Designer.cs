@@ -133,6 +133,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create/hide overlay.
+        /// </summary>
+        public static string CreateDestroyOverlay {
+            get {
+                return ResourceManager.GetString("CreateDestroyOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Overlay.
         /// </summary>
         public static string CreateOverlay {
@@ -187,11 +196,56 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hotkeys:.
+        /// </summary>
+        public static string HotKeys {
+            get {
+                return ResourceManager.GetString("HotKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to How To Use OnScreenTranslator.
         /// </summary>
         public static string HowToUse {
             get {
                 return ResourceManager.GetString("HowToUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Select the screen area you want to translate using the “Select Area” button or the keyboard shortcut (Alt + Q)..
+        /// </summary>
+        public static string HowToUseDesc1 {
+            get {
+                return ResourceManager.GetString("HowToUseDesc1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Create or display the overlay window to show the translation result..
+        /// </summary>
+        public static string HowToUseDesc2 {
+            get {
+                return ResourceManager.GetString("HowToUseDesc2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Start the translation process using the corresponding command or hotkey..
+        /// </summary>
+        public static string HowToUseDesc3 {
+            get {
+                return ResourceManager.GetString("HowToUseDesc3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. The recognized and translated text will be displayed in a semi-transparent window over the selected screen area..
+        /// </summary>
+        public static string HowToUseDesc4 {
+            get {
+                return ResourceManager.GetString("HowToUseDesc4", resourceCulture);
             }
         }
         
@@ -457,6 +511,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main Steps:.
+        /// </summary>
+        public static string MainSteps {
+            get {
+                return ResourceManager.GetString("MainSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text translation mode.
         /// </summary>
         public static string OcrMode {
@@ -498,6 +561,15 @@ namespace OnScreenTranslator.resources {
         public static string OverlaySettingsLabel {
             get {
                 return ResourceManager.GetString("OverlaySettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin/unpin overlay.
+        /// </summary>
+        public static string PinUnpinOverlay {
+            get {
+                return ResourceManager.GetString("PinUnpinOverlay", resourceCulture);
             }
         }
         
@@ -547,6 +619,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select area for translation.
+        /// </summary>
+        public static string SelectAreaOnScreen {
+            get {
+                return ResourceManager.GetString("SelectAreaOnScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected theme.
         /// </summary>
         public static string SelectedTheme {
@@ -583,6 +664,15 @@ namespace OnScreenTranslator.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start/stop translation process.
+        /// </summary>
+        public static string StartStopTranslation {
+            get {
+                return ResourceManager.GetString("StartStopTranslation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
         public static string Stop {
@@ -597,6 +687,24 @@ namespace OnScreenTranslator.resources {
         public static string TargetLangLabel {
             get {
                 return ResourceManager.GetString("TargetLangLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tip:.
+        /// </summary>
+        public static string Tip {
+            get {
+                return ResourceManager.GetString("Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For more convenient use, you can adjust the translation update interval, overlay transparency, and other settings in the “Settings” menu..
+        /// </summary>
+        public static string TipDesc {
+            get {
+                return ResourceManager.GetString("TipDesc", resourceCulture);
             }
         }
         

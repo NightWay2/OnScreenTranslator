@@ -106,5 +106,17 @@ namespace OnScreenTranslator.settings
 
         // Guide
         public string HowToUse => Strings.HowToUse;
+        public string MainSteps => Strings.MainSteps;
+        public string HowToUseDesc1 => Strings.HowToUseDesc1;
+        public string HowToUseDesc2 => Strings.HowToUseDesc2;
+        public string HowToUseDesc3 => Strings.HowToUseDesc3;
+        public string HowToUseDesc4 => Strings.HowToUseDesc4;
+        public string HotKeys => Strings.HotKeys;
+        public string SelectAreaOnScreen => Strings.SelectAreaOnScreen;
+        public string CreateDestroyOverlay => Strings.CreateDestroyOverlay;
+        public string PinUnpinOverlay => Strings.PinUnpinOverlay;
+        public string StartStopTranslation => Strings.StartStopTranslation;
+        public string Tip => Strings.Tip;
+        public string TipDesc => Strings.TipDesc;
     }
 }

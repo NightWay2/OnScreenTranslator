@@ -21,14 +21,13 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <TextBlock Text="Основні кроки:" FontWeight="Bold" Margin="0 5"/>
-                <TextBlock TextWrapping="Wrap" Margin="10 0 0 10">
-                    1. Вибрати область для перекладу за допомогою кнопки 'Вибрати область' або (Alt + Q). <LineBreak/>
-                    2.  <LineBreak/>
-                    3. Переклад з'явиться в напівпрозорому вікні поверх екрана.
-                </TextBlock>
+                <TextBlock Text="{Binding MainSteps}" FontWeight="Bold" Margin="0 5" Foreground="White"/>
+                <TextBlock Text="{Binding HowToUseDesc1}" TextWrapping="Wrap" Margin="10 0 0 10" Foreground="White" />
+                <TextBlock Text="{Binding HowToUseDesc2}" TextWrapping="Wrap" Margin="10 0 0 10" Foreground="White" />
+                <TextBlock Text="{Binding HowToUseDesc3}" TextWrapping="Wrap" Margin="10 0 0 10" Foreground="White" />
+                <TextBlock Text="{Binding HowToUseDesc4}" TextWrapping="Wrap" Margin="10 0 0 10" Foreground="White" />
 
-                <TextBlock Text="Гарячі клавіші (Hotkeys):" FontWeight="Bold" Margin="0 5"/>
+                <TextBlock Text="{Binding HotKeys}" FontWeight="Bold" Margin="0 5" Foreground="White"/>
                 <Border Background="#2D2D2D" Padding="10" CornerRadius="5">
                     <StackPanel>
                         <Grid Margin="0 0 0 7">
@@ -36,7 +35,7 @@
                                     CornerRadius="2">
                                 <TextBlock Text="Alt + Q" HorizontalAlignment="Center" Foreground="White"/>
                             </Border>
-                            <TextBlock Text="Вибрати область для перекладу" Margin="60 0 0 0" Foreground="White"/>
+                            <TextBlock Text="{Binding SelectAreaOnScreen}" Margin="60 0 0 0" Foreground="White"/>
                         </Grid>
                         
                         <Grid Margin="0 0 0 7">
@@ -44,7 +43,7 @@
                                     CornerRadius="2">
                                 <TextBlock Text="Alt + O" HorizontalAlignment="Center" Foreground="White"/>
                             </Border>
-                            <TextBlock Text="Створити/сховати оверлей" Margin="60 0 0 0" Foreground="White"/>
+                            <TextBlock Text="{Binding CreateDestroyOverlay}" Margin="60 0 0 0" Foreground="White"/>
                         </Grid>
 
                         <Grid Margin="0 0 0 7">
@@ -52,7 +51,7 @@
                                     CornerRadius="2">
                                 <TextBlock Text="Alt + L" HorizontalAlignment="Center" Foreground="White"/>
                             </Border>
-                            <TextBlock Text="Закріпити/відкріпити оверлей" Margin="60 0 0 0" Foreground="White"/>
+                            <TextBlock Text="{Binding PinUnpinOverlay}" Margin="60 0 0 0" Foreground="White"/>
                         </Grid>
 
                         <Grid Margin="0">
@@ -60,15 +59,13 @@
                                     CornerRadius="2">
                                 <TextBlock Text="Alt + T" HorizontalAlignment="Center" Foreground="White"/>
                             </Border>
-                            <TextBlock Text="Почати/зупинити процес перекладу" Margin="60 0 0 0" Foreground="White"/>
+                            <TextBlock Text="{Binding StartStopTranslation}" Margin="60 0 0 0" Foreground="White"/>
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <TextBlock Text="Порада:" FontWeight="Bold" Margin="0 15 0 5"/>
-                <TextBlock TextWrapping="Wrap" FontStyle="Italic">
-                    Ви можете налаштувати інтервал оновлення та прозорість вікна у меню 'Параметри'.
-                </TextBlock>
+                <TextBlock Text="{Binding Tip}" FontWeight="Bold" Margin="0 15 0 5" Foreground="White"/>
+                <TextBlock Text="{Binding TipDesc}" TextWrapping="Wrap" FontStyle="Italic" Foreground="White" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

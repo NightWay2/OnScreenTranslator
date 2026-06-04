@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OnScreenTranslator.ui
 {
@@ -29,8 +30,6 @@ namespace OnScreenTranslator.ui
     // mb add posibility to translate only one time, and repeatedly
     // add posibility to use in ocr mode
     
-    // add status to overlay (translation active | not active)
-
     // docker compose: add only supported languages
 
     // todo fix buttons hover and textbox hover
@@ -54,6 +53,7 @@ namespace OnScreenTranslator.ui
         private string _previousTranslatedText = "";
         private string _previousSourceLang = "";
         private string _previousTargetLang = "";
+        private bool _isPreviousModeOcr = false;
         private DispatcherTimer? _countdownTimer;
         private int _secondsRemaining;
         private bool _isHotkeyCall = false;
@@ -343,16 +343,21 @@ namespace OnScreenTranslator.ui
                         image.Dispose();
 
                         // check if text has to be translated
-                        if (!string.IsNullOrEmpty(text) && (!_previousText.Equals(text) ||
-                            !_previousSourceLang.Equals(source) || !_previousTargetLang.Equals(target)))
+                        if (ShouldTranslate(text, source, target, isOcrMode))
                         {
                             // update previous data
                             _previousText = text;
                             _previousSourceLang = source;
                             if (isOcrMode)
+                            {
                                 _previousTargetLang = target = source;
+                                _isPreviousModeOcr = true;
+                            }
                             else
+                            {
                                 _previousTargetLang = target;
+                                _isPreviousModeOcr = false;
+                            }
 
                             // translate text if source and target languages are different
                             string translated = source == target ? text : await _translationService.TranslateAsync(
@@ -397,6 +402,17 @@ namespace OnScreenTranslator.ui
                     );
                 }
             }, token);
+        }
+
+        private bool ShouldTranslate(string text, string source, string target, bool isOcrMode)
+        {
+            return !string.IsNullOrEmpty(text) &&
+            (
+                !_previousText.Equals(text) ||
+                !_previousSourceLang.Equals(source) ||
+                !_previousTargetLang.Equals(target) ||
+                _isPreviousModeOcr != isOcrMode
+            );
         }
 
         private void StopTranslationLoop()

@@ -333,4 +333,41 @@
   <data name="HowToUse" xml:space="preserve">
     <value>Як використовувати OnScreenTranslator</value>
   </data>
+  <data name="HowToUseDesc1" xml:space="preserve">
+    <value>1. Оберіть область екрана, яку потрібно перекласти, за допомогою кнопки «Вибрати область» або комбінації клавіш (Alt + Q).</value>
+  </data>
+  <data name="MainSteps" xml:space="preserve">
+    <value>Основні кроки:</value>
+  </data>
+  <data name="HowToUseDesc2" xml:space="preserve">
+    <value>2. Створіть або відобразіть оверлей для виводу результату перекладу.</value>
+  </data>
+  <data name="HowToUseDesc3" xml:space="preserve">
+    <value>3. Запустіть процес перекладу за допомогою відповідної команди або гарячої клавіші.</value>
+  </data>
+  <data name="HowToUseDesc4" xml:space="preserve">
+    <value>4. Розпізнаний та перекладений текст буде відображатися у напівпрозорому вікні поверх обраної ділянки екрана.</value>
+  </data>
+  <data name="HotKeys" xml:space="preserve">
+    <value>Гарячі клавіші (Hotkeys):</value>
+  </data>
+  <data name="SelectAreaOnScreen" xml:space="preserve">
+    <value>Вибрати область для перекладу</value>
+  </data>
+  <data name="CreateDestroyOverlay" xml:space="preserve">
+    <value>Створити/сховати оверлей</value>
+  </data>
+  <data name="PinUnpinOverlay" xml:space="preserve">
+    <value>Закріпити/відкріпити оверлей</value>
+  </data>
+  <data name="StartStopTranslation" xml:space="preserve">
+    <value>Почати/зупинити процес перекладу</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>Порада:</value>
+  </data>
+  <data name="TipDesc" xml:space="preserve">
+    <value>Для більш зручного використання ви можете змінити інтервал оновлення перекладу, рівень прозорості оверлею 
+та інші параметри у меню «Параметри».</value>
+  </data>
 </root>

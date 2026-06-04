@@ -62,17 +62,20 @@ namespace OnScreenTranslator.settings
 
         public void SaveSettings(MainWindow mainWindow)
         {
-            var options = new JsonSerializerOptions { WriteIndented = true };
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
 
-            // all other fields should be writed when we use button aplly settings !!!!!!!!!!!!!!!!!!
+                // all other fields should be writed when we use button aplly settings !!!!!!!!!!!!!!!!!!
 
-            _settings.Localization = mainWindow.ComBoxLocalization.SelectedValue.ToString();
-            _settings.SourceLanguage = mainWindow.ComBoxSourceLang.SelectedValue.ToString();
-            _settings.TargetLanguage = mainWindow.ComBoxTargetLang.SelectedValue.ToString();
+                _settings.Localization = mainWindow.ComBoxLocalization.SelectedValue.ToString();
+                _settings.SourceLanguage = mainWindow.ComBoxSourceLang.SelectedValue.ToString();
+                _settings.TargetLanguage = mainWindow.ComBoxTargetLang.SelectedValue.ToString();
 
-            string jsonString = JsonSerializer.Serialize(_settings, options);
+                string jsonString = JsonSerializer.Serialize(_settings, options);
 
-            File.WriteAllText(_filePath, jsonString);
+                File.WriteAllText(_filePath, jsonString);
+            } catch { }
         }
 
         private void CheckParams()
