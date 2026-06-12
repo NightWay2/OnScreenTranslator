@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OnScreenTranslator.ui
 {
@@ -345,7 +344,14 @@ namespace OnScreenTranslator.ui
                         // check if text has to be translated
                         if (ShouldTranslate(text, source, target, isOcrMode))
                         {
+                            // translate text if source and target languages are different
+                            string translated = source == target ? text : await _translationService.TranslateAsync(
+                                text, source, target, apikey
+                            );
+
                             // update previous data
+                            _previousTranslatedText = translated;
+
                             _previousText = text;
                             _previousSourceLang = source;
                             if (isOcrMode)
@@ -358,12 +364,6 @@ namespace OnScreenTranslator.ui
                                 _previousTargetLang = target;
                                 _isPreviousModeOcr = false;
                             }
-
-                            // translate text if source and target languages are different
-                            string translated = source == target ? text : await _translationService.TranslateAsync(
-                                text, source, target, apikey
-                            );
-                            _previousTranslatedText = translated;
 
                             // update text in overlay
                             Dispatcher.Invoke(() =>

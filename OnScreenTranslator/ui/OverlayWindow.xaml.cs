@@ -77,6 +77,7 @@ namespace OnScreenTranslator.ui
             {
                 TxtOverlay.Foreground = Brushes.Black;
                 _color = 255;
+                TxtTranslationStatus.Foreground = Brushes.Black;
             }
         }
 
